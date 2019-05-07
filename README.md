@@ -1,1 +1,1 @@
-# ProjektOctonov
+# DET-SS2019
