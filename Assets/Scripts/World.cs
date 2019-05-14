@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Realtime.Messaging.Internal;
+using System.IO;
 
 /// <summary>
 /// The world MonoBehavior is in charge of creating, updating and destroying chunks based on the player's location.
@@ -18,8 +19,7 @@ public class World : MonoBehaviour
 	public static uint maxCoroutines = 1000;
 	public static ConcurrentDictionary<string, Chunk> chunks;
 	public static List<string> toRemove = new List<string>();
-
-	public static bool firstbuild = true;
+    public string LevelName = "default";
 
 	public static CoroutineQueue queue;
 
@@ -77,6 +77,25 @@ public class World : MonoBehaviour
 			return null;
 	}
 
+    public static Chunk GetWorldChunk(Vector3 pos) {
+
+        int cx = (int)(Mathf.Round(pos.x) / (float)chunkSize) * chunkSize;
+        int cy = (int)(Mathf.Round(pos.y) / (float)chunkSize) * chunkSize;
+        int cz = (int)(Mathf.Round(pos.z) / (float)chunkSize) * chunkSize;
+
+
+
+        string cn = BuildChunkName(new Vector3(cx, cy, cz));
+
+        Chunk c;
+        if (chunks.TryGetValue(cn, out c)) {
+            return c;
+        } else {
+            return null;
+        }
+
+    }
+
     /// <summary>
     /// Instantiates a new chunk at a specified location.
     /// </summary>
@@ -94,7 +113,7 @@ public class World : MonoBehaviour
 
 		if(!chunks.TryGetValue(n, out c))
 		{
-			c = new Chunk(chunkPosition, textureAtlas, fluidTexture);
+			c = new Chunk(LevelName,chunkPosition, textureAtlas, fluidTexture);
 			c.chunk.transform.parent = this.transform;
 			c.fluid.transform.parent = this.transform;
 			chunks.TryAdd(c.chunk.name, c);
@@ -204,22 +223,53 @@ public class World : MonoBehaviour
     /// </summary>
 	void Start ()
     {
-		Vector3 ppos = player.transform.position;
-		player.transform.position = new Vector3(ppos.x,
-											Utils.GenerateHeight(ppos.x,ppos.z) + 1,
-											ppos.z);
-		lastbuildPos = player.transform.position;
-		player.SetActive(false);
+        /*
+        return Application.persistentDataPath + "/leveldata/" + levelName + "/Chunk_" +
+                                (int)v.x + "_" +
+                                    (int)v.y + "_" +
+                                        (int)v.z +
+                                        "_" + World.chunkSize +
+                                        "_" + World.radius +
+                                        ".dat";
+        */
+        player.SetActive(false);
+        
 
-		firstbuild = true;
+
+        
+        lastbuildPos = player.transform.position;
+        player.SetActive(false);
 		chunks = new ConcurrentDictionary<string, Chunk>();
 		this.transform.position = Vector3.zero;
 		this.transform.rotation = Quaternion.identity;	
 
 		queue = new CoroutineQueue(maxCoroutines, StartCoroutine);
 
-		// Build starting chunk
-		BuildChunkAt((int)(player.transform.position.x/chunkSize),
+
+
+        string[] filePaths = Directory.GetFiles(Application.persistentDataPath + "/leveldata/" + LevelName + "/");
+        Debug.Log(Application.persistentDataPath + "/leveldata/" + LevelName + "/");
+        foreach (string filePath in filePaths) {
+            string[] coordinates = filePath.Substring(filePath.LastIndexOf('/') + 1).Split('_');
+            int x = System.Convert.ToInt32(coordinates[1]), y = System.Convert.ToInt32(coordinates[2]), z = System.Convert.ToInt32(coordinates[3]);
+            BuildChunkAt((int)x / chunkSize, (int)y / chunkSize, (int)z / chunkSize);
+            
+        }
+
+        foreach (KeyValuePair<string, Chunk> c in chunks) {
+            if (c.Value.status == Chunk.ChunkStatus.DRAW) {
+                c.Value.DrawChunk();
+            }
+        }
+
+
+
+        player.SetActive(true);
+
+
+        /*
+        // Build starting chunk
+        BuildChunkAt((int)(player.transform.position.x/chunkSize),
 											(int)(player.transform.position.y/chunkSize),
 											(int)(player.transform.position.z/chunkSize));
 		// Draw starting chunk
@@ -229,6 +279,8 @@ public class World : MonoBehaviour
 		queue.Run(BuildRecursiveWorld((int)(player.transform.position.x/chunkSize),
 											(int)(player.transform.position.y/chunkSize),
 											(int)(player.transform.position.z/chunkSize),radius,radius));
+
+        */
 	}
 	
     /// <summary>
@@ -236,24 +288,21 @@ public class World : MonoBehaviour
     /// </summary>
 	void Update ()
     {
+
+        /*
         // Determine whether to build/load more chunks around the player's location
 		Vector3 movement = lastbuildPos - player.transform.position;
 
+        
 		if(movement.magnitude > chunkSize )
 		{
 			lastbuildPos = player.transform.position;
 			BuildNearPlayer();
 		}
-
-        // Activate the player's GameObject
-		if(!player.activeSelf)
-		{
-			player.SetActive(true);	
-			firstbuild = false;
-		}
+        */
 
         // Draw new chunks and removed deprecated chunks
 		queue.Run(DrawChunks());
-		queue.Run(RemoveOldChunks());
+
 	}
 }
