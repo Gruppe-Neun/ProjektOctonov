@@ -223,15 +223,7 @@ public class World : MonoBehaviour
     /// </summary>
 	void Start ()
     {
-        /*
-        return Application.persistentDataPath + "/leveldata/" + levelName + "/Chunk_" +
-                                (int)v.x + "_" +
-                                    (int)v.y + "_" +
-                                        (int)v.z +
-                                        "_" + World.chunkSize +
-                                        "_" + World.radius +
-                                        ".dat";
-        */
+
         player.SetActive(false);
         
 
@@ -248,7 +240,6 @@ public class World : MonoBehaviour
 
 
         string[] filePaths = Directory.GetFiles(Application.persistentDataPath + "/leveldata/" + LevelName + "/");
-        Debug.Log(Application.persistentDataPath + "/leveldata/" + LevelName + "/");
         foreach (string filePath in filePaths) {
             string[] coordinates = filePath.Substring(filePath.LastIndexOf('/') + 1).Split('_');
             int x = System.Convert.ToInt32(coordinates[1]), y = System.Convert.ToInt32(coordinates[2]), z = System.Convert.ToInt32(coordinates[3]);
