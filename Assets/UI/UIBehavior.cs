@@ -19,6 +19,7 @@ public class UIBehavior : MonoBehaviour
     private InventoryBehavior inventory;
     private float pos = 1.0f;
     private int status = 0;
+    private FirstPersonController fps;
     
 
     // Start is called before the first frame update
@@ -30,6 +31,7 @@ public class UIBehavior : MonoBehaviour
         UI_Life = GameObject.Find("UI_LifeFull").GetComponent<RawImage>();
         UI_Armor = GameObject.Find("UI_ArmorFull").GetComponent<RawImage>();
         UI_Crosshair = GameObject.Find("UI_Crosshair").GetComponent<RawImage>();
+        UI_Crosshair.enabled = false;
         UI_Cursor = GameObject.Find("UI_Cursor").GetComponent<RawImage>();
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<FirstPersonController>();
@@ -37,6 +39,8 @@ public class UIBehavior : MonoBehaviour
 
         UI_Crosshair.gameObject.SetActive(true);
         UI_Cursor.gameObject.SetActive(false);
+
+        fps = GameObject.FindGameObjectWithTag("Player").GetComponent<FirstPersonController>();
     }
 
     // Update is called once per frame
@@ -55,16 +59,18 @@ public class UIBehavior : MonoBehaviour
         } else {
             if (Input.GetKeyDown(KeyCode.Tab)) {
                 if (pos == 0f) {
-                    //Open Inventory
+                    //close Inventory
                     status = 1;
                     UI_Cursor.gameObject.SetActive(false);
                     UI_Crosshair.gameObject.SetActive(true);
                     inventory.closeInventory();
+                    fps.InventoryClosed();
                 } else {
-                    //close Inventory
+                    //open Inventory
                     status = -1;
                     UI_Cursor.gameObject.SetActive(true);
                     UI_Crosshair.gameObject.SetActive(false);
+                    fps.InverntoryOpened();
                 }
 
             }
