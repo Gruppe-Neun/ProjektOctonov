@@ -23,7 +23,6 @@ public class UIBehavior : MonoBehaviour
         UI_Right = GameObject.Find("UI_Right").GetComponent<RawImage>();
         UI_Left = GameObject.Find("UI_Left").GetComponent<RawImage>();
         UI_Life = GameObject.Find("UI_LifeFull").GetComponent<RawImage>();
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<FirstPersonController>();
     }
 
     // Update is called once per frame
