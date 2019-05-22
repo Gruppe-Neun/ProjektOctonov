@@ -84,6 +84,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 }
 
                 m_PreviouslyGrounded = m_CharacterController.isGrounded;
+
+                BlockInteract();
+
                 lasergun.Combat();
             }
         }
@@ -266,6 +269,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 return;
             }
             body.AddForceAtPosition(m_CharacterController.velocity*0.1f, hit.point, ForceMode.Impulse);
+        }
+
+        private void BlockInteract() {
+            RaycastHit hit;
+            if(Physics.Raycast(m_Camera.transform.position, m_Camera.transform.forward, out hit)) {
+                
+            }
         }
     }
 }
