@@ -26,6 +26,7 @@ public class InventoryBehavior : MonoBehaviour
     void Start()
     {
         Item.loadSprites();
+        Item.loadMaterial();
 
         GameObject InventoryUI = GameObject.Find("UI_Top");
         GameObject ActiveUI = GameObject.Find("UI_Left");
@@ -76,6 +77,9 @@ public class InventoryBehavior : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P)) {
             giveItem(Item.Type.BATTERY, 20);
+        }
+        if (Input.GetKeyDown(KeyCode.O)) {
+            Item.createItem(Item.Type.BATTERY, GameObject.FindGameObjectWithTag("Player").transform.position);
         }
     }
 
