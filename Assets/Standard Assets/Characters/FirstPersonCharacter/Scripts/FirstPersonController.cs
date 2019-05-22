@@ -44,6 +44,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private Lasergun lasergun;
         private bool inventoryOpened;
 
+        public int interactRange = 10;
+        public GameObject interactText;
+
         // Use this for initialization
         private void Start()
         {
@@ -273,8 +276,21 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void BlockInteract() {
             RaycastHit hit;
-            if(Physics.Raycast(m_Camera.transform.position, m_Camera.transform.forward, out hit)) {
-                
+            if(Physics.Raycast(m_Camera.transform.position, m_Camera.transform.forward, out hit, interactRange)) {
+
+                IInteractable interactable = hit.transform.GetComponent<IInteractable>();
+                if (interactable != null) {
+                    interactText.SetActive(true);
+                    if (Input.GetKeyDown(KeyCode.E)) {
+                        interactable.Interact();
+                    }
+                }
+                else {
+                    interactText.SetActive(false);
+                }
+            }
+            else {
+                interactText.SetActive(false);
             }
         }
     }

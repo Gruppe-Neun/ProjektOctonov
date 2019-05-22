@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Target : MonoBehaviour
+public class Enemy_1 : MonoBehaviour, IDamageable
 {
     public float health = 50f;
 

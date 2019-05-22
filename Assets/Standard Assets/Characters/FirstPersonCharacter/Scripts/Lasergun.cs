@@ -30,7 +30,7 @@ public class Lasergun : MonoBehaviour {
         if (Physics.Raycast(laserSource.transform.position, laserSource.transform.up, out hit, range)) {
             lineRenderer.SetPosition(1, hit.point);
 
-            Target target = hit.transform.GetComponent<Target>();
+            IDamageable target = hit.transform.GetComponent<IDamageable>();
             if (target != null) {
                 if (Time.time >= fireTime) {
                     fireTime = Time.time + fireRate;
