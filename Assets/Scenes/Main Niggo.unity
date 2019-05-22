@@ -112,9 +112,9 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &97624999 stripped
+--- !u!1 &151338660 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 5831586076575273594, guid: 5e9e851c0e142814dac026a256ba2ac0,
+  m_CorrespondingSourceObject: {fileID: 2252056030370236504, guid: 5e9e851c0e142814dac026a256ba2ac0,
     type: 3}
   m_PrefabInstance: {fileID: 1561976807}
   m_PrefabAsset: {fileID: 0}
@@ -282,7 +282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cb693d22e078467c9de6bcd19007402, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 97624999}
+  player: {fileID: 151338660}
   textureAtlas: {fileID: 2100000, guid: 0beff685461bd4744bc433ab1599a347, type: 2}
   fluidTexture: {fileID: 2100000, guid: 033d6ae81142c4d80828ae3712a04408, type: 2}
   LevelName: default
@@ -613,6 +613,21 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7015968326192517584, guid: 5e9e851c0e142814dac026a256ba2ac0,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2252056030370236509, guid: 5e9e851c0e142814dac026a256ba2ac0,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2252056030370236509, guid: 5e9e851c0e142814dac026a256ba2ac0,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2252056030370236509, guid: 5e9e851c0e142814dac026a256ba2ac0,
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1

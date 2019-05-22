@@ -293,5 +293,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 interactText.SetActive(false);
             }
         }
+
     }
 }
