@@ -33,41 +33,48 @@ public class InventoryBehavior : MonoBehaviour
         GameObject AmmoUI = GameObject.Find("UI_Right");
 
         CursorSlot = cursor;
-
-        if (CursorSlot == null) {
-            Debug.Log(""+ GetComponentsInChildren<CursorBehavior>().Length);
-        }
+        CursorSlot.useType = Item.useType.GENERIC;
+       
         //crate inventory slots
         for(int i = 0; i < InventorySlot.Length; i++) {
             InventorySlot[i] = Instantiate(slotPrefab, InventoryUI.transform);
-            InventorySlot[i].transform.localPosition = new Vector3(100 * (i % 10) - 631 + ((int)i / 10) * 34, 508 - ((int)i/10) * 61,0); 
+            InventorySlot[i].transform.localPosition = new Vector3(100 * (i % 10) - 631 + ((int)i / 10) * 34, 508 - ((int)i/10) * 61,0);
+            InventorySlot[i].useType = Item.useType.GENERIC;
         }
         //create ammo slots
         for (int i = 0; i < AmmoSlot.Length; i++) {
             AmmoSlot[i] = Instantiate(usableSlotPrefab, AmmoUI.transform);
             AmmoSlot[i].transform.localPosition = new Vector3(-(14 * i) + 746, -(90 * i) - 97, 0);
             AmmoSlot[i].mirror(true);
+            AmmoSlot[i].useType = Item.useType.AMMO;
         }
         //create active slots
         for (int i = 0; i < ActiveSlot.Length; i++) {
             ActiveSlot[i] = Instantiate(usableSlotPrefab, ActiveUI.transform);
             ActiveSlot[i].transform.localPosition = new Vector3((14 * i) - 746, -(90 * i) - 97, 0);
+            ActiveSlot[i].useType = Item.useType.ACTIVE;
         }
         //create crafting slots
         CraftingSlot[0] = Instantiate(craftingResultPrefab, InventoryUI.transform);
         CraftingSlot[0].transform.localPosition = new Vector3(500, 325, 0);
+        CraftingSlot[0].useType = Item.useType.GENERIC;
         CraftingSlot[1] = Instantiate(craftingSlotPrefab, InventoryUI.transform);
         CraftingSlot[1].transform.localPosition = new Vector3(428, 415, 0);
+        CraftingSlot[1].useType = Item.useType.GENERIC;
         CraftingSlot[2] = Instantiate(craftingSlotPrefab, InventoryUI.transform);
         CraftingSlot[2].transform.localPosition = new Vector3(572, 415, 0);
+        CraftingSlot[2].useType = Item.useType.GENERIC;
         CraftingSlot[2].mirror(true);
         CraftingSlot[3] = Instantiate(slotPrefab, InventoryUI.transform);
         CraftingSlot[3].transform.localPosition = new Vector3(385, 476, 0);
+        CraftingSlot[3].useType = Item.useType.GENERIC;
         CraftingSlot[4] = Instantiate(slotPrefab, InventoryUI.transform);
         CraftingSlot[4].transform.localPosition = new Vector3(615, 476, 0);
+        CraftingSlot[4].useType = Item.useType.GENERIC;
         CraftingSlot[4].mirror(true);
         CraftingSlot[5] = Instantiate(craftingExtraPrefab, InventoryUI.transform);
         CraftingSlot[5].transform.localPosition = new Vector3(500, 476, 0);
+        CraftingSlot[5].useType = Item.useType.GENERIC;
 
 
     }
@@ -76,10 +83,10 @@ public class InventoryBehavior : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.P)) {
-            giveItem(Item.Type.BATTERY, 20);
+            giveItem(Item.Type.LaserBlue,20);
         }
         if (Input.GetKeyDown(KeyCode.O)) {
-            Item.createItem(Item.Type.BATTERY, GameObject.FindGameObjectWithTag("Player").transform.position);
+            Item.createItem(Item.Type.Battery, 1, GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(0, 0, 1));
         }
     }
 
@@ -95,9 +102,14 @@ public class InventoryBehavior : MonoBehaviour
         if (CursorSlot.viewItem() != null && slot.viewItem() != null && CursorSlot.viewItem().type == slot.viewItem().type) {
             slot.addItem(CursorSlot.takeItem());
         } else {
-            ItemBehavior temp = CursorSlot.takeItem();
-            CursorSlot.setItem(slot.takeItem());
-            slot.setItem(temp);
+            ItemBehavior temp = slot.takeItem();
+            if (slot.addItem(cursor.viewItem())) {
+                cursor.takeItem();
+                cursor.setItem(temp);
+            } else {
+                slot.setItem(temp);
+            }
+            
         }
     }
 
@@ -117,10 +129,7 @@ public class InventoryBehavior : MonoBehaviour
     }
 
     public void giveItem(Item.Type type, int amount) {
-        ItemBehavior neu = Instantiate(itemPrefab);
-        neu.type = type;
-        neu.amount = amount;
-        pickUpItem(neu);
+        ItemBehavior neu = Item.createItem(type, amount, GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(0, 0, 0));
     }
 
     public void closeInventory() {

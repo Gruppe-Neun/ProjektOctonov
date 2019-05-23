@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class SlotBehavior : MonoBehaviour
 {
     protected ItemBehavior item;
+    public Item.useType useType = Item.useType.GENERIC;
 
     protected Text amount;
     protected RawImage slotImage;
@@ -40,16 +41,24 @@ public class SlotBehavior : MonoBehaviour
     }
 
     public bool addItem(ItemBehavior neu) {
-        if(item == null) {
-            item = neu;
-            updateSlot();
+        if (neu == null) {
             return true;
-        } else {
-            if(item.type == neu.type) {
-                item.amount += neu.amount;
+        }
+        if (item == null) {
+            if (useType==Item.useType.GENERIC||useType==neu.useType) {
+                item = neu;
+                neu.take();
                 updateSlot();
                 return true;
+            } else {
+                return false;
             }
+        }
+        if (item.type == neu.type) {
+            item.amount += neu.amount;
+            Destroy(neu.gameObject);
+            updateSlot();
+            return true;
         }
         return false;
     }

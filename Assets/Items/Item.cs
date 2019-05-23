@@ -2,22 +2,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System;
 
 public static class Item
 {
-    public enum Type{
+    public enum useType {
         UNDEF,
-        BATTERY
+        GENERIC,
+        ACTIVE,
+        AMMO,
+        OBJECT
     }
-    private static string[] names = new string[] {
-        "Undef",
-        "Battery"
-    };
+
+    public enum Type{
+        //generic items (UNDEF muss als erstes)
+        UNDEF,
+        Battery,
+
+        //Active Items ()
+
+        //Ammo (LASER_BLUE muss als erstes)
+        LaserBlue,
+        LaserRed
+
+        //Objects ()
+            
+    }
 
     private static Texture2D[] sprites;
     private static Material[] itemMaterial;
 
     public static void loadSprites() {
+        string[] names = Enum.GetNames(typeof(Type));
         sprites = new Texture2D[names.Length];
         for (int i = 0;i<names.Length;i++) {
             string filePath = Application.dataPath + "/Items/Sprites/Item_" + names[i] + ".png";
@@ -29,21 +45,12 @@ public static class Item
     }
 
     public static void loadMaterial() {
+        string[] names = Enum.GetNames(typeof(Type));
         itemMaterial = new Material[names.Length];
         for (int i = 0;i<names.Length;i++) {
             if (sprites[i]!=null) {
                 itemMaterial[i] = new Material(Shader.Find("Sprites/Diffuse"));
                 itemMaterial[i].mainTexture = sprites[i];
-
-                /*
-                itemMaterial[i].SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
-                itemMaterial[i].SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.Zero);
-                itemMaterial[i].SetInt("_ZWrite", 1);
-                itemMaterial[i].EnableKeyword("_ALPHATEST_ON");
-                itemMaterial[i].DisableKeyword("_ALPHABLEND_ON");
-                itemMaterial[i].DisableKeyword("_ALPHAPREMULTIPLY_ON");
-                itemMaterial[i].renderQueue = 2450;
-                */
             }
         }
     }
@@ -60,7 +67,27 @@ public static class Item
         return null;
     }
 
-    public static Mesh getItemMesh() {
+    public static useType getUseType(Type itemType) {
+        if ((int)itemType >= 1000) {
+            return useType.OBJECT;
+        } else {
+            if ((int)itemType >= (int)Type.LaserBlue) {
+                return useType.AMMO;
+            } else {
+                if ((int)itemType >= 1000) {
+                    return useType.ACTIVE;
+                } else {
+                    if ((int)itemType >= (int)Type.UNDEF) {
+                        return useType.GENERIC;
+                    } else {
+                        return useType.UNDEF;
+                    }
+                }
+            }
+        }
+    }
+
+    private static Mesh getItemMesh() {
         Mesh itemMesh = new Mesh();
 
         //set vertices
@@ -110,13 +137,15 @@ public static class Item
         return itemMesh;
     }
 
-    public static GameObject createItem(Type itemType,Vector3 position) {
+    public static ItemBehavior createItem(Type itemType,int amount,Vector3 position) {
         GameObject item = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         item.AddComponent<ItemBehavior>();
+        item.GetComponent<ItemBehavior>().type = itemType;
+        item.GetComponent<ItemBehavior>().useType = getUseType(itemType);
+        item.GetComponent<ItemBehavior>().amount = amount;
         item.GetComponent<MeshFilter>().mesh = getItemMesh();
 
         item.GetComponent<MeshRenderer>().material = itemMaterial[(int) itemType];
-        
 
         //item.GetComponent<MeshCollider>().sharedMesh = getItemMesh();
         item.GetComponent<SphereCollider>().isTrigger = true;
@@ -126,7 +155,7 @@ public static class Item
         item.GetComponent<ItemBehavior>().drop();
 
         item.transform.position = position;
-        return item;
+        return item.GetComponent<ItemBehavior>();
     }
 
     

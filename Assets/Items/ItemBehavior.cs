@@ -5,6 +5,7 @@ using UnityEngine;
 public class ItemBehavior : MonoBehaviour
 {
     public Item.Type type = Item.Type.UNDEF;
+    public Item.useType useType = Item.useType.UNDEF;
     public int amount = 1;
     public float rotationSpeed = 20;
 

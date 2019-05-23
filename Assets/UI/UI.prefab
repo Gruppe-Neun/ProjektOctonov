@@ -255,7 +255,7 @@ RectTransform:
   - {fileID: 1347422208416004675}
   - {fileID: 1347422208376508804}
   - {fileID: 1347422209408123027}
-  - {fileID: 2350960028647362662}
+  - {fileID: 7910070820734556306}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -348,7 +348,7 @@ MonoBehaviour:
     type: 3}
   itemPrefab: {fileID: 6155435031842547893, guid: 30ccd99196a87a14f92e3f5b5122e577,
     type: 3}
-  cursor: {fileID: 5755744682813132854}
+  cursor: {fileID: 182111539985144002}
 --- !u!114 &1347422209044796255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -868,7 +868,7 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
---- !u!1001 &8708804105569782734
+--- !u!1001 &3872423884314149690
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -978,26 +978,26 @@ PrefabInstance:
     - target: {fileID: 6375877172633557928, guid: bb1276a44481df04cad53fecbb11dd99,
         type: 3}
       propertyPath: m_Pivot.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6375877172633557928, guid: bb1276a44481df04cad53fecbb11dd99,
         type: 3}
       propertyPath: m_Pivot.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb1276a44481df04cad53fecbb11dd99, type: 3}
---- !u!224 &2350960028647362662 stripped
+--- !u!224 &7910070820734556306 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6375877172633557928, guid: bb1276a44481df04cad53fecbb11dd99,
     type: 3}
-  m_PrefabInstance: {fileID: 8708804105569782734}
+  m_PrefabInstance: {fileID: 3872423884314149690}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5755744682813132854 stripped
+--- !u!114 &182111539985144002 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3979880774661364728, guid: bb1276a44481df04cad53fecbb11dd99,
     type: 3}
-  m_PrefabInstance: {fileID: 8708804105569782734}
+  m_PrefabInstance: {fileID: 3872423884314149690}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1

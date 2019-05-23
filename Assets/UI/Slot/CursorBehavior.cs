@@ -11,6 +11,8 @@ public class CursorBehavior : SlotBehavior
 
     private Collider2D hover;
 
+    private float xPos = 0, yPos = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +29,11 @@ public class CursorBehavior : SlotBehavior
     // Update is called once per frame
     void Update()
     {
-        transform.position += new Vector3(Input.GetAxis("Mouse X")*Time.deltaTime*sensitivity,Input.GetAxis("Mouse Y")*Time.deltaTime*sensitivity,0);
+        xPos += Input.GetAxis("Mouse X") * Time.deltaTime * sensitivity;
+        yPos += Input.GetAxis("Mouse Y") * Time.deltaTime * sensitivity;
+        xPos = Mathf.Clamp(xPos, -960, 960);
+        yPos = Mathf.Clamp(yPos, -540, 540);
+        GetComponent<RectTransform>().localPosition = new Vector3(xPos,yPos,0);
         if (Input.GetKeyDown(KeyCode.Mouse0)&& hover != null) {
             inventory.switchCursor(hover.gameObject.GetComponent<SlotBehavior>());
         }

@@ -193,7 +193,7 @@ RectTransform:
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 64, y: 64}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 1}
 --- !u!222 &3319460184332879339
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -241,6 +241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ec9260ebfd42d2478c173a32f9f23f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useType: 1
   sensitivity: 1200
 --- !u!58 &9215522404380343593
 CircleCollider2D:
@@ -255,7 +256,7 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -30.802914, y: 30.956694}
+  m_Offset: {x: 1, y: -1}
   serializedVersion: 2
   m_Radius: 1.992155
 --- !u!50 &8964661633679639420

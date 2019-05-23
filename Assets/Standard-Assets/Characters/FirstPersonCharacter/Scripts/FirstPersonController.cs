@@ -43,6 +43,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private AudioSource m_AudioSource;
         private Lasergun lasergun;
         private bool inventoryOpened;
+        private InventoryBehavior inventory;
 
         public int interactRange = 10;
         public GameObject interactText;
@@ -62,6 +63,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 			m_MouseLook.Init(transform , m_Camera.transform);
             lasergun = GameObject.FindGameObjectWithTag("Gun").GetComponent<Lasergun>();
             inventoryOpened = false;
+            inventory = GameObject.Find("UI").GetComponent<InventoryBehavior>();
         }
 
 
@@ -294,5 +296,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
         }
 
+        public void OnTriggerEnter(Collider other) {
+            if (other.GetComponent<ItemBehavior>() != null) {
+                inventory.pickUpItem(other.GetComponent<ItemBehavior>());
+            }
+        }
     }
 }
