@@ -93,6 +93,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 BlockInteract();
 
                 lasergun.Combat();
+
+                if (Input.GetKeyDown(KeyCode.R)) {
+                    lasergun.SwitchLaser();
+                }
             }
         }
 

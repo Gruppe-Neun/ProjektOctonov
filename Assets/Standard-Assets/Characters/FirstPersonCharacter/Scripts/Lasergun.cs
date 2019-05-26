@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 
 public class Lasergun : MonoBehaviour {
-    public float damage = 5f;
-    public float fireRate = 0.5f;
-    public float fireTime = 0f;
-    public float range = 50f;
+    private float fireRate = 0.5f;
+    private float fireTime = 0f;
+    private float damage = 5f;
+    private float range = 50f;
+    private bool laserBlue;
 
     private LineRenderer lineRenderer;
     GameObject laserSource;
@@ -12,6 +13,9 @@ public class Lasergun : MonoBehaviour {
     private void Start() {
         lineRenderer = GetComponent<LineRenderer>();
         laserSource = GameObject.FindGameObjectWithTag("LaserSource");
+        lineRenderer.startColor = Color.blue;
+        lineRenderer.endColor = Color.white;
+        laserBlue = true; //laser is blue at the start
     }
 
     public void Combat() {
@@ -40,6 +44,22 @@ public class Lasergun : MonoBehaviour {
         }
         else {
             lineRenderer.SetPosition(1, laserSource.transform.position + (laserSource.transform.up * range));
+        }
+    }
+
+    public void SwitchLaser() {
+        laserBlue = !laserBlue;
+        if (laserBlue) {
+            lineRenderer.startColor = Color.blue;
+            lineRenderer.endColor = Color.white;
+            range = 50f;
+            damage = 5f;
+        }
+        else {
+            lineRenderer.startColor = Color.red;
+            lineRenderer.endColor = Color.red;
+            range = 10f;
+            damage = 10f;
         }
     }
 }
