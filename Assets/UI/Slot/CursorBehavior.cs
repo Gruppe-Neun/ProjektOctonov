@@ -36,7 +36,12 @@ public class CursorBehavior : SlotBehavior
         GetComponent<RectTransform>().localPosition = new Vector3(xPos,yPos,0);
         if (Input.GetKeyDown(KeyCode.Mouse0)&& hover != null) {
             inventory.switchCursor(hover.gameObject.GetComponent<SlotBehavior>());
+        } else {
+            if(Input.GetKeyDown(KeyCode.Mouse1)&&hover != null) {
+                inventory.splitCursor(hover.gameObject.GetComponent<SlotBehavior>());
+            }
         }
+
     }
 
     public override void updateSlot() {
@@ -47,11 +52,20 @@ public class CursorBehavior : SlotBehavior
             slotImage.gameObject.SetActive(false);
             amount.gameObject.SetActive(false);
         } else {
-            amount.text = "" + item.amount;
-            itemImage.texture = Item.getSprite(item.type);
-            itemImage.gameObject.SetActive(true);
-            slotImage.gameObject.SetActive(true);
-            amount.gameObject.SetActive(true);
+            if (item.amount == 0) {
+                item = null;
+                amount.text = "";
+                itemImage.texture = null;
+                itemImage.gameObject.SetActive(false);
+                slotImage.gameObject.SetActive(false);
+                amount.gameObject.SetActive(false);
+            } else {
+                amount.text = "" + item.amount;
+                itemImage.texture = Item.getSprite(item.type);
+                itemImage.gameObject.SetActive(true);
+                slotImage.gameObject.SetActive(true);
+                amount.gameObject.SetActive(true);
+            }
         }
     }
 

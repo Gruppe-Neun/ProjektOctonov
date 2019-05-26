@@ -30,6 +30,7 @@ public static class Item
     }
 
     private static Texture2D[] sprites;
+    private static Mesh[] itemMesh;
     private static Material[] itemMaterial;
 
     public static void loadSprites() {
@@ -44,15 +45,18 @@ public static class Item
         }
     }
 
-    public static void loadMaterial() {
+    public static void loadModels() {
         string[] names = Enum.GetNames(typeof(Type));
         itemMaterial = new Material[names.Length];
+        itemMesh = new Mesh[names.Length];
         for (int i = 0;i<names.Length;i++) {
             if (sprites[i]!=null) {
                 itemMaterial[i] = new Material(Shader.Find("Sprites/Diffuse"));
                 itemMaterial[i].mainTexture = sprites[i];
+                itemMesh[i] = createItemMesh();
             }
         }
+        
     }
 
     public static Texture2D getSprite(Type itemType) {
@@ -87,7 +91,7 @@ public static class Item
         }
     }
 
-    private static Mesh getItemMesh() {
+    private static Mesh createItemMesh() {
         Mesh itemMesh = new Mesh();
 
         //set vertices
@@ -143,18 +147,23 @@ public static class Item
         item.GetComponent<ItemBehavior>().type = itemType;
         item.GetComponent<ItemBehavior>().useType = getUseType(itemType);
         item.GetComponent<ItemBehavior>().amount = amount;
-        item.GetComponent<MeshFilter>().mesh = getItemMesh();
+        item.GetComponent<MeshFilter>().mesh = itemMesh[(int)itemType];
 
         item.GetComponent<MeshRenderer>().material = itemMaterial[(int) itemType];
 
         //item.GetComponent<MeshCollider>().sharedMesh = getItemMesh();
         item.GetComponent<SphereCollider>().isTrigger = true;
 
+        if (position.x==0&&position.y==0&&position.z==0) {
+            item.GetComponent<ItemBehavior>().take();
+            item.transform.position = new Vector3(0, 0, 0);
+        } else {
+            item.GetComponent<ItemBehavior>().drop();
+            item.transform.position = position;
+        }
+        
 
-
-        item.GetComponent<ItemBehavior>().drop();
-
-        item.transform.position = position;
+        
         return item.GetComponent<ItemBehavior>();
     }
 

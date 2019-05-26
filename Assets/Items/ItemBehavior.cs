@@ -42,7 +42,23 @@ public class ItemBehavior : MonoBehaviour
         status = 1;
     }
 
-    public void OnTriggerEnter(Collider other) {
-        
+    public ItemBehavior split(int takeAmount) {
+        if (takeAmount == -1) {
+            ItemBehavior ret = Instantiate(this);
+            ret.amount = amount / 2;
+            amount = amount / 2 + amount % 2;
+            return ret;
+        } else {
+            if (takeAmount > amount) {
+                return null;
+            }
+            if (takeAmount < 0) {
+                return null;
+            }
+            amount -= takeAmount;
+            ItemBehavior ret = Instantiate(this);
+            ret.amount = takeAmount;
+            return ret;
+        }
     }
 }
