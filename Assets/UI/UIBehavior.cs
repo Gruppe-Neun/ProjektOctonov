@@ -48,7 +48,7 @@ public class UIBehavior : MonoBehaviour
     {
 
         if (status != 0){
-            pos += status * Time.deltaTime * 2;
+            pos += status * Time.deltaTime * 3;
             if (pos >= 1|| pos<=0) {
                 pos = (int)pos;
                 status = 0;
