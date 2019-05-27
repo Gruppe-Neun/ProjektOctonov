@@ -61,4 +61,26 @@ public class ItemBehavior : MonoBehaviour
             return ret;
         }
     }
+
+    public void use() {
+        if (amount == -1) {
+            return;
+        } else {
+            amount--;
+            if (amount == 0) {
+                Destroy(this.gameObject);
+            }
+        }
+    }
+
+    public void use(int useAmount) {
+        if (amount == -1) {
+            return;
+        } else {
+            amount-=useAmount;
+            if (amount == 0) {
+                Destroy(this.gameObject);
+            }
+        }
+    }
 }

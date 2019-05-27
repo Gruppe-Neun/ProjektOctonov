@@ -14,8 +14,10 @@ public class InventoryBehavior : MonoBehaviour
     public SlotBehavior craftingExtraPrefab;
     public ItemBehavior itemPrefab;
     public CursorBehavior cursor;
-    
 
+    private UIBehavior ui;
+    private Lasergun gun;
+  
     private SlotBehavior[] InventorySlot=new SlotBehavior[40];
     private SlotBehavior[] AmmoSlot = new SlotBehavior[5];
     private int activeAmmo = 0;
@@ -29,6 +31,8 @@ public class InventoryBehavior : MonoBehaviour
     {
         Item.loadSprites();
         Item.loadModels();
+        gun = GameObject.FindGameObjectWithTag("Gun").GetComponent<Lasergun>();
+        ui = GetComponent<UIBehavior>();
 
         GameObject InventoryUI = GameObject.Find("UI_Top");
         GameObject ActiveUI = GameObject.Find("UI_Left");
@@ -52,6 +56,7 @@ public class InventoryBehavior : MonoBehaviour
         }
         AmmoSlot[0].addItem(Item.createItem(Item.Type.LaserBlue, -1, new Vector3(0, 0, 0)));
         AmmoSlot[0].accessible = SlotBehavior.AccesType.VIEWONLY;
+        gun.ammo = (AmmoBehavior)AmmoSlot[0].viewItem();
         //create active slots
         for (int i = 0; i < ActiveSlot.Length; i++) {
             ActiveSlot[i] = Instantiate(usableSlotPrefab, ActiveUI.transform);
@@ -90,7 +95,7 @@ public class InventoryBehavior : MonoBehaviour
             giveItem(Item.Type.LaserBlue,20);
         }
         if (Input.GetKeyDown(KeyCode.O)) {
-            Item.createItem(Item.Type.LaserRed, 1, GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(0, 0, 1));
+            Item.createItem(Item.Type.LaserRed, 10, GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(0, 0, 1));
         }
 
         //switch ammo
@@ -112,6 +117,8 @@ public class InventoryBehavior : MonoBehaviour
         if (Input.mouseScrollDelta.y != 0) {
             scrollAmmo((int)Input.mouseScrollDelta.y);
         }
+        AmmoSlot[activeAmmo].updateSlot();
+        ActiveSlot[activeActive].updateSlot();
     }
 
     private void positionAmmoSlots() {
@@ -191,7 +198,8 @@ public class InventoryBehavior : MonoBehaviour
                 }
             }
         }
-        
+        gun.ammo = (AmmoBehavior)AmmoSlot[activeAmmo].viewItem();
+        ui.setCrosshairType(((AmmoBehavior)AmmoSlot[activeAmmo].viewItem()).crosshairType);
         positionAmmoSlots();
         return AmmoSlot[activeAmmo].viewItem();
     }
@@ -200,9 +208,10 @@ public class InventoryBehavior : MonoBehaviour
         num = num % 5;
         if (AmmoSlot[num].viewItem() != null) {
             activeAmmo = num;
-           
+            ui.setCrosshairType(((AmmoBehavior)AmmoSlot[activeAmmo].viewItem()).crosshairType);
+            gun.ammo = (AmmoBehavior)AmmoSlot[activeAmmo].viewItem();
+            positionAmmoSlots();
         }
-        positionAmmoSlots();
         return AmmoSlot[activeAmmo].viewItem();
     }
 
@@ -243,7 +252,7 @@ public class InventoryBehavior : MonoBehaviour
     }
 
     public void giveItem(Item.Type type, int amount) {
-        ItemBehavior neu = Item.createItem(type, amount, GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(0, 0, 0));
+        Item.createItem(type, amount, GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(0, 0, 0));
     }
 
     public void closeInventory() {

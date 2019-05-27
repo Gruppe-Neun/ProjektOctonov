@@ -143,10 +143,19 @@ public static class Item
 
     public static ItemBehavior createItem(Type itemType,int amount,Vector3 position) {
         GameObject item = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        item.AddComponent<ItemBehavior>();
-        item.GetComponent<ItemBehavior>().type = itemType;
+
+        if ((int)itemType >= (int)Type.LaserBlue) {
+            item.AddComponent<AmmoBehavior>();
+            item.GetComponent<ItemBehavior>().type = itemType;
+            item.GetComponent<AmmoBehavior>().setValues();
+        } else {
+            item.AddComponent<ItemBehavior>();
+            item.GetComponent<ItemBehavior>().type = itemType;
+        }
+        
         item.GetComponent<ItemBehavior>().useType = getUseType(itemType);
         item.GetComponent<ItemBehavior>().amount = amount;
+
         item.GetComponent<MeshFilter>().mesh = itemMesh[(int)itemType];
 
         item.GetComponent<MeshRenderer>().material = itemMaterial[(int) itemType];

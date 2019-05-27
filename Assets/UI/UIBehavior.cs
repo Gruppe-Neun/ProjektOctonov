@@ -7,13 +7,14 @@ using UnityStandardAssets.Characters.FirstPerson;
 
 public class UIBehavior : MonoBehaviour
 {
+    public Texture[] Crosshairs;
 
     private RawImage UI_Top;
     private RawImage UI_Right;
     private RawImage UI_Left;
     private RawImage UI_Life;
     private RawImage UI_Armor;
-    private RawImage UI_Crosshair;
+    private RawImage UI_Crosshair; 
     private RawImage UI_Cursor;
     private FirstPersonController player;
     private InventoryBehavior inventory;
@@ -111,5 +112,16 @@ public class UIBehavior : MonoBehaviour
         UI_Armor.uvRect = newUV;
         UI_Armor.rectTransform.localPosition = new Vector3(-960 + 960 * armorPercent, 0, 0);
         UI_Armor.rectTransform.sizeDelta = new Vector2(1920 * armorPercent, 1080);
+    }
+
+    public void setCrosshairType(int type) {
+        if (type == -1) {
+            UI_Crosshair.enabled = false;
+        } else {
+            if (type < Crosshairs.Length) {
+                UI_Crosshair.texture = Crosshairs[type];
+                UI_Crosshair.enabled = true;
+            }
+        }
     }
 }
