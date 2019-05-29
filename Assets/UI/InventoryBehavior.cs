@@ -12,11 +12,15 @@ public class InventoryBehavior : MonoBehaviour
     public SlotBehavior craftingResultPrefab;
     public SlotBehavior craftingSlotPrefab;
     public SlotBehavior craftingExtraPrefab;
+    public SlotBehavior containerSlotPrefab;
+    public Texture[] ContainerImage;
+
     public ItemBehavior itemPrefab;
     public CursorBehavior cursor;
 
     private UIBehavior ui;
     private Lasergun gun;
+    private RawImage containerUI;
   
     private SlotBehavior[] InventorySlot=new SlotBehavior[40];
     private SlotBehavior[] AmmoSlot = new SlotBehavior[5];
@@ -25,6 +29,9 @@ public class InventoryBehavior : MonoBehaviour
     private int activeActive = 0;
     private SlotBehavior[] CraftingSlot = new SlotBehavior[6];
     private SlotBehavior CursorSlot;
+    private SlotBehavior[] ContainerSlot = new SlotBehavior[12];
+
+    private ContainerBehavior activeContainer;
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +40,8 @@ public class InventoryBehavior : MonoBehaviour
         Item.loadModels();
         gun = GameObject.FindGameObjectWithTag("Gun").GetComponent<Lasergun>();
         ui = GetComponent<UIBehavior>();
+        containerUI = GameObject.Find("UI_Container").GetComponent<RawImage>();
+        containerUI.gameObject.SetActive(false);
 
         GameObject InventoryUI = GameObject.Find("UI_Top");
         GameObject ActiveUI = GameObject.Find("UI_Left");
@@ -63,6 +72,10 @@ public class InventoryBehavior : MonoBehaviour
             ActiveSlot[i].transform.localPosition = new Vector3((14 * i) - 746, -(90 * i) - 97, 0);
             ActiveSlot[i].useType = Item.useType.ACTIVE;
         }
+        //create container slots
+        for(int i = 0; i < ContainerSlot.Length; i++) {
+            ContainerSlot[i] = Instantiate(containerSlotPrefab, containerUI.transform);
+        }
         //create crafting slots
         CraftingSlot[0] = Instantiate(craftingResultPrefab, InventoryUI.transform);
         CraftingSlot[0].transform.localPosition = new Vector3(500, 325, 0);
@@ -92,7 +105,7 @@ public class InventoryBehavior : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.P)) {
-            giveItem(Item.Type.LaserBlue,20);
+            giveItem(Item.Type.Battery,20);
         }
         if (Input.GetKeyDown(KeyCode.O)) {
             Item.createItem(Item.Type.LaserRed, 10, GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(0, 0, 1));
@@ -259,6 +272,77 @@ public class InventoryBehavior : MonoBehaviour
         if (CursorSlot.viewItem() != null) {
             pickUpItem(CursorSlot.takeItem());
         }
+        closeContainer();
+    }
+
+    public void closeContainer() {
+        if (activeContainer != null) {
+            for (int i = 0; i < activeContainer.content.Length; i++) {
+                activeContainer.content[i] = ContainerSlot[i].viewItem();
+                ContainerSlot[i].setItem(null);
+            }
+        }
+        activeContainer.updateContainer();
+        activeContainer = null;
+        containerUI.gameObject.SetActive(false);
+    }
+
+    public void openContainer(ContainerBehavior container) {
+        activeContainer = container;
+        this.containerUI.texture = ContainerImage[(int)container.type];
+        switch (container.type) {
+            case ContainerBehavior.ContainerType.Tiny:
+                for (int i = 0; i < 4; i++) {
+                    ContainerSlot[i].gameObject.SetActive(true);
+                    ContainerSlot[i].setItem(container.content[i]);
+                    ContainerSlot[i].transform.localPosition = new Vector3(96 * (i % 2) - 48, 32 - ((int)i / 2) * 62, 0);
+                }
+                for (int i = 4; i < ContainerSlot.Length; i++) {
+                    ContainerSlot[i].gameObject.SetActive(false);
+                    ContainerSlot[i].setItem(null);
+                }
+                break;
+
+            case ContainerBehavior.ContainerType.Medium:
+                for (int i = 0; i < 8; i++) {
+                    ContainerSlot[i].gameObject.SetActive(true);
+                    ContainerSlot[i].setItem(container.content[i]);
+                    ContainerSlot[i].transform.localPosition = new Vector3(96 * (i % 4) - 144, 32 - ((int)i / 4) * 62, 0);
+                }
+                for (int i = 8; i < ContainerSlot.Length; i++) {
+                    ContainerSlot[i].gameObject.SetActive(false);
+                    ContainerSlot[i].setItem(null);
+                }
+                break;
+
+            case ContainerBehavior.ContainerType.Large:
+                for (int i = 0; i < 12; i++) {
+                    ContainerSlot[i].gameObject.SetActive(true);
+                    ContainerSlot[i].setItem(container.content[i]);
+                }
+                for (int i = 12; i < ContainerSlot.Length; i++) {
+                    ContainerSlot[i].gameObject.SetActive(false);
+                    ContainerSlot[i].setItem(null);
+                }
+                break;
+
+            case ContainerBehavior.ContainerType.Olli:
+                for (int i = 0; i < 5; i++) {
+                    ContainerSlot[i].gameObject.SetActive(true);
+                    ContainerSlot[i].setItem(container.content[i]);
+                }
+                for (int i = 5; i < ContainerSlot.Length; i++) {
+                    ContainerSlot[i].gameObject.SetActive(false);
+                    ContainerSlot[i].setItem(null);
+                }
+                ContainerSlot[0].transform.localPosition = new Vector3(-96, 32, 0);
+                ContainerSlot[1].transform.localPosition = new Vector3(96, 32, 0);
+                ContainerSlot[2].transform.localPosition = new Vector3(-48, -30, 0);
+                ContainerSlot[3].transform.localPosition = new Vector3(48, -30, 0);
+                ContainerSlot[4].transform.localPosition = new Vector3(0, 32, 0);
+                break;
+        }
+        containerUI.gameObject.SetActive(true);
     }
 
     public ItemBehavior getActiveAmmo() {

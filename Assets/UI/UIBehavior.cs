@@ -16,12 +16,12 @@ public class UIBehavior : MonoBehaviour
     private RawImage UI_Armor;
     private RawImage UI_Crosshair; 
     private RawImage UI_Cursor;
+    private RawImage UI_Container;
     private FirstPersonController player;
     private InventoryBehavior inventory;
     private float pos = 1.0f;
     private int status = 0;
-    private FirstPersonController fps;
-    
+
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +32,7 @@ public class UIBehavior : MonoBehaviour
         UI_Life = GameObject.Find("UI_LifeFull").GetComponent<RawImage>();
         UI_Armor = GameObject.Find("UI_ArmorFull").GetComponent<RawImage>();
         UI_Crosshair = GameObject.Find("UI_Crosshair").GetComponent<RawImage>();
+        UI_Container = GameObject.Find("UI_Container").GetComponent<RawImage>();
         UI_Crosshair.enabled = false;
         UI_Cursor = GameObject.Find("UI_Cursor").GetComponent<RawImage>();
 
@@ -40,14 +41,11 @@ public class UIBehavior : MonoBehaviour
 
         UI_Crosshair.gameObject.SetActive(true);
         UI_Cursor.gameObject.SetActive(false);
-
-        fps = GameObject.FindGameObjectWithTag("Player").GetComponent<FirstPersonController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
         if (status != 0){
             pos += status * Time.deltaTime * 3;
             if (pos >= 1|| pos<=0) {
@@ -61,26 +59,34 @@ public class UIBehavior : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Tab)) {
                 if (pos == 0f) {
                     //close Inventory
-                    status = 1;
-                    UI_Cursor.gameObject.SetActive(false);
-                    UI_Crosshair.gameObject.SetActive(true);
-                    inventory.closeInventory();
-                    fps.InventoryClosed();
+                    closeAll();
                 } else {
                     //open Inventory
-                    status = -1;
-                    UI_Cursor.gameObject.SetActive(true);
-                    UI_Crosshair.gameObject.SetActive(false);
-                    fps.InverntoryOpened();
+                    openInventory();
                 }
 
             }
         }
+    }
 
+    public void openInventory() {
+        status = -1;
+        UI_Cursor.gameObject.SetActive(true);
+        UI_Crosshair.gameObject.SetActive(false);
+        player.InverntoryOpened();
+    }
+    
+    public void openContainer(ContainerBehavior container) {
+        inventory.openContainer(container);
+        openInventory();
+    }
 
-        
-
-
+    public void closeAll() {
+        status = 1;
+        UI_Cursor.gameObject.SetActive(false);
+        UI_Crosshair.gameObject.SetActive(true);
+        inventory.closeInventory();
+        player.InventoryClosed();
     }
 
     public void updateHealth(float percent) {
@@ -98,9 +104,7 @@ public class UIBehavior : MonoBehaviour
         UI_Life.rectTransform.sizeDelta = new Vector2(1920*percent,1080);
     }
 
-    public void updateHealth(float healthPercent, float armorPercent) {
-        updateHealth(healthPercent);
-
+    public void updateAmor(float armorPercent) {
         if (armorPercent >= 1) armorPercent = 1;
         if (armorPercent <= 0) armorPercent = 0;
 

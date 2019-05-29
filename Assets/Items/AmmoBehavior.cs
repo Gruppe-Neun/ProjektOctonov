@@ -15,7 +15,6 @@ public class AmmoBehavior : ItemBehavior
                 fireRate = 0.1f;
                 damage = 1f;
                 crosshairType = -1;
-                Debug.Log("test");
                 break;
 
             case Item.Type.LaserRed:

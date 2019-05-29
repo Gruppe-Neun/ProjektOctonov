@@ -18,8 +18,18 @@ public static class Item
         //generic items (UNDEF muss als erstes)
         UNDEF,
         Battery,
+        Nut,
+        Ironplate,
+        Flashlight,
+
+        Olli_ArmRight,
+        Olli_ArmLeft,
+        Olli_LegRight,
+        Olli_LegLeft,
+        Olli_Body,
 
         //Active Items ()
+        Medkit,
 
         //Ammo (LASER_BLUE muss als erstes)
         LaserBlue,
@@ -78,7 +88,7 @@ public static class Item
             if ((int)itemType >= (int)Type.LaserBlue) {
                 return useType.AMMO;
             } else {
-                if ((int)itemType >= 1000) {
+                if ((int)itemType >= (int)Type.Medkit) {
                     return useType.ACTIVE;
                 } else {
                     if ((int)itemType >= (int)Type.UNDEF) {

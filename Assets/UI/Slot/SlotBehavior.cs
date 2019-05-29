@@ -99,10 +99,20 @@ public class SlotBehavior : MonoBehaviour
                 updateSlot();
                 return null;
             } else {
-                ItemBehavior ret = item;
-                item = neu;
-                updateSlot();
-                return ret;
+                if (neu == null) {
+                    ItemBehavior ret = item;
+                    item = null;
+                    updateSlot();
+                    return ret;
+                }
+                if (useType == Item.useType.GENERIC || useType == neu.useType) {
+                    ItemBehavior ret = item;
+                    item = neu;
+                    updateSlot();
+                    return ret;
+                } else {
+                    return neu;
+                }
             }
         } else {
             return neu;
