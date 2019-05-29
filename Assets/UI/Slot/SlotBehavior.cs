@@ -115,6 +115,12 @@ public class SlotBehavior : MonoBehaviour
                 }
             }
         } else {
+            if(accessible == AccesType.TAKEONLY && neu == null) {
+                ItemBehavior ret = item;
+                item = null;
+                updateSlot();
+                return ret;
+            }
             return neu;
         }
     }

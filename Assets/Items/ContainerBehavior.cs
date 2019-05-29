@@ -13,7 +13,7 @@ public class ContainerBehavior : MonoBehaviour, IInteractable
     }
 
     public ContainerType type = ContainerType.Tiny;
-    public string name = "Container";
+    public string containerName = "Container";
     public ItemBehavior[] content;
 
     // Start is called before the first frame update

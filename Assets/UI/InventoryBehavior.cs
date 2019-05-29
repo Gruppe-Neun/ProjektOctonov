@@ -21,7 +21,8 @@ public class InventoryBehavior : MonoBehaviour
     private UIBehavior ui;
     private Lasergun gun;
     private RawImage containerUI;
-  
+    private ButtonBehavior craftButton;
+
     private SlotBehavior[] InventorySlot=new SlotBehavior[40];
     private SlotBehavior[] AmmoSlot = new SlotBehavior[5];
     private int activeAmmo = 0;
@@ -42,6 +43,9 @@ public class InventoryBehavior : MonoBehaviour
         ui = GetComponent<UIBehavior>();
         containerUI = GameObject.Find("UI_Container").GetComponent<RawImage>();
         containerUI.gameObject.SetActive(false);
+        craftButton = GameObject.Find("UI_CraftButton").GetComponent<ButtonBehavior>();
+        craftButton.clickEvent = clickButton;
+        Crafting.loadTest();
 
         GameObject InventoryUI = GameObject.Find("UI_Top");
         GameObject ActiveUI = GameObject.Find("UI_Left");
@@ -106,6 +110,9 @@ public class InventoryBehavior : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P)) {
             giveItem(Item.Type.Battery,20);
+            giveItem(Item.Type.Flashlight, 20);
+            giveItem(Item.Type.Ironplate, 20);
+            giveItem(Item.Type.Nut, 20);
         }
         if (Input.GetKeyDown(KeyCode.O)) {
             Item.createItem(Item.Type.LaserRed, 10, GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(0, 0, 1));
@@ -281,10 +288,11 @@ public class InventoryBehavior : MonoBehaviour
                 activeContainer.content[i] = ContainerSlot[i].viewItem();
                 ContainerSlot[i].setItem(null);
             }
+            activeContainer.updateContainer();
+            activeContainer = null;
+            containerUI.gameObject.SetActive(false);
         }
-        activeContainer.updateContainer();
-        activeContainer = null;
-        containerUI.gameObject.SetActive(false);
+        
     }
 
     public void openContainer(ContainerBehavior container) {
@@ -351,5 +359,18 @@ public class InventoryBehavior : MonoBehaviour
 
     public ItemBehavior getActiveActive() {
         return ActiveSlot[activeActive].viewItem();
+    }
+
+    public void craft() {
+        ItemBehavior[] ingredients = new ItemBehavior[] { CraftingSlot[1].viewItem() , CraftingSlot[2].viewItem() , CraftingSlot[3].viewItem() , CraftingSlot[4].viewItem() };
+        CraftingSlot[0].setItem(Crafting.craft(ingredients, Crafting.CraftingStationType.NONE));
+        CraftingSlot[1].updateSlot();
+        CraftingSlot[2].updateSlot();
+        CraftingSlot[3].updateSlot();
+        CraftingSlot[4].updateSlot();
+    }
+
+    public void clickButton(string message) {
+        craft();
     }
 }
