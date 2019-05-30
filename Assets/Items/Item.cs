@@ -186,7 +186,11 @@ public static class Item
         return item.GetComponent<ItemBehavior>();
     }
 
+    /*
     public static Type ParseTypeString(string typeString) {
+        return (Type)Enum.Parse(typeof(Type), typeString);
+        
+        
         Type type=Type.UNDEF;
         switch (typeString) {
             case "UNDEF":
@@ -233,5 +237,7 @@ public static class Item
                 break;
         }
         return type;
+        
     }
+    */
 }

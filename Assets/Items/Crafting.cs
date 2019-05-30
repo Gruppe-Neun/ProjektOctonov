@@ -65,10 +65,10 @@ public static class Crafting{
 
     private static void CreateRecipeFromStrings(string[] ingsS,string[] ingAmountS, string stationS, string resultS, string amountS) {
 
-        Item.Type ing1 = Item.ParseTypeString(ingsS[0]);
-        Item.Type ing2 = Item.ParseTypeString(ingsS[1]);
-        Item.Type ing3 = Item.ParseTypeString(ingsS[2]);
-        Item.Type ing4 = Item.ParseTypeString(ingsS[3]);
+        Item.Type ing1 = (Item.Type)Enum.Parse(typeof(Item.Type), ingsS[0]); 
+        Item.Type ing2 = (Item.Type)Enum.Parse(typeof(Item.Type), ingsS[1]);
+        Item.Type ing3 = (Item.Type)Enum.Parse(typeof(Item.Type), ingsS[2]);
+        Item.Type ing4 = (Item.Type)Enum.Parse(typeof(Item.Type), ingsS[3]);
         int[] ingAmount;
         if (ingAmountS == null) { ingAmount = null; }
         else {
@@ -79,7 +79,7 @@ public static class Crafting{
             }
         }
         CraftingStationType station = ParseStationString(stationS);
-        Item.Type result = Item.ParseTypeString(resultS);
+        Item.Type result = (Item.Type)Enum.Parse(typeof(Item.Type), resultS);
         int amount = 0;
         Int32.TryParse(amountS, out amount);
 
@@ -115,7 +115,6 @@ public static class Crafting{
         }
         
         Recipe[] temp = new Recipe[recipes.Length + 1];
-        Debug.Log("" + temp.Length);
         for(int i = 0; i < recipes.Length; i++) {
             temp[i] = recipes[i];
         }
