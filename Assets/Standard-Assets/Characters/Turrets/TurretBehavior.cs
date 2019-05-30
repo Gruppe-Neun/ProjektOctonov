@@ -34,14 +34,15 @@ public class TurretBehavior : MonoBehaviour
     {
         if (target != null) {
             targetPosition(target.transform.position);
+            rotationHorizontal = Mathf.MoveTowardsAngle(rotationHorizontal, targetHorizontal, horizontalSpeed * Time.deltaTime);
+            rotationVertical = Mathf.MoveTowardsAngle(rotationVertical, targetVertical, verticalSpeed * Time.deltaTime);
+            Bone_Upper.transform.localRotation = Quaternion.AngleAxis(rotationHorizontal, Vector3.left);
+            Bone_Barrel.transform.localRotation = Quaternion.AngleAxis(rotationVertical, Vector3.forward);
+            if (Mathf.Abs(Mathf.DeltaAngle(rotationHorizontal, targetHorizontal)) < 30 && Mathf.Abs(Mathf.DeltaAngle(rotationVertical, targetVertical)) < 20) {
+                shoot();
+            }
         }
-        rotationHorizontal = Mathf.MoveTowardsAngle(rotationHorizontal, targetHorizontal, horizontalSpeed * Time.deltaTime);
-        rotationVertical = Mathf.MoveTowardsAngle(rotationVertical, targetVertical, verticalSpeed * Time.deltaTime);
-        Bone_Upper.transform.localRotation = Quaternion.AngleAxis(rotationHorizontal, Vector3.left);
-        Bone_Barrel.transform.localRotation = Quaternion.AngleAxis(rotationVertical, Vector3.forward);
-        if (Mathf.Abs(Mathf.DeltaAngle(rotationHorizontal, targetHorizontal)) < 30  && Mathf.Abs(Mathf.DeltaAngle(rotationVertical,targetVertical))<20) {
-            shoot();
-        }
+        
     }
 
 
@@ -106,5 +107,17 @@ public class TurretBehavior : MonoBehaviour
             }
         }
         */
+    }
+
+    public void OnTriggerExit(Collider other) {
+        if (other.gameObject == target.gameObject) {
+            target = null;
+        }
+    }
+
+    public void OnTriggerStay(Collider other) {
+        if (target == null && other.GetComponent<IDamageable>()!=null) {
+            target = other.gameObject;
+        }
     }
 }

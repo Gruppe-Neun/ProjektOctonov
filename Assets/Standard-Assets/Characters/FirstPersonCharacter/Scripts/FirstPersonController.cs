@@ -8,7 +8,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 {
     [RequireComponent(typeof (CharacterController))]
     [RequireComponent(typeof (AudioSource))]
-    public class FirstPersonController : MonoBehaviour
+    public class FirstPersonController : MonoBehaviour, IDamageableFriendly
     {
         [SerializeField] private bool m_IsWalking;
         [SerializeField] private float m_WalkSpeed;
@@ -27,6 +27,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private AudioClip[] m_FootstepSounds;    // an array of footstep sounds that will be randomly selected from.
         [SerializeField] private AudioClip m_JumpSound;           // the sound played when character leaves the ground.
         [SerializeField] private AudioClip m_LandSound;           // the sound played when character touches back on ground.
+        
 
         private Camera m_Camera;
         private bool m_Jump;
@@ -44,6 +45,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private Lasergun lasergun;
         private bool inventoryOpened;
         private InventoryBehavior inventory;
+        private UIBehavior ui;
+
+        private float lifePoints_max = 100;
+        private float armorPoints_max = 100;
+        private float lifePoints = 100;
+        private float armorPoints = 100;
 
         public int interactRange = 10;
         public GameObject interactText;
@@ -64,6 +71,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             lasergun = GameObject.FindGameObjectWithTag("Gun").GetComponent<Lasergun>();
             inventoryOpened = false;
             inventory = GameObject.Find("UI").GetComponent<InventoryBehavior>();
+            ui = GameObject.Find("UI").GetComponent<UIBehavior>();
         }
 
 
@@ -95,6 +103,33 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 lasergun.Combat();
             }
         }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------
+        private void die() {
+
+        }
+
+        public void TakeDamage(float damage) {
+            armorPoints -= damage;
+            if (armorPoints < 0) {
+                lifePoints += armorPoints;
+                armorPoints = 0;
+                ui.updateHealth(lifePoints / lifePoints_max);
+                if (lifePoints < 0) die();
+            }
+            ui.updateAmor(armorPoints / armorPoints_max);
+        }
+
+        public void healLife(float healPoints) {
+            lifePoints += healPoints;
+            if (lifePoints > lifePoints_max) lifePoints = lifePoints_max;
+            ui.updateHealth(lifePoints / lifePoints_max);
+        }
+
+        public void healArmor(float healPoints) {
+            armorPoints += healPoints;
+            if (armorPoints > armorPoints_max) armorPoints = armorPoints_max;
+            ui.updateAmor(armorPoints / armorPoints_max);
+        }
 
         public void InverntoryOpened() {
             inventoryOpened = true;
@@ -103,7 +138,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         public void InventoryClosed() {
             inventoryOpened = false;
         }
-
+        //----------------------------------------------------------------------------------------------------------------------------------------------------------------
         private void PlayLandingSound()
         {
             m_AudioSource.clip = m_LandSound;

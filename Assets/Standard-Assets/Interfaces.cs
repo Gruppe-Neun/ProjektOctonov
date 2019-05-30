@@ -10,6 +10,10 @@ public interface IDamageable {
     void TakeDamage(float damage);
 }
 
-public interface IDamageableFriendly {
-    void TakeDamage(float damage);
+public interface IDamageableEnemy : IDamageable {
+
+}
+
+public interface IDamageableFriendly : IDamageable {
+
 }

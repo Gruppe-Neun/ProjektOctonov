@@ -16,9 +16,7 @@ public class BulletBehavior : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    public void FixedUpdate() {
         transform.position += transform.forward * speed * Time.deltaTime;
         distance -= speed * Time.deltaTime;
         if (distance <= 0) {
