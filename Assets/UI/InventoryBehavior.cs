@@ -82,27 +82,26 @@ public class InventoryBehavior : MonoBehaviour
         }
         //create crafting slots
         CraftingSlot[0] = Instantiate(craftingResultPrefab, InventoryUI.transform);
-        CraftingSlot[0].transform.localPosition = new Vector3(500, 325, 0);
-        CraftingSlot[0].useType = Item.useType.GENERIC;
+        CraftingSlot[0].transform.localPosition = new Vector3(500, 325, 0);        
         CraftingSlot[0].accessible = SlotBehavior.AccesType.TAKEONLY;
         CraftingSlot[1] = Instantiate(craftingSlotPrefab, InventoryUI.transform);
         CraftingSlot[1].transform.localPosition = new Vector3(428, 415, 0);
-        CraftingSlot[1].useType = Item.useType.GENERIC;
         CraftingSlot[2] = Instantiate(craftingSlotPrefab, InventoryUI.transform);
         CraftingSlot[2].transform.localPosition = new Vector3(572, 415, 0);
-        CraftingSlot[2].useType = Item.useType.GENERIC;
         CraftingSlot[2].mirror();
         CraftingSlot[3] = Instantiate(slotPrefab, InventoryUI.transform);
         CraftingSlot[3].transform.localPosition = new Vector3(385, 476, 0);
-        CraftingSlot[3].useType = Item.useType.GENERIC;
         CraftingSlot[4] = Instantiate(slotPrefab, InventoryUI.transform);
         CraftingSlot[4].transform.localPosition = new Vector3(615, 476, 0);
-        CraftingSlot[4].useType = Item.useType.GENERIC;
         CraftingSlot[4].mirror();
         CraftingSlot[5] = Instantiate(craftingExtraPrefab, InventoryUI.transform);
         CraftingSlot[5].transform.localPosition = new Vector3(500, 476, 0);
-        CraftingSlot[5].useType = Item.useType.GENERIC;
         CraftingSlot[5].accessible = SlotBehavior.AccesType.CLOSED;
+
+        CraftingSlot[0].useType = Item.useType.GENERIC;
+        for (int i = 1; i < CraftingSlot.Length; i++) {
+            CraftingSlot[i].updateEvent = updateCraftingResult;
+        }
     }
 
     // Update is called once per frame
@@ -361,9 +360,17 @@ public class InventoryBehavior : MonoBehaviour
         return ActiveSlot[activeActive].viewItem();
     }
 
+    public void updateCraftingResult() {
+        ItemBehavior[] ingredients = new ItemBehavior[] { CraftingSlot[1].viewItem(), CraftingSlot[2].viewItem(), CraftingSlot[3].viewItem(), CraftingSlot[4].viewItem() };
+        //CraftingSlot[0].setItem(Crafting.getResult(ingredients, Crafting.CraftingStationType.NONE));
+    }
+
     public void craft() {
         ItemBehavior[] ingredients = new ItemBehavior[] { CraftingSlot[1].viewItem() , CraftingSlot[2].viewItem() , CraftingSlot[3].viewItem() , CraftingSlot[4].viewItem() };
-        CraftingSlot[0].setItem(Crafting.craft(ingredients, Crafting.CraftingStationType.NONE));
+        ItemBehavior res = Crafting.craft(ingredients, Crafting.CraftingStationType.NONE);
+        if (CraftingSlot[0].viewItem() == null || CraftingSlot[0].viewItem().type == res.type) {
+            CraftingSlot[0].forceAdd(res);
+        }
         CraftingSlot[1].updateSlot();
         CraftingSlot[2].updateSlot();
         CraftingSlot[3].updateSlot();

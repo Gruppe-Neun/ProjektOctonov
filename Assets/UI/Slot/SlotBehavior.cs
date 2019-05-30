@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class SlotBehavior : MonoBehaviour
 {
-    protected ItemBehavior item;
-    public Item.useType useType = Item.useType.GENERIC;
+
+    public delegate void UpdateEvent();
+   
     public enum AccesType {
         OPEN,
         TAKEONLY,
@@ -14,10 +15,14 @@ public class SlotBehavior : MonoBehaviour
         CLOSED
     }
     public AccesType accessible = AccesType.OPEN;
+    protected ItemBehavior item;
+    public Item.useType useType = Item.useType.GENERIC;
+    public UpdateEvent updateEvent;
 
     protected Text amount;
     protected RawImage slotImage;
     protected RawImage itemImage;
+
 
     // Start is called before the first frame update
     void Start()
@@ -65,6 +70,9 @@ public class SlotBehavior : MonoBehaviour
                 }
             }
         }
+        if (updateEvent != null) {
+            updateEvent();
+        }
     }
 
     public bool addItem(ItemBehavior neu) {
@@ -88,6 +96,29 @@ public class SlotBehavior : MonoBehaviour
                 updateSlot();
                 return true;
             }
+        }
+        return false;
+    }
+
+    public bool forceAdd(ItemBehavior neu) {
+        if (neu == null) {
+            return true;
+        }
+        if (item == null) {
+            if (useType == Item.useType.GENERIC || useType == neu.useType) {
+                item = neu;
+                neu.take();
+                updateSlot();
+                return true;
+            } else {
+                return false;
+            }
+        }
+        if (item.type == neu.type) {
+            item.amount += neu.amount;
+            Destroy(neu.gameObject);
+            updateSlot();
+            return true;
         }
         return false;
     }

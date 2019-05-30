@@ -63,11 +63,11 @@ public class OlliOrdnerBehavior : ContainerBehavior,IInteractable {
 
     public override void updateContainer() {
         base.updateContainer();
-        partSlot[0] = content[0].type == Item.Type.Olli_ArmLeft;
-        partSlot[1] = content[1].type == Item.Type.Olli_ArmRight;
-        partSlot[2] = content[2].type == Item.Type.Olli_LegLeft;
-        partSlot[3] = content[3].type == Item.Type.Olli_LegRight;
-        partSlot[4] = content[4].type == Item.Type.Olli_Body;
+        partSlot[0] = (content[0] != null && content[0].type == Item.Type.Olli_ArmLeft);
+        partSlot[1] = (content[1] != null && content[1].type == Item.Type.Olli_ArmRight);
+        partSlot[2] = (content[2] != null && content[2].type == Item.Type.Olli_LegLeft);
+        partSlot[3] = (content[3] != null && content[3].type == Item.Type.Olli_LegRight);
+        partSlot[4] = (content[4] != null && content[4].type == Item.Type.Olli_Body);
         updateBody();
     }
 }
