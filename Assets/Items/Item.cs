@@ -186,5 +186,52 @@ public static class Item
         return item.GetComponent<ItemBehavior>();
     }
 
-    
+    public static Type ParseTypeString(string typeString) {
+        Type type=Type.UNDEF;
+        switch (typeString) {
+            case "UNDEF":
+                type = Type.UNDEF;
+                break;
+            case "Battery":
+                type = Type.Battery;
+                break;
+            case "Nut":
+                type = Type.Nut;
+                break;
+            case "Ironplate":
+                type = Type.Ironplate;
+                break;
+            case "Flashlight":
+                type = Type.Flashlight;
+                break;
+            case "Olli_ArmRight":
+                type = Type.Olli_ArmRight;
+                break;
+            case "Olli_ArmLeft":
+                type = Type.Olli_ArmLeft;
+                break;
+            case "Olli_LegRight":
+                type = Type.Olli_LegRight;
+                break;
+            case "Olli_LegLeft":
+                type = Type.Olli_LegLeft;
+                break;
+            case "Olli_Body":
+                type = Type.Olli_Body;
+                break;
+            case "Medkit":
+                type = Type.Medkit;
+                break;
+            case "LaserBlue":
+                type = Type.LaserBlue;
+                break;
+            case "LaserRed":
+                type = Type.LaserRed;
+                break;
+            default:
+                type = Type.UNDEF;
+                break;
+        }
+        return type;
+    }
 }

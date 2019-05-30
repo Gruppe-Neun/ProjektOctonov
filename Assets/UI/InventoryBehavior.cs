@@ -46,6 +46,7 @@ public class InventoryBehavior : MonoBehaviour
         craftButton = GameObject.Find("UI_CraftButton").GetComponent<ButtonBehavior>();
         craftButton.clickEvent = clickButton;
         Crafting.loadTest();
+        Crafting.loadRecipes("Assets/Recipes.txt");
 
         GameObject InventoryUI = GameObject.Find("UI_Top");
         GameObject ActiveUI = GameObject.Find("UI_Left");

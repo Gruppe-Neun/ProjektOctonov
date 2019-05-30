@@ -1,0 +1,6 @@
+Insert pattern:
+stationType:ingredient1,ingredient2,ingredient3,ingredient4;ingAmount1,ingAmount2,ingAmount3,ingAmount4=reultItem-amount
+==============================================================================
+Insert recipes below:
+NONE:Battery,Flashlight,UNDEF,UNDEF;/=LaserRed-10
+NONE:Ironplate,Nut,Battery,UNDEF;/=Olli_Body-1

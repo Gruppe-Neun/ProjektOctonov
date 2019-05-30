@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 
 public static class Crafting{
+
     public enum CraftingStationType {
         NONE,
         Tüfteltisch
@@ -31,16 +32,59 @@ public static class Crafting{
     private static Recipe[] recipes = new Recipe[0];
 
     public static void loadTest() {
-        Recipe test0 = new Recipe(new Item.Type[] { Item.Type.Battery, Item.Type.UNDEF, Item.Type.UNDEF, Item.Type.Flashlight }, null, CraftingStationType.NONE, Item.Type.LaserRed, 10);
-        Recipe test1 = new Recipe(new Item.Type[] { Item.Type.Ironplate, Item.Type.Nut, Item.Type.Battery, Item.Type.UNDEF }, null, CraftingStationType.NONE, Item.Type.Olli_Body, 1);
-        insertRecipe(test0);
-        insertRecipe(test1);
+        //Recipe test0 = new Recipe(new Item.Type[] { Item.Type.Battery, Item.Type.UNDEF, Item.Type.UNDEF, Item.Type.Flashlight }, null, CraftingStationType.NONE, Item.Type.LaserRed, 10);
+        //Recipe test1 = new Recipe(new Item.Type[] { Item.Type.Ironplate, Item.Type.Nut, Item.Type.Battery, Item.Type.UNDEF }, null, CraftingStationType.NONE, Item.Type.Olli_Body, 1);
+        //insertRecipe(test0);
+        //insertRecipe(test1);
 
     }
 
     //load recipies from file
     public static void loadRecipes(string filePath) {
+        string[] lines = System.IO.File.ReadAllLines(filePath);
+        for(int i = 4; i < lines.Length; i++) {
+            string ingsTmp = lines[i].Split(':')[1].Split('=')[0];
+            string[] ings = ingsTmp.Split(';')[0].Split(',');
+            string ingAmountSTmp = ingsTmp.Split(';')[1];
+            string[] ingAmountS = new string[4];
+            if (ingAmountSTmp.Equals("/")) {
+                ingAmountS = null;
+            }
+            else {
+                ingAmountS = ingAmountSTmp.Split(',');
+            }
 
+            string station = lines[i].Split(':')[0];
+            string resultTmp = lines[i].Split('=')[1];
+            string result = resultTmp.Split('-')[0];
+            string amount = resultTmp.Split('-')[1];
+            
+            CreateRecipeFromStrings(ings, ingAmountS, station, result, amount);
+        }
+    }
+
+    private static void CreateRecipeFromStrings(string[] ingsS,string[] ingAmountS, string stationS, string resultS, string amountS) {
+
+        Item.Type ing1 = Item.ParseTypeString(ingsS[0]);
+        Item.Type ing2 = Item.ParseTypeString(ingsS[1]);
+        Item.Type ing3 = Item.ParseTypeString(ingsS[2]);
+        Item.Type ing4 = Item.ParseTypeString(ingsS[3]);
+        int[] ingAmount;
+        if (ingAmountS == null) { ingAmount = null; }
+        else {
+            ingAmount = new int[4];
+            for (int i = 0; i < ingAmountS.Length; i++) {
+                ingAmount[i] = 0;
+                Int32.TryParse(ingAmountS[i], out ingAmount[i]);
+            }
+        }
+        CraftingStationType station = ParseStationString(stationS);
+        Item.Type result = Item.ParseTypeString(resultS);
+        int amount = 0;
+        Int32.TryParse(amountS, out amount);
+
+        Recipe recipe = new Recipe(new Item.Type[] { ing1, ing2, ing3, ing4}, ingAmount, station, result, amount);
+        insertRecipe(recipe);
     }
 
     //sort ingredients and add recipe
@@ -156,5 +200,21 @@ public static class Crafting{
             }
         }
         return null;
+    }
+
+    private static CraftingStationType ParseStationString(string stationString) {
+        CraftingStationType type = CraftingStationType.NONE;
+        switch (stationString) {
+            case "NONE":
+                type = CraftingStationType.NONE;
+                break;
+            case "Tüfteltisch":
+                type = CraftingStationType.Tüfteltisch;
+                break;
+            default:
+                type = CraftingStationType.NONE;
+                break;
+        }
+        return type;
     }
 }
