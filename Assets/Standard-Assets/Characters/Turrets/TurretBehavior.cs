@@ -72,10 +72,6 @@ public class TurretBehavior : MonoBehaviour
                 case Item.Type.LaserRed:
                     Shoot_LaserRed();
                     break;
-
-                default:
-
-                    break;
             }
         }
     }

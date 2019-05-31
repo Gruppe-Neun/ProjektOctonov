@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Realtime.Messaging.Internal;
 using System.IO;
+using UnityEngine.AI;
 
 /// <summary>
 /// The world MonoBehavior is in charge of creating, updating and destroying chunks based on the player's location.
@@ -24,6 +25,8 @@ public class World : MonoBehaviour
 	public static CoroutineQueue queue;
 
 	public Vector3 lastbuildPos;
+
+    private NavMeshBaker navMeshBaker = new NavMeshBaker();
 
     /// <summary>
     /// Creates a name for the chunk based on its position
@@ -116,6 +119,8 @@ public class World : MonoBehaviour
 			c = new Chunk(LevelName,chunkPosition, textureAtlas, fluidTexture);
 			c.chunk.transform.parent = this.transform;
 			c.fluid.transform.parent = this.transform;
+            c.chunk.AddComponent(typeof(NavMeshSurface));
+            navMeshBaker.addSurface(c.chunk.GetComponent<NavMeshSurface>());
 			chunks.TryAdd(c.chunk.name, c);
 		}
 	}
@@ -217,6 +222,15 @@ public class World : MonoBehaviour
 											(int)(player.transform.position.z/chunkSize), radius, radius));
 	}
 
+    private void loadLevel(string name) {
+        string[] filePaths = Directory.GetFiles(Application.persistentDataPath + "/leveldata/" + name + "/");
+        foreach (string filePath in filePaths) {
+            string[] coordinates = filePath.Substring(filePath.LastIndexOf('/') + 1).Split('_');
+            int x = System.Convert.ToInt32(coordinates[1]), y = System.Convert.ToInt32(coordinates[2]), z = System.Convert.ToInt32(coordinates[3]);
+            BuildChunkAt((int)x / chunkSize, (int)y / chunkSize, (int)z / chunkSize);
+        }
+    }
+
 	/// <summary>
     /// Unity lifecycle start method. Initializes the world and its first chunk and triggers the building of further chunks.
     /// Player is disabled during Start() to avoid him falling through the floor. Chunks are built using coroutines.
@@ -237,15 +251,8 @@ public class World : MonoBehaviour
 
 		queue = new CoroutineQueue(maxCoroutines, StartCoroutine);
 
-
-
-        string[] filePaths = Directory.GetFiles(Application.persistentDataPath + "/leveldata/" + LevelName + "/");
-        foreach (string filePath in filePaths) {
-            string[] coordinates = filePath.Substring(filePath.LastIndexOf('/') + 1).Split('_');
-            int x = System.Convert.ToInt32(coordinates[1]), y = System.Convert.ToInt32(coordinates[2]), z = System.Convert.ToInt32(coordinates[3]);
-            BuildChunkAt((int)x / chunkSize, (int)y / chunkSize, (int)z / chunkSize);
-            
-        }
+        loadLevel(LevelName);
+        navMeshBaker.buildNavMesh();
 
         foreach (KeyValuePair<string, Chunk> c in chunks) {
             if (c.Value.status == Chunk.ChunkStatus.DRAW) {
