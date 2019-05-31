@@ -8,12 +8,12 @@ public class TurretBehavior : MonoBehaviour
     public GameObject Bone_Upper;
     public BulletBehavior laserBullet;
 
-    public float horizontalSpeed = 20;
-    public float verticalSpeed = 15;
+    public float horizontalSpeed = 30;
+    public float verticalSpeed = 30;
 
     public GameObject target;
     public AmmoBehavior ammo;
-    public float range = 30;
+    public float range = 10;
 
     private Transform origin;
     private float rotationHorizontal = 0f;
@@ -22,15 +22,19 @@ public class TurretBehavior : MonoBehaviour
     private float targetVertical = 0f;
 
     private float fireTime = 0f;
+    private LineRenderer lineRenderer;
+    private SphereCollider viewRange;
     
     // Start is called before the first frame update
     void Start()
     {
         origin = Bone_Barrel.transform;
+        lineRenderer = GetComponent<LineRenderer>();
+        viewRange = GetComponent<SphereCollider>();
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (target != null) {
             targetPosition(target.transform.position);
@@ -38,11 +42,15 @@ public class TurretBehavior : MonoBehaviour
             rotationVertical = Mathf.MoveTowardsAngle(rotationVertical, targetVertical, verticalSpeed * Time.deltaTime);
             Bone_Upper.transform.localRotation = Quaternion.AngleAxis(rotationHorizontal, Vector3.left);
             Bone_Barrel.transform.localRotation = Quaternion.AngleAxis(rotationVertical, Vector3.forward);
-            if (Mathf.Abs(Mathf.DeltaAngle(rotationHorizontal, targetHorizontal)) < 30 && Mathf.Abs(Mathf.DeltaAngle(rotationVertical, targetVertical)) < 20) {
+            if (Mathf.Abs(Mathf.DeltaAngle(rotationHorizontal, targetHorizontal)) < 20 && Mathf.Abs(Mathf.DeltaAngle(rotationVertical, targetVertical)) < 20) {
                 shoot();
+            } else {
+                lineRenderer.enabled = false;
             }
+        } else {
+            lineRenderer.enabled = false;
         }
-        
+        viewRange.radius = range;
     }
 
 
@@ -83,11 +91,10 @@ public class TurretBehavior : MonoBehaviour
     }
 
     private void Shoot_LaserBlue() {
-        /*
         lineRenderer.enabled = true;
         lineRenderer.SetPosition(0, origin.position);
         RaycastHit hit;
-        if (Physics.Raycast(origin.position, origin.up, out hit, range)) {
+        if (Physics.Raycast(origin.position, -origin.right, out hit, range)) {
             lineRenderer.SetPosition(1, hit.point);
 
             IDamageable target = hit.transform.GetComponent<IDamageable>();
@@ -106,17 +113,16 @@ public class TurretBehavior : MonoBehaviour
                 ammo.use();
             }
         }
-        */
     }
 
     public void OnTriggerExit(Collider other) {
-        if (other.gameObject == target.gameObject) {
+        if (target==null || other.gameObject == target.gameObject) {
             target = null;
         }
     }
 
     public void OnTriggerStay(Collider other) {
-        if (target == null && other.GetComponent<IDamageable>()!=null) {
+        if (target == null && other.GetComponent<IDamageableEnemy>()!=null) {
             target = other.gameObject;
         }
     }

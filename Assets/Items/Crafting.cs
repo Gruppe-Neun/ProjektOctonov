@@ -78,7 +78,7 @@ public static class Crafting{
                 Int32.TryParse(ingAmountS[i], out ingAmount[i]);
             }
         }
-        CraftingStationType station = ParseStationString(stationS);
+        CraftingStationType station = (CraftingStationType)Enum.Parse(typeof(CraftingStationType), stationS);
         Item.Type result = (Item.Type)Enum.Parse(typeof(Item.Type), resultS);
         int amount = 0;
         Int32.TryParse(amountS, out amount);
@@ -201,19 +201,4 @@ public static class Crafting{
         return null;
     }
 
-    private static CraftingStationType ParseStationString(string stationString) {
-        CraftingStationType type = CraftingStationType.NONE;
-        switch (stationString) {
-            case "NONE":
-                type = CraftingStationType.NONE;
-                break;
-            case "Tüfteltisch":
-                type = CraftingStationType.Tüfteltisch;
-                break;
-            default:
-                type = CraftingStationType.NONE;
-                break;
-        }
-        return type;
-    }
 }

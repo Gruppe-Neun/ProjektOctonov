@@ -46,7 +46,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
+  useType: 0
   amount: 1
+  rotationSpeed: 20
   status: 0
 --- !u!33 &5091802038372802034
 MeshFilter:

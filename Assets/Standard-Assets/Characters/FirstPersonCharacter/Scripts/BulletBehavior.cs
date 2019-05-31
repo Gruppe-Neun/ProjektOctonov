@@ -6,7 +6,7 @@ public class BulletBehavior : MonoBehaviour
 {
     public float speed = 20f;
     public float damage = 1f;
-
+    public bool friendly = true;
 
     private float distance = 50f;
 
@@ -25,9 +25,14 @@ public class BulletBehavior : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
-        if(other.GetComponent<IDamageable>() != null){
-            other.GetComponent<IDamageable>().TakeDamage(damage);
+        if(friendly && other.GetComponent<IDamageableEnemy>() != null){
+            other.GetComponent<IDamageableEnemy>().TakeDamage(damage);
             Destroy(this.gameObject);
+        } else {
+            if(!friendly &&  other.GetComponent<IDamageableFriendly>() != null) {
+                other.GetComponent<IDamageableFriendly>().TakeDamage(damage);
+                Destroy(this.gameObject);
+            }
         }
     }
 }
