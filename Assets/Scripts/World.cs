@@ -120,6 +120,7 @@ public class World : MonoBehaviour
 			c.chunk.transform.parent = this.transform;
 			c.fluid.transform.parent = this.transform;
             c.chunk.AddComponent(typeof(NavMeshSurface));
+            c.chunk.GetComponent<NavMeshSurface>().agentTypeID = -1372625422;
             navMeshBaker.addSurface(c.chunk.GetComponent<NavMeshSurface>());
 			chunks.TryAdd(c.chunk.name, c);
 		}

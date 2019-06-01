@@ -161,7 +161,8 @@ public class Chunk {
 
             bd = new BlockData(chunkData);
         }
-        status = ChunkStatus.DRAW;
+        DrawChunk();
+        //status = ChunkStatus.DRAW;
 
     }
 
