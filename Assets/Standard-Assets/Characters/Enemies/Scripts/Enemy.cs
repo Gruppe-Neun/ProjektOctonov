@@ -29,7 +29,7 @@ public class Enemy : MonoBehaviour, IDamageableEnemy
         }
     }
 
-    public void TakeDamage(float damage) {
+    public virtual void TakeDamage(float damage) {
         //Debug.Log("ENEMY HEALTH: " + health);
         health -= damage;
         if(health <= 0f) {
@@ -41,7 +41,7 @@ public class Enemy : MonoBehaviour, IDamageableEnemy
         if (lootPool != null) {
             for(int i = 0; i < lootPool.Length; i++) {
                 if (lootPool[i].percentage > Random.value) {
-                    Item.createItem(lootPool[i].itemType,lootPool[i].amount,new Vector3(transform.position.x+Random.value*0.1f,transform.position.y, transform.position.z + Random.value * 0.1f));
+                    Item.createItem(lootPool[i].itemType,lootPool[i].amount,new Vector3(transform.position.x+Random.value*0.5f,transform.position.y, transform.position.z + Random.value * 0.5f));
                 }
             }
         }

@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 2252056030351098189}
   - component: {fileID: 2252056030351098163}
   - component: {fileID: 2252056030351098162}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cylinder
   m_TagString: LaserSource
   m_Icon: {fileID: 0}
@@ -185,7 +185,7 @@ GameObject:
   - component: {fileID: 2252056030370236511}
   - component: {fileID: 2252056030370236510}
   - component: {fileID: 2252056030370236505}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: FPSController
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -474,7 +474,7 @@ GameObject:
   - component: {fileID: 2252056030537769830}
   - component: {fileID: 2252056030537769828}
   - component: {fileID: 2252056030537769831}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -553,7 +553,7 @@ GameObject:
   - component: {fileID: 2252056030987264332}
   - component: {fileID: 2252056030987264306}
   - component: {fileID: 2252056030987264333}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube_001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -631,7 +631,7 @@ GameObject:
   - component: {fileID: 2252056031084047714}
   - component: {fileID: 2252056031084047712}
   - component: {fileID: 2252056031084047715}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube_003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -708,7 +708,7 @@ GameObject:
   - component: {fileID: 2252056031245646686}
   - component: {fileID: 2252056031245646684}
   - component: {fileID: 2252056031245646687}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube_002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -787,7 +787,7 @@ GameObject:
   - component: {fileID: 2252056031717694391}
   - component: {fileID: 2252056031717694389}
   - component: {fileID: 2252056031717694388}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cylinder_002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -864,7 +864,7 @@ GameObject:
   - component: {fileID: 2252056031727939063}
   - component: {fileID: 2252056031727939061}
   - component: {fileID: 2252056031727939060}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube_004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -944,7 +944,7 @@ GameObject:
   - component: {fileID: 2252056031863428040}
   - component: {fileID: 2252056031863428046}
   - component: {fileID: 2252056031863428043}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Lasergun
   m_TagString: Gun
   m_Icon: {fileID: 0}
@@ -1161,7 +1161,7 @@ GameObject:
   - component: {fileID: 2252056032052247838}
   - component: {fileID: 2252056032052247836}
   - component: {fileID: 2252056032052247839}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cylinder_001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
