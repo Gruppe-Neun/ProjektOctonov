@@ -172,12 +172,12 @@ public class UIBehavior : MonoBehaviour
             recipeItemButton[i * 6 + 4].gameObject.SetActive(true);
             recipeItemButton[i * 6 + 5].gameObject.SetActive(true);
 
-            recipeItemButton[i * 6 + 0].setItem(recipeBuffer[i + page * 14].ingredients[3]);
-            recipeItemButton[i * 6 + 1].setItem(recipeBuffer[i + page * 14].ingredients[2]);
-            recipeItemButton[i * 6 + 2].setItem(recipeBuffer[i + page * 14].ingredients[1]);
-            recipeItemButton[i * 6 + 3].setItem(recipeBuffer[i + page * 14].ingredients[0]);
+            recipeItemButton[i * 6 + 0].setItem(recipeBuffer[i + page * 14].ingredients[3], recipeBuffer[i + page * 14].amount[3]);
+            recipeItemButton[i * 6 + 1].setItem(recipeBuffer[i + page * 14].ingredients[2], recipeBuffer[i + page * 14].amount[2]);
+            recipeItemButton[i * 6 + 2].setItem(recipeBuffer[i + page * 14].ingredients[1], recipeBuffer[i + page * 14].amount[1]);
+            recipeItemButton[i * 6 + 3].setItem(recipeBuffer[i + page * 14].ingredients[0], recipeBuffer[i + page * 14].amount[0]);
             //recipeItemButton[i * 6 + 4].
-            recipeItemButton[i * 6 + 5].setItem(recipeBuffer[i + page * 14].result);
+            recipeItemButton[i * 6 + 5].setItem(recipeBuffer[i + page * 14].result, recipeBuffer[i + page * 14].resultAmount);
 
             recipeItemButton[i * 6 + 0].clickAble = recipeBuffer[i + page * 14].ingredients[3] != Item.Type.UNDEF;
             recipeItemButton[i * 6 + 1].clickAble = recipeBuffer[i + page * 14].ingredients[2] != Item.Type.UNDEF;
