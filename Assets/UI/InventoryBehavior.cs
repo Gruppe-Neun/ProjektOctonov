@@ -37,16 +37,12 @@ public class InventoryBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Item.loadSprites();
-        Item.loadModels();
         gun = GameObject.FindGameObjectWithTag("Gun").GetComponent<Lasergun>();
         ui = GetComponent<UIBehavior>();
         containerUI = GameObject.Find("UI_Container").GetComponent<RawImage>();
         containerUI.gameObject.SetActive(false);
         craftButton = GameObject.Find("UI_CraftButton").GetComponent<ButtonBehavior>();
-        craftButton.clickEvent = clickButton;
-        Crafting.loadTest();
-        Crafting.loadRecipes("Assets/Recipes.txt");
+        craftButton.clickEvent = craft;
 
         GameObject InventoryUI = GameObject.Find("UI_Top");
         GameObject ActiveUI = GameObject.Find("UI_Left");
@@ -86,17 +82,17 @@ public class InventoryBehavior : MonoBehaviour
         CraftingSlot[0].transform.localPosition = new Vector3(500, 325, 0);        
         CraftingSlot[0].accessible = SlotBehavior.AccesType.TAKEONLY;
         CraftingSlot[1] = Instantiate(craftingSlotPrefab, InventoryUI.transform);
-        CraftingSlot[1].transform.localPosition = new Vector3(428, 415, 0);
+        CraftingSlot[1].transform.localPosition = new Vector3(429, 412, 0);
         CraftingSlot[2] = Instantiate(craftingSlotPrefab, InventoryUI.transform);
-        CraftingSlot[2].transform.localPosition = new Vector3(572, 415, 0);
+        CraftingSlot[2].transform.localPosition = new Vector3(571, 412, 0);
         CraftingSlot[2].mirror();
         CraftingSlot[3] = Instantiate(slotPrefab, InventoryUI.transform);
-        CraftingSlot[3].transform.localPosition = new Vector3(385, 476, 0);
+        CraftingSlot[3].transform.localPosition = new Vector3(387, 473, 0);
         CraftingSlot[4] = Instantiate(slotPrefab, InventoryUI.transform);
-        CraftingSlot[4].transform.localPosition = new Vector3(615, 476, 0);
+        CraftingSlot[4].transform.localPosition = new Vector3(613, 473, 0);
         CraftingSlot[4].mirror();
         CraftingSlot[5] = Instantiate(craftingExtraPrefab, InventoryUI.transform);
-        CraftingSlot[5].transform.localPosition = new Vector3(500, 476, 0);
+        CraftingSlot[5].transform.localPosition = new Vector3(500, 473, 0);
         CraftingSlot[5].accessible = SlotBehavior.AccesType.CLOSED;
 
         CraftingSlot[0].useType = Item.useType.GENERIC;
@@ -366,7 +362,7 @@ public class InventoryBehavior : MonoBehaviour
         //CraftingSlot[0].setItem(Crafting.getResult(ingredients, Crafting.CraftingStationType.NONE));
     }
 
-    public void craft() {
+    public void craft(int amount) {
         ItemBehavior[] ingredients = new ItemBehavior[] { CraftingSlot[1].viewItem() , CraftingSlot[2].viewItem() , CraftingSlot[3].viewItem() , CraftingSlot[4].viewItem() };
         ItemBehavior res = Crafting.craft(ingredients, Crafting.CraftingStationType.NONE);
         if (CraftingSlot[0].viewItem() == null || CraftingSlot[0].viewItem().type == res.type) {
@@ -378,7 +374,4 @@ public class InventoryBehavior : MonoBehaviour
         CraftingSlot[4].updateSlot();
     }
 
-    public void clickButton(string message) {
-        craft();
-    }
 }

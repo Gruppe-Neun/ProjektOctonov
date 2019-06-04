@@ -5,14 +5,15 @@ using UnityEngine.UI;
 
 public class ButtonBehavior : MonoBehaviour
 {
-    public delegate void ClickEvent(string message);
+    public delegate void ClickEvent(int information);
 
-    private RawImage buttonImage;
+    public bool clickAble = true;
     public ClickEvent clickEvent;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    protected RawImage buttonImage;
+
+
+    private void Awake() {
         buttonImage = GetComponent<RawImage>();
     }
 
@@ -27,14 +28,20 @@ public class ButtonBehavior : MonoBehaviour
     }
 
     public void hover(bool isHovered) {
-        if (isHovered) {
+        if (isHovered && clickAble) {
             buttonImage.color = new Color(1, 1, 1, 0.8f);
         } else {
             buttonImage.color = new Color(1, 1, 1, 1);
         }
     }
 
-    public void click() {
-        clickEvent("test");
+    public virtual void click() {
+        if (clickAble) {
+            clickEvent(0);
+        }
+    }
+
+    public virtual void mirror() {
+        transform.localScale = new Vector3(-1, 1, 1);
     }
 }

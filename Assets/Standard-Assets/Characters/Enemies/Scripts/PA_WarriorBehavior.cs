@@ -12,7 +12,7 @@ public class PA_WarriorBehavior : Enemy
     //[SerializeField] private float attackDelay = 1; //max attacks per second
 
 
-    private Animation animation;
+    private new Animation animation;
     private NavMeshAgent agent;
     private IDamageableFriendly target;
     private Transform targetTransform;

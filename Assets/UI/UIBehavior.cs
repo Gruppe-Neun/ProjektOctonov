@@ -3,11 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityStandardAssets.Characters.FirstPerson;
-
+using System;
 
 public class UIBehavior : MonoBehaviour
 {
-    public Texture[] Crosshairs;
+    [SerializeField] private ItemButtonBehavior craftingStationButton;
+    [SerializeField] private ItemButtonBehavior itemButton;
+    [SerializeField] private ItemButtonBehavior itemButtonLeftOuter;
+    [SerializeField] private ItemButtonBehavior itemButtonRightOuter;
+    [SerializeField] private ButtonBehavior leftArrowButton;
+    [SerializeField] private ButtonBehavior rightArrowButton;
+
+    [SerializeField] private Texture[] Crosshairs;
+
+    
 
     private RawImage UI_Top;
     private RawImage UI_Right;
@@ -17,11 +26,17 @@ public class UIBehavior : MonoBehaviour
     private RawImage UI_Crosshair; 
     private RawImage UI_Cursor;
     private RawImage UI_Container;
+    private RawImage UI_Menu;
+
     private FirstPersonController player;
     private InventoryBehavior inventory;
     private float pos = 1.0f;
     private int status = 0;
 
+    //recipeBook
+    private Crafting.Recipe[] recipeBuffer;
+    private int recipeBookPage = 0;
+    private ItemButtonBehavior[] recipeItemButton;
 
     // Start is called before the first frame update
     void Start()
@@ -35,12 +50,42 @@ public class UIBehavior : MonoBehaviour
         UI_Container = GameObject.Find("UI_Container").GetComponent<RawImage>();
         UI_Crosshair.enabled = false;
         UI_Cursor = GameObject.Find("UI_Cursor").GetComponent<RawImage>();
+        UI_Menu = GameObject.Find("UI_Menu").GetComponent<RawImage>();
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<FirstPersonController>();
         inventory = GetComponent<InventoryBehavior>();
 
         UI_Crosshair.gameObject.SetActive(true);
         UI_Cursor.gameObject.SetActive(false);
+
+        //setup recipeBook
+        GameObject.Find("UI_RecipeBookButton").GetComponent<ButtonBehavior>().clickEvent = recipeBookButtonClick;
+        leftArrowButton.clickEvent = leftArrowPressed;
+        rightArrowButton.clickEvent = rightArrowPressed;
+        recipeItemButton = new ItemButtonBehavior[14*6];
+        for(int i = 0; i < 14; i++) {
+            float posX = -710 + 830 * (int)(i/7), posY = 300 - 100*(i%7), posZ = 0;
+            recipeItemButton[i * 6 + 0] = Instantiate<ItemButtonBehavior>(itemButton, UI_Menu.transform);
+            recipeItemButton[i * 6 + 0].clickEvent = searchRecipeResult;
+            recipeItemButton[i * 6 + 1] = Instantiate<ItemButtonBehavior>(itemButton, UI_Menu.transform);
+            recipeItemButton[i * 6 + 1].clickEvent = searchRecipeResult;
+            recipeItemButton[i * 6 + 2] = Instantiate<ItemButtonBehavior>(itemButton, UI_Menu.transform);
+            recipeItemButton[i * 6 + 2].clickEvent = searchRecipeResult;
+            recipeItemButton[i * 6 + 3] = Instantiate<ItemButtonBehavior>(itemButton, UI_Menu.transform);
+            recipeItemButton[i * 6 + 3].clickEvent = searchRecipeResult;
+            recipeItemButton[i * 6 + 4] = Instantiate<ItemButtonBehavior>(craftingStationButton, UI_Menu.transform);
+            recipeItemButton[i * 6 + 4].clickEvent = searchRecipeStation;
+            recipeItemButton[i * 6 + 5] = Instantiate<ItemButtonBehavior>(itemButton, UI_Menu.transform);
+            recipeItemButton[i * 6 + 5].clickEvent = searchRecipeResult;
+            recipeItemButton[i * 6 + 5].mirror();
+            recipeItemButton[i * 6 + 0].transform.localPosition = new Vector3(posX, posY, 0);
+            recipeItemButton[i * 6 + 1].transform.localPosition = new Vector3(posX + 110, posY, posZ);
+            recipeItemButton[i * 6 + 2].transform.localPosition = new Vector3(posX + 220, posY, posZ);
+            recipeItemButton[i * 6 + 3].transform.localPosition = new Vector3(posX + 330, posY, posZ);
+            recipeItemButton[i * 6 + 4].transform.localPosition = new Vector3(posX + 460, posY, posZ);
+            recipeItemButton[i * 6 + 5].transform.localPosition = new Vector3(posX + 590, posY, posZ);
+        }
+        UI_Menu.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -81,8 +126,79 @@ public class UIBehavior : MonoBehaviour
         openInventory();
     }
 
+    public void searchRecipeResult(int itemType) {
+        recipeBuffer = Crafting.getByResult((Item.Type)itemType);
+        loadRecipePage(0);
+    }
+
+    public void searchRecipeIngredient(int itemType) {
+        recipeBuffer = Crafting.getByIgredient((Item.Type)itemType);
+        loadRecipePage(0);
+    }
+
+    public void searchRecipeStation(int stationType) {
+
+        loadRecipePage(0);
+    }
+
+    public void openRecipeBook(bool open = true) {
+        if (open) {
+            recipeBuffer = Crafting.getAll();
+            UI_Menu.gameObject.SetActive(true);
+            loadRecipePage(0);
+        } else {
+            UI_Menu.gameObject.SetActive(false);
+        }
+    }
+
+    public void rightArrowPressed(int nothing) {
+        loadRecipePage(recipeBookPage + 1);
+    }
+
+    public void leftArrowPressed(int nothing) {
+        loadRecipePage(recipeBookPage - 1);
+    }
+
+    private void loadRecipePage(int page) {
+        if (recipeBuffer.Length > 14) recipeBookPage = page % ((int)recipeBuffer.Length / 14);
+        else recipeBookPage = 0;
+        int count = recipeBuffer.Length - recipeBookPage * 14;
+        if (count > 14) count = 14;
+        for(int i = 0;i < count; i++) {
+            recipeItemButton[i * 6 + 0].gameObject.SetActive(true);
+            recipeItemButton[i * 6 + 1].gameObject.SetActive(true);
+            recipeItemButton[i * 6 + 2].gameObject.SetActive(true);
+            recipeItemButton[i * 6 + 3].gameObject.SetActive(true);
+            recipeItemButton[i * 6 + 4].gameObject.SetActive(true);
+            recipeItemButton[i * 6 + 5].gameObject.SetActive(true);
+
+            recipeItemButton[i * 6 + 0].setItem(recipeBuffer[i + page * 14].ingredients[3]);
+            recipeItemButton[i * 6 + 1].setItem(recipeBuffer[i + page * 14].ingredients[2]);
+            recipeItemButton[i * 6 + 2].setItem(recipeBuffer[i + page * 14].ingredients[1]);
+            recipeItemButton[i * 6 + 3].setItem(recipeBuffer[i + page * 14].ingredients[0]);
+            //recipeItemButton[i * 6 + 4].
+            recipeItemButton[i * 6 + 5].setItem(recipeBuffer[i + page * 14].result);
+
+            recipeItemButton[i * 6 + 0].clickAble = recipeBuffer[i + page * 14].ingredients[3] != Item.Type.UNDEF;
+            recipeItemButton[i * 6 + 1].clickAble = recipeBuffer[i + page * 14].ingredients[2] != Item.Type.UNDEF;
+            recipeItemButton[i * 6 + 2].clickAble = recipeBuffer[i + page * 14].ingredients[1] != Item.Type.UNDEF;
+            recipeItemButton[i * 6 + 3].clickAble = recipeBuffer[i + page * 14].ingredients[0] != Item.Type.UNDEF;
+            recipeItemButton[i * 6 + 4].clickAble = false;
+            recipeItemButton[i * 6 + 5].clickAble = recipeBuffer[i + page * 14].result != Item.Type.UNDEF;
+        }
+        for(int i = count; i < 14; i++) {
+            recipeItemButton[i * 6 + 0].gameObject.SetActive(false);
+            recipeItemButton[i * 6 + 1].gameObject.SetActive(false);
+            recipeItemButton[i * 6 + 2].gameObject.SetActive(false);
+            recipeItemButton[i * 6 + 3].gameObject.SetActive(false);
+            recipeItemButton[i * 6 + 4].gameObject.SetActive(false);
+            recipeItemButton[i * 6 + 5].gameObject.SetActive(false);
+        }
+    }
+
     public void closeAll() {
         status = 1;
+        UI_Menu.gameObject.SetActive(false);
         UI_Cursor.gameObject.SetActive(false);
         UI_Crosshair.gameObject.SetActive(true);
         inventory.closeInventory();
@@ -127,6 +243,10 @@ public class UIBehavior : MonoBehaviour
                 UI_Crosshair.enabled = true;
             }
         }
+    }
+
+    public void recipeBookButtonClick(int nothing) {
+        openRecipeBook();
     }
     
 

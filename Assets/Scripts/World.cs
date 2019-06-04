@@ -28,6 +28,13 @@ public class World : MonoBehaviour
 
     private NavMeshBaker navMeshBaker = new NavMeshBaker();
 
+    //everything need to be loaded first
+    private void Awake() {
+        Item.loadSprites();
+        Item.loadModels();
+        Crafting.loadRecipes("Assets/Recipes.txt");
+    }
+
     /// <summary>
     /// Creates a name for the chunk based on its position
     /// </summary>

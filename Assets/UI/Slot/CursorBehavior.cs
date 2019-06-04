@@ -34,13 +34,13 @@ public class CursorBehavior : SlotBehavior
         xPos = Mathf.Clamp(xPos, -960, 960);
         yPos = Mathf.Clamp(yPos, -540, 540);
         GetComponent<RectTransform>().localPosition = new Vector3(xPos,yPos,0);
-        if (Input.GetKeyDown(KeyCode.Mouse0)&& hover != null) {
-            if (hover.GetComponent<SlotBehavior>() != null) {
-                inventory.switchCursor(hover.gameObject.GetComponent<SlotBehavior>());
+        if (Input.GetKeyDown(KeyCode.Mouse0) && hover != null) {
+            if (hover.GetComponent<ButtonBehavior>() != null) {
+                hover.GetComponent<ButtonBehavior>().click();
             } else {
-                if (hover.GetComponent<ButtonBehavior>() != null) {
-                    hover.GetComponent<ButtonBehavior>().click();
-                }
+                if (hover.GetComponent<SlotBehavior>() != null) {
+                    inventory.switchCursor(hover.gameObject.GetComponent<SlotBehavior>());
+                }  
             }
         } else {
             if(Input.GetKeyDown(KeyCode.Mouse1)&&hover != null) {
@@ -76,18 +76,22 @@ public class CursorBehavior : SlotBehavior
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        hover = collision;
-        if (hover.GetComponent<ButtonBehavior>() != null) {
-            hover.GetComponent<ButtonBehavior>().hover(true);
+        if(hover==null || collision.GetComponent<ButtonBehavior>()) {
+            hover = collision;
+            if (hover.GetComponent<ButtonBehavior>() != null) {
+                hover.GetComponent<ButtonBehavior>().hover(true);
+            }
         }
+        
+        
     }
 
     private void OnTriggerExit2D(Collider2D collision) {
         if(collision == hover) {
-            if (hover.GetComponent<ButtonBehavior>() != null) {
-                hover.GetComponent<ButtonBehavior>().hover(false);
-            }
             hover = null;
+        }
+        if (collision.GetComponent<ButtonBehavior>() != null) {
+            collision.GetComponent<ButtonBehavior>().hover(false);
         }
     }
 

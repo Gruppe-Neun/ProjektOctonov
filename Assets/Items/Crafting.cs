@@ -120,11 +120,7 @@ public static class Crafting{
         }
         temp[recipes.Length] = insert;
         recipes = temp;
-    }
-
-    public static Recipe[] getAll() {
-        return recipes;
-    }
+    }    
 
     public static ItemBehavior getResult(ItemBehavior[] input, CraftingStationType station) {
         if (input.Length != 4) return null;
@@ -199,6 +195,64 @@ public static class Crafting{
             }
         }
         return null;
+    }
+
+    public static Recipe[] getAll() {
+        return recipes;
+    }
+
+    public static Recipe[] getByResult(Item.Type get) {
+        int count = 0;
+        for (int i = 0; i < recipes.Length; i++) if (recipes[i].result == get) count++;
+        Recipe[] ret = new Recipe[count];
+        count = 0;
+        for(int i = 0; i < recipes.Length; i++) {
+            if(recipes[i].result == get) {
+                ret[count] = recipes[i];
+                count++;
+            }
+        }
+        return ret;
+    }
+
+    public static Recipe[] getByIgredient(Item.Type get) {
+        int count = 0;
+        bool[] wanted = new bool[recipes.Length];
+        for (int i = 0; i < recipes.Length; i++) {
+            if (recipes[i].ingredients[0] == get || recipes[i].ingredients[1] == get  || recipes[i].ingredients[2] == get || recipes[i].ingredients[3] == get) {
+                count++;
+                wanted[i] = true;
+            } else {
+                wanted[i] = false;
+            }
+        }
+        Recipe[] ret = new Recipe[count];
+        count = 0;
+        for (int i = 0; i < recipes.Length; i++) {
+            if (wanted[i]) {
+                ret[count] = recipes[i];
+                count++;
+            }
+        }
+        return ret;
+    }
+
+    public static List<Recipe> getListAll() {
+        List<Recipe> ret = new List<Recipe>();
+        for (int i = 0; i < recipes.Length; i++) ret.Add(recipes[i]);
+        return ret;
+    }
+
+    public static List<Recipe> getListByResult(Item.Type get) {
+        List<Recipe> ret = new List<Recipe>();
+        for (int i = 0; i < recipes.Length; i++) if (recipes[i].result == get) ret.Add(recipes[i]);
+        return ret;
+    }
+
+    public static List<Recipe> getListByIngedient(Item.Type get) {
+        List<Recipe> ret = new List<Recipe>();
+        for (int i = 0; i < recipes.Length; i++) if (recipes[i].ingredients[0] == get || recipes[i].ingredients[1] == get || recipes[i].ingredients[2] == get || recipes[i].ingredients[3] == get) ret.Add(recipes[i]);
+        return ret;
     }
 
 }
