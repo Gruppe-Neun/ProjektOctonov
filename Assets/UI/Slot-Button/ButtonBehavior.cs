@@ -9,6 +9,7 @@ public class ButtonBehavior : MonoBehaviour
 
     public bool clickAble = true;
     public ClickEvent clickEvent;
+    public int clickEventParam = 0;
 
     protected RawImage buttonImage;
 
@@ -37,7 +38,7 @@ public class ButtonBehavior : MonoBehaviour
 
     public virtual void click() {
         if (clickAble) {
-            clickEvent(0);
+            clickEvent(clickEventParam);
         }
     }
 

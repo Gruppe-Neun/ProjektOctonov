@@ -9,12 +9,16 @@ public class ItemButtonBehavior : ButtonBehavior
     [SerializeField] private RawImage itemImage;
     [SerializeField] private Text itemText;
 
-    public Item.Type itemType = Item.Type.UNDEF;
+    public bool clickEventItemParam = true;
 
+    private Item.Type itemType = Item.Type.UNDEF;
+    
 
     private void Awake() {
         setItem(Item.Type.UNDEF);
         buttonImage = GetComponent<RawImage>();
+        itemImage.gameObject.SetActive(true);
+        itemText.gameObject.SetActive(true);
     }
 
     // Update is called once per frame
@@ -46,7 +50,8 @@ public class ItemButtonBehavior : ButtonBehavior
 
     public override void click() {
         if (clickAble) {
-            clickEvent((int)itemType);
+            if (clickEventItemParam) clickEvent((int)itemType);
+            else clickEvent(clickEventParam);
         }
     }
 
