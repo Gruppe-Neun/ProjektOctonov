@@ -32,6 +32,7 @@ public class InventoryBehavior : MonoBehaviour
     private SlotBehavior CursorSlot;
     private SlotBehavior[] ContainerSlot = new SlotBehavior[12];
 
+    public Crafting.CraftingStationType currentStation;
     private ContainerBehavior activeContainer;
 
     // Start is called before the first frame update
@@ -43,6 +44,8 @@ public class InventoryBehavior : MonoBehaviour
         containerUI.gameObject.SetActive(false);
         craftButton = GameObject.Find("UI_CraftButton").GetComponent<ButtonBehavior>();
         craftButton.clickEvent = craft;
+
+        currentStation = Crafting.CraftingStationType.NONE;
 
         GameObject InventoryUI = GameObject.Find("UI_Top");
         GameObject ActiveUI = GameObject.Find("UI_Left");
@@ -276,6 +279,7 @@ public class InventoryBehavior : MonoBehaviour
             pickUpItem(CursorSlot.takeItem());
         }
         closeContainer();
+        currentStation = Crafting.CraftingStationType.NONE;
     }
 
     public void closeContainer() {
@@ -364,7 +368,7 @@ public class InventoryBehavior : MonoBehaviour
 
     public void craft(int amount) {
         ItemBehavior[] ingredients = new ItemBehavior[] { CraftingSlot[1].viewItem() , CraftingSlot[2].viewItem() , CraftingSlot[3].viewItem() , CraftingSlot[4].viewItem() };
-        ItemBehavior res = Crafting.craft(ingredients, Crafting.CraftingStationType.NONE);
+        ItemBehavior res = Crafting.craft(ingredients, currentStation);
         if (CraftingSlot[0].viewItem() == null || CraftingSlot[0].viewItem().type == res.type) {
             CraftingSlot[0].forceAdd(res);
         }

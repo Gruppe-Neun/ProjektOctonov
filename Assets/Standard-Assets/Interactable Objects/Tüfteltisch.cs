@@ -4,17 +4,19 @@ using UnityEngine;
 
 public class Tüfteltisch : MonoBehaviour, IInteractable {
 
+    GameObject uiGo;
+    InventoryBehavior inventory;
+    UIBehavior ui;
+
     void Start()
     {
-        
-    }
-
-    void Update()
-    {
-        
+        uiGo = GameObject.FindGameObjectWithTag("UI");
+        inventory = uiGo.GetComponent<InventoryBehavior>();
+        ui = uiGo.GetComponent<UIBehavior>();
     }
 
     public void Interact() {
-        Debug.Log("Interacted with " + gameObject.ToString());
+        ui.openInventory();
+        inventory.currentStation = Crafting.CraftingStationType.Tüfteltisch;
     }
 }
