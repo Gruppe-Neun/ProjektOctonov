@@ -103,6 +103,7 @@ public class InventoryBehavior : MonoBehaviour
         for (int i = 1; i < CraftingSlot.Length; i++) {
             CraftingSlot[i].updateEvent = updateCraftingResult;
         }
+        CraftingSlot[0].updateEvent = takeCraftingResult;
     }
 
     // Update is called once per frame
@@ -368,19 +369,35 @@ public class InventoryBehavior : MonoBehaviour
 
     public void updateCraftingResult() {
         ItemBehavior[] ingredients = new ItemBehavior[] { CraftingSlot[1].viewItem(), CraftingSlot[2].viewItem(), CraftingSlot[3].viewItem(), CraftingSlot[4].viewItem() };
-        //CraftingSlot[0].setItem(Crafting.getResult(ingredients, Crafting.CraftingStationType.NONE));
+        if (CraftingSlot[0].viewItem() == null || CraftingSlot[0].accessible == SlotBehavior.AccesType.CLOSED) {
+            CraftingSlot[0].accessible = SlotBehavior.AccesType.CLOSED;
+            CraftingSlot[0].setItem(Crafting.getResult(ingredients, Crafting.CraftingStationType.NONE));
+        }
+    }
+
+    public void takeCraftingResult() {
+        if(CraftingSlot[0].accessible != SlotBehavior.AccesType.CLOSED) {
+            updateCraftingResult();
+        }
     }
 
     public void craft(int amount) {
         ItemBehavior[] ingredients = new ItemBehavior[] { CraftingSlot[1].viewItem() , CraftingSlot[2].viewItem() , CraftingSlot[3].viewItem() , CraftingSlot[4].viewItem() };
-        ItemBehavior res = Crafting.craft(ingredients, currentStation);
-        if (CraftingSlot[0].viewItem() == null || CraftingSlot[0].viewItem().type == res.type) {
-            CraftingSlot[0].forceAdd(res);
+        ItemBehavior res = Crafting.getResult(ingredients, currentStation);
+        if (CraftingSlot[0].accessible == SlotBehavior.AccesType.CLOSED) {
+            if(CraftingSlot[0].viewItem()!=null) Destroy(CraftingSlot[0].forceTake().gameObject);
+            CraftingSlot[0].accessible = SlotBehavior.AccesType.TAKEONLY;
+            CraftingSlot[0].forceAdd(Crafting.craft(ingredients, currentStation));
+        } else {
+            if (CraftingSlot[0].viewItem() == null || CraftingSlot[0].viewItem().type == res.type) {
+                CraftingSlot[0].forceAdd(Crafting.craft(ingredients, currentStation));
+                CraftingSlot[1].updateSlot();
+                CraftingSlot[2].updateSlot();
+                CraftingSlot[3].updateSlot();
+                CraftingSlot[4].updateSlot();
+            }
         }
-        CraftingSlot[1].updateSlot();
-        CraftingSlot[2].updateSlot();
-        CraftingSlot[3].updateSlot();
-        CraftingSlot[4].updateSlot();
+        
     }
 
 }

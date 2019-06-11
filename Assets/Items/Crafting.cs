@@ -124,8 +124,65 @@ public static class Crafting{
 
     public static ItemBehavior getResult(ItemBehavior[] input, CraftingStationType station) {
         if (input.Length != 4) return null;
+        for (int i = 0; i < input.Length; i++) {
+            if (input[i] == null) {
+                input[i] = Item.createItem(Item.Type.UNDEF, 100, new Vector3(0, 0, 0));
+            }
+        }
+        for (int i = 0; i < input.Length; i++) {
+            int pos = i - 1;
+            while (pos >= 0) {
+                if ((int)input[pos].type <= (int)input[i].type) {
+                    break;
+                }
+                pos--;
+            }
+            if (pos + 1 != i) {
+                ItemBehavior temp = input[i];
+                for (int p = i; p > pos + 1; p--) {
+                    input[p] = input[p - 1];
+                }
+                input[pos + 1] = temp;
+            }
 
+        }
+        int recipe = 0;
+        while (recipe < recipes.Length) {
+            if (input[0].type == recipes[recipe].ingredients[0] &&
+               input[1].type == recipes[recipe].ingredients[1] &&
+               input[2].type == recipes[recipe].ingredients[2] &&
+               input[3].type == recipes[recipe].ingredients[3] &&
+               station == recipes[recipe].craftingstation) {
 
+                if (input[0].amount >= recipes[recipe].amount[0] &&
+                   input[1].amount >= recipes[recipe].amount[1] &&
+                   input[2].amount >= recipes[recipe].amount[2] &&
+                   input[3].amount >= recipes[recipe].amount[3]) {
+
+                    ItemBehavior result = Item.createItem(recipes[recipe].result, recipes[recipe].resultAmount, new Vector3(0, 0, 0));
+                    for (int i = 0; i < input.Length; i++) {
+                        if (input[i].type == Item.Type.UNDEF) {
+                            GameObject.Destroy(input[i].gameObject);
+                        }
+                    }
+                    return result;
+                } else {
+                    for (int i = 0; i < input.Length; i++) {
+                        if (input[i].type == Item.Type.UNDEF) {
+                            GameObject.Destroy(input[i].gameObject);
+                        }
+                    }
+                    return null;
+                }
+            } else {
+                recipe++;
+            }
+        }
+        for (int i = 0; i < input.Length; i++) {
+            if (input[i].type == Item.Type.UNDEF) {
+                GameObject.Destroy(input[i].gameObject);
+            }
+        }
         return null;
     }
 

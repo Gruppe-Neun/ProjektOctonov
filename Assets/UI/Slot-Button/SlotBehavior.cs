@@ -187,6 +187,13 @@ public class SlotBehavior : MonoBehaviour
         }
     }
 
+    public ItemBehavior forceTake() {
+        ItemBehavior ret = item;
+        item = null;
+        updateSlot();
+        return ret;
+    }
+
     public void mirror() {
         transform.localScale = new Vector3(transform.localScale.x * - 1, transform.localScale.y , 1);
         GetComponentInChildren<Text>().transform.localScale = new Vector3(GetComponentInChildren<Text>().transform.localScale.x * -1, GetComponentInChildren<Text>().transform.localScale.y, 1);
