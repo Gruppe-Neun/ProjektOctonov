@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tüfteltisch : MonoBehaviour, IInteractable {
+public class Tuefteltisch : MonoBehaviour, IInteractable {
 
     GameObject uiGo;
     InventoryBehavior inventory;
@@ -17,6 +17,6 @@ public class Tüfteltisch : MonoBehaviour, IInteractable {
 
     public void Interact() {
         ui.openInventory();
-        inventory.currentStation = Crafting.CraftingStationType.Tüfteltisch;
+        inventory.currentStation = Crafting.CraftingStationType.Tuefteltisch;
     }
 }

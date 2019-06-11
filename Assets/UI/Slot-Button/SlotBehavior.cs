@@ -22,11 +22,13 @@ public class SlotBehavior : MonoBehaviour
     protected Text amount;
     protected RawImage slotImage;
     protected RawImage itemImage;
-
+    private InventoryBehavior inventorySlot;
 
     // Start is called before the first frame update
     void Start()
     {
+        //inventory = GetComponentInParent<InventoryBehavior>();
+        inventorySlot = GameObject.FindGameObjectWithTag("UI").GetComponent<InventoryBehavior>();
         amount = GetComponentInChildren<Text>();
         slotImage = GetComponent<RawImage>();
         itemImage = GetComponentsInChildren<RawImage>()[1];
