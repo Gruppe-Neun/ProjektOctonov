@@ -7,7 +7,7 @@ public static class Crafting{
 
     public enum CraftingStationType {
         NONE,
-        Tüfteltisch
+        Tuefteltisch
     }
 
     public struct Recipe {
@@ -310,6 +310,17 @@ public static class Crafting{
         List<Recipe> ret = new List<Recipe>();
         for (int i = 0; i < recipes.Length; i++) if (recipes[i].ingredients[0] == get || recipes[i].ingredients[1] == get || recipes[i].ingredients[2] == get || recipes[i].ingredients[3] == get) ret.Add(recipes[i]);
         return ret;
+    }
+
+    public static Item.Type GetStationItemType(CraftingStationType station) {
+        switch (station) {
+            case CraftingStationType.NONE:
+                return Item.Type.UNDEF;
+            case CraftingStationType.Tuefteltisch:
+                return Item.Type.Tuefteltisch;
+            default:
+                return Item.Type.UNDEF;
+        }
     }
 
 }

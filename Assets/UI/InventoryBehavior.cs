@@ -11,7 +11,7 @@ public class InventoryBehavior : MonoBehaviour
     public SlotBehavior usableSlotPrefab;
     public SlotBehavior craftingResultPrefab;
     public SlotBehavior craftingSlotPrefab;
-    public SlotBehavior craftingExtraPrefab;
+    public CraftingStationBehaviour craftingStationPrefab;
     public SlotBehavior containerSlotPrefab;
     public Texture[] ContainerImage;
 
@@ -28,7 +28,8 @@ public class InventoryBehavior : MonoBehaviour
     private int activeAmmo = 0;
     private SlotBehavior[] ActiveSlot = new SlotBehavior[5];
     private int activeActive = 0;
-    private SlotBehavior[] CraftingSlot = new SlotBehavior[6];
+    private SlotBehavior[] CraftingSlot = new SlotBehavior[5];
+    private CraftingStationBehaviour craftingStation;
     private SlotBehavior CursorSlot;
     private SlotBehavior[] ContainerSlot = new SlotBehavior[12];
 
@@ -94,9 +95,9 @@ public class InventoryBehavior : MonoBehaviour
         CraftingSlot[4] = Instantiate(slotPrefab, InventoryUI.transform);
         CraftingSlot[4].transform.localPosition = new Vector3(613, 473, 0);
         CraftingSlot[4].mirror();
-        CraftingSlot[5] = Instantiate(craftingExtraPrefab, InventoryUI.transform);
-        CraftingSlot[5].transform.localPosition = new Vector3(500, 473, 0);
-        CraftingSlot[5].accessible = SlotBehavior.AccesType.CLOSED;
+        craftingStation = Instantiate(craftingStationPrefab, InventoryUI.transform);
+        craftingStation.transform.localPosition = new Vector3(500, 473, 0);
+        craftingStation.clickAble = false;
 
         CraftingSlot[0].useType = Item.useType.GENERIC;
         for (int i = 1; i < CraftingSlot.Length; i++) {
@@ -110,9 +111,13 @@ public class InventoryBehavior : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P)) {
             giveItem(Item.Type.Battery,20);
-            giveItem(Item.Type.Flashlight, 20);
-            giveItem(Item.Type.Ironplate, 20);
             giveItem(Item.Type.Nut, 20);
+            giveItem(Item.Type.Ironplate, 20);
+            giveItem(Item.Type.Flashlight, 20);
+            giveItem(Item.Type.CristalBlue, 20);
+            giveItem(Item.Type.CristalRed, 20);
+            giveItem(Item.Type.Case, 20);
+
         }
         if (Input.GetKeyDown(KeyCode.O)) {
             Item.createItem(Item.Type.LaserRed, 10, GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(0, 0, 1));
@@ -366,7 +371,7 @@ public class InventoryBehavior : MonoBehaviour
         ItemBehavior[] ingredients = new ItemBehavior[] { CraftingSlot[1].viewItem(), CraftingSlot[2].viewItem(), CraftingSlot[3].viewItem(), CraftingSlot[4].viewItem() };
         if (CraftingSlot[0].viewItem() == null || CraftingSlot[0].accessible == SlotBehavior.AccesType.CLOSED) {
             CraftingSlot[0].accessible = SlotBehavior.AccesType.CLOSED;
-            CraftingSlot[0].setItem(Crafting.getResult(ingredients, Crafting.CraftingStationType.NONE));
+            CraftingSlot[0].setItem(Crafting.getResult(ingredients, currentStation));
         }
     }
 

@@ -7,7 +7,7 @@ using System;
 
 public class UIBehavior : MonoBehaviour
 {
-    [SerializeField] private ItemButtonBehavior craftingStationButton;
+    [SerializeField] private CraftingStationBehaviour craftingStationButton;
     [SerializeField] private ItemButtonBehavior itemButton;
     [SerializeField] private ItemButtonBehavior itemButtonLeftOuter;
     [SerializeField] private ButtonBehavior leftArrowButton;
@@ -72,7 +72,7 @@ public class UIBehavior : MonoBehaviour
             recipeItemButton[i * 6 + 2].clickEvent = searchRecipeResult;
             recipeItemButton[i * 6 + 3] = Instantiate<ItemButtonBehavior>(itemButton, UI_Menu.transform);
             recipeItemButton[i * 6 + 3].clickEvent = searchRecipeResult;
-            recipeItemButton[i * 6 + 4] = Instantiate<ItemButtonBehavior>(craftingStationButton, UI_Menu.transform);
+            recipeItemButton[i * 6 + 4] = Instantiate<CraftingStationBehaviour>(craftingStationButton, UI_Menu.transform);
             recipeItemButton[i * 6 + 4].clickEvent = searchRecipeStation;
             recipeItemButton[i * 6 + 5] = Instantiate<ItemButtonBehavior>(itemButtonLeftOuter, UI_Menu.transform);
             recipeItemButton[i * 6 + 5].clickEvent = searchRecipeResult;

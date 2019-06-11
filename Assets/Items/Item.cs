@@ -23,6 +23,7 @@ public static class Item
         Flashlight,
         CristalBlue,
         CristalRed,
+        Case,
 
         Olli_ArmRight,
         Olli_ArmLeft,
@@ -35,10 +36,10 @@ public static class Item
 
         //Ammo (LASER_BLUE muss als erstes)
         LaserBlue,
-        LaserRed
+        LaserRed,
 
         //Objects ()
-            
+        Tuefteltisch
     }
 
     private static Texture2D[] sprites;

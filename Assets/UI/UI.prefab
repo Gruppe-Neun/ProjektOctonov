@@ -189,6 +189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickAble: 1
+  clickEventParam: 0
 --- !u!1 &838760799205251592
 GameObject:
   m_ObjectHideFlags: 0
@@ -302,6 +303,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickAble: 1
+  clickEventParam: 0
 --- !u!1 &2120437463640821209
 GameObject:
   m_ObjectHideFlags: 0
@@ -415,6 +417,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickAble: 1
+  clickEventParam: 0
 --- !u!1 &2823788485465325854
 GameObject:
   m_ObjectHideFlags: 0
@@ -531,6 +534,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickAble: 1
+  clickEventParam: 0
 --- !u!1 &2903774436904493438
 GameObject:
   m_ObjectHideFlags: 0
@@ -644,6 +648,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickAble: 1
+  clickEventParam: 0
 --- !u!1 &3298337191147132143
 GameObject:
   m_ObjectHideFlags: 0
@@ -991,6 +996,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickAble: 1
+  clickEventParam: 0
 --- !u!1 &5055954085732226781
 GameObject:
   m_ObjectHideFlags: 0
@@ -1412,7 +1418,7 @@ MonoBehaviour:
     type: 3}
   craftingSlotPrefab: {fileID: 3655284200139581545, guid: 3cf62af1e4f8d7445b1687a86a590c11,
     type: 3}
-  craftingExtraPrefab: {fileID: 8705132529635882488, guid: 6289cdb721acebf4daf44525ebf19f65,
+  craftingStationPrefab: {fileID: 8412232498552683707, guid: 08b77243dc5d53044bf6b57054433352,
     type: 3}
   containerSlotPrefab: {fileID: 4913761050029257976, guid: 917b075111cbea045b567753bfaa6abc,
     type: 3}
@@ -1424,6 +1430,7 @@ MonoBehaviour:
   itemPrefab: {fileID: 6155435031842547893, guid: 30ccd99196a87a14f92e3f5b5122e577,
     type: 3}
   cursor: {fileID: 6205862786691167325}
+  currentStation: 0
 --- !u!114 &5055954086177603520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1436,7 +1443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f00d6b0f77a7ee8438ea65314b68e596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  craftingStationButton: {fileID: 686457732573400068, guid: 08b77243dc5d53044bf6b57054433352,
+  craftingStationButton: {fileID: 8412232498552683707, guid: 08b77243dc5d53044bf6b57054433352,
     type: 3}
   itemButton: {fileID: 464858201690377211, guid: d71d35641b8e092458d1c4801a771ab3,
     type: 3}
@@ -1780,6 +1787,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickAble: 1
+  clickEventParam: 0
 --- !u!1 &5386952692659411510
 GameObject:
   m_ObjectHideFlags: 0
@@ -2123,6 +2131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickAble: 1
+  clickEventParam: 0
 --- !u!1 &7839518462549505003
 GameObject:
   m_ObjectHideFlags: 0
@@ -2240,6 +2249,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickAble: 1
+  clickEventParam: 0
 --- !u!1 &7975213253712568338
 GameObject:
   m_ObjectHideFlags: 0
@@ -2353,6 +2363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickAble: 1
+  clickEventParam: 0
 --- !u!1 &8178746599469981709
 GameObject:
   m_ObjectHideFlags: 0
@@ -2469,6 +2480,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickAble: 1
+  clickEventParam: 0
 --- !u!1 &8179237411254385222
 GameObject:
   m_ObjectHideFlags: 0
@@ -2654,6 +2666,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickAble: 1
+  clickEventParam: 0
 --- !u!1 &8693110874992004867
 GameObject:
   m_ObjectHideFlags: 0
@@ -2767,6 +2780,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickAble: 1
+  clickEventParam: 0
 --- !u!1001 &6999938701418704805
 PrefabInstance:
   m_ObjectHideFlags: 0

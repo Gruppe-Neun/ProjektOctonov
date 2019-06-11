@@ -3,7 +3,12 @@ guid: f00d6b0f77a7ee8438ea65314b68e596
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - craftingStationButton: {instanceID: 0}
+  - itemButton: {instanceID: 0}
+  - itemButtonLeftOuter: {instanceID: 0}
+  - leftArrowButton: {instanceID: 0}
+  - rightArrowButton: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

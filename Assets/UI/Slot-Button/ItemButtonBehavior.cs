@@ -14,7 +14,7 @@ public class ItemButtonBehavior : ButtonBehavior
     private Item.Type itemType = Item.Type.UNDEF;
     
 
-    private void Awake() {
+    protected virtual void Awake() {
         setItem(Item.Type.UNDEF);
         buttonImage = GetComponent<RawImage>();
         itemImage.gameObject.SetActive(true);

@@ -603,6 +603,11 @@ PrefabInstance:
       propertyPath: redLaser
       value: 
       objectReference: {fileID: 2100000, guid: d26e2b1103303c84b8b4cb21b4388152, type: 2}
+    - target: {fileID: 2252056030370236508, guid: 5e9e851c0e142814dac026a256ba2ac0,
+        type: 3}
+      propertyPath: m_StepOffset
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
 --- !u!1001 &5814024278089134349
