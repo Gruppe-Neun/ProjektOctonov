@@ -371,7 +371,7 @@ public class InventoryBehavior : MonoBehaviour
         ItemBehavior[] ingredients = new ItemBehavior[] { CraftingSlot[1].viewItem(), CraftingSlot[2].viewItem(), CraftingSlot[3].viewItem(), CraftingSlot[4].viewItem() };
         if (CraftingSlot[0].viewItem() == null || CraftingSlot[0].accessible == SlotBehavior.AccesType.CLOSED) {
             CraftingSlot[0].accessible = SlotBehavior.AccesType.CLOSED;
-            CraftingSlot[0].setItem(Crafting.getResult(ingredients, Crafting.CraftingStationType.NONE));
+            CraftingSlot[0].setItem(Crafting.getResult(ingredients, currentStation));
         }
     }
 
