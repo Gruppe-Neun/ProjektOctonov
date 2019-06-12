@@ -58,7 +58,7 @@ public class Chunk {
     /// <param name="v">Position of the chunk</param>
     /// <returns>Returns the file name of the to be saved or loaded chunk</returns>
 	string BuildChunkFileName(Vector3 v) {
-        return Application.persistentDataPath + "/leveldata/"+levelName+"/Chunk_" +
+        return Application.dataPath + "/leveldata/"+levelName+"/Chunk_" +
                                 (int)v.x + "_" +
                                     (int)v.y + "_" +
                                         (int)v.z +

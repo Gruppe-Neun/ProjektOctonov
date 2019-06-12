@@ -233,9 +233,11 @@ public class World : MonoBehaviour
     private void loadLevel(string name) {
         string[] filePaths = Directory.GetFiles(Application.dataPath + "/leveldata/" + name + "/");
         foreach (string filePath in filePaths) {
-            string[] coordinates = filePath.Substring(filePath.LastIndexOf('/') + 1).Split('_');
-            int x = System.Convert.ToInt32(coordinates[1]), y = System.Convert.ToInt32(coordinates[2]), z = System.Convert.ToInt32(coordinates[3]);
-            BuildChunkAt((int)x / chunkSize, (int)y / chunkSize, (int)z / chunkSize);
+            if (Path.GetExtension(filePath).Equals(".dat")) {
+                string[] coordinates = filePath.Substring(filePath.LastIndexOf('/') + 1).Split('_');
+                int x = System.Convert.ToInt32(coordinates[1]), y = System.Convert.ToInt32(coordinates[2]), z = System.Convert.ToInt32(coordinates[3]);
+                BuildChunkAt((int)x / chunkSize, (int)y / chunkSize, (int)z / chunkSize);
+            } 
         }
     }
 
