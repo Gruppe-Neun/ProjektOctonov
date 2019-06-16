@@ -24,10 +24,6 @@ public class ButtonBehavior : MonoBehaviour
         
     }
 
-    public void setClickevent(ClickEvent click) {
-        
-    }
-
     public void hover(bool isHovered) {
         if (isHovered && clickAble) {
             buttonImage.color = new Color(1, 1, 1, 0.8f);

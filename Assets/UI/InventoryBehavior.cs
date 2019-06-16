@@ -22,6 +22,7 @@ public class InventoryBehavior : MonoBehaviour
     private Lasergun gun;
     private RawImage containerUI;
     private ButtonBehavior craftButton;
+    private ButtonBehavior constructButton;
 
     private SlotBehavior[] InventorySlot=new SlotBehavior[40];
     private SlotBehavior[] AmmoSlot = new SlotBehavior[5];
@@ -32,9 +33,11 @@ public class InventoryBehavior : MonoBehaviour
     private CraftingStationBehaviour craftingStation;
     private SlotBehavior CursorSlot;
     private SlotBehavior[] ContainerSlot = new SlotBehavior[12];
+   
 
     public Crafting.CraftingStationType currentStation;
     private ContainerBehavior activeContainer;
+    private ConstructBehavior activeConstruct;
 
     // Start is called before the first frame update
     void Start()
@@ -42,9 +45,11 @@ public class InventoryBehavior : MonoBehaviour
         gun = GameObject.FindGameObjectWithTag("Gun").GetComponent<Lasergun>();
         ui = GetComponent<UIBehavior>();
         containerUI = GameObject.Find("UI_Container").GetComponent<RawImage>();
-        containerUI.gameObject.SetActive(false);
         craftButton = GameObject.Find("UI_CraftButton").GetComponent<ButtonBehavior>();
         craftButton.clickEvent = craft;
+        constructButton = GameObject.Find("UI_ConstructButton").GetComponent<ButtonBehavior>();
+        constructButton.clickEvent = clickConstruct;
+        
 
         currentStation = Crafting.CraftingStationType.NONE;
 
@@ -104,6 +109,9 @@ public class InventoryBehavior : MonoBehaviour
             CraftingSlot[i].updateEvent = updateCraftingResult;
         }
         CraftingSlot[0].updateEvent = takeCraftingResult;
+
+        constructButton.gameObject.SetActive(false);
+        containerUI.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -186,6 +194,7 @@ public class InventoryBehavior : MonoBehaviour
     }
 
     public bool pickUpItem(ItemBehavior item) {
+        if (item == null) return true;
         for (int i = 0; i < InventorySlot.Length; i++) {
             if (InventorySlot[i].viewItem() != null && InventorySlot[i].viewItem().type == item.type) {
                 return InventorySlot[i].addItem(item);
@@ -285,6 +294,7 @@ public class InventoryBehavior : MonoBehaviour
             pickUpItem(CursorSlot.takeItem());
         }
         closeContainer();
+        closeConstruct();
         currentStation = Crafting.CraftingStationType.NONE;
     }
 
@@ -298,7 +308,6 @@ public class InventoryBehavior : MonoBehaviour
             activeContainer = null;
             containerUI.gameObject.SetActive(false);
         }
-        
     }
 
     public void openContainer(ContainerBehavior container) {
@@ -357,6 +366,35 @@ public class InventoryBehavior : MonoBehaviour
                 break;
         }
         containerUI.gameObject.SetActive(true);
+    }
+
+    public void openConstruct(ConstructBehavior construct) {
+        this.containerUI.texture = ContainerImage[0];
+        ContainerSlot[0].transform.localPosition = new Vector3(0, 32, 0);
+        ContainerSlot[0].gameObject.SetActive(true);
+        for(int i = 1; i<ContainerSlot.Length; i++) {
+            ContainerSlot[i].gameObject.SetActive(false);
+        }
+        constructButton.gameObject.SetActive(true);
+        activeConstruct = construct;
+        containerUI.gameObject.SetActive(true);
+    }
+
+    public void clickConstruct(int nothing) {
+        if (activeConstruct!=null && ContainerSlot[0].viewItem() != null && activeConstruct.construct(ContainerSlot[0].viewItem().type)) {
+            ContainerSlot[0].viewItem().use();
+            pickUpItem(ContainerSlot[0].forceTake());
+            closeConstruct();
+        }
+    }
+
+    public void closeConstruct() {
+        if (activeConstruct != null) {
+            pickUpItem(ContainerSlot[0].forceTake());
+            constructButton.gameObject.SetActive(false);
+            containerUI.gameObject.SetActive(false);
+            activeConstruct = null;
+        }
     }
 
     public ItemBehavior getActiveAmmo() {
