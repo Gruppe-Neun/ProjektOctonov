@@ -62,7 +62,7 @@ public class ItemBehavior : MonoBehaviour
         }
     }
 
-    public void use() {
+    public virtual void use() {
         if (amount == -1) {
             return;
         } else {
