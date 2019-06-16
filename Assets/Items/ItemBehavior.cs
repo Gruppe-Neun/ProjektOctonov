@@ -68,7 +68,7 @@ public class ItemBehavior : MonoBehaviour
         } else {
             amount--;
             if (amount == 0) {
-                Destroy(this.gameObject);
+                DestroyImmediate(this.gameObject);
             }
         }
     }

@@ -11,6 +11,7 @@ public static class Item
         GENERIC,
         ACTIVE,
         AMMO,
+        CORE,
         OBJECT
     }
 
@@ -31,14 +32,16 @@ public static class Item
         Olli_LegLeft,
         Olli_Body,
 
-        //Active Items ()
+        //Active Items (Medkit muss als erstes)
         Medkit,
 
         //Ammo (LASER_BLUE muss als erstes)
         LaserBlue,
         LaserRed,
 
-        //Objects ()
+        //Core()
+
+        //Objects (Tuefteltisch muss als erstes)
         Tuefteltisch
     }
 
@@ -85,19 +88,23 @@ public static class Item
     }
 
     public static useType getUseType(Type itemType) {
-        if ((int)itemType >= 1000) {
+        if ((int)itemType >= (int)Type.Tuefteltisch) {
             return useType.OBJECT;
         } else {
-            if ((int)itemType >= (int)Type.LaserBlue) {
-                return useType.AMMO;
+            if ((int)itemType >= 1000) {
+                return useType.CORE;
             } else {
-                if ((int)itemType >= (int)Type.Medkit) {
-                    return useType.ACTIVE;
+                if ((int)itemType >= (int)Type.LaserBlue) {
+                    return useType.AMMO;
                 } else {
-                    if ((int)itemType >= (int)Type.UNDEF) {
-                        return useType.GENERIC;
+                    if ((int)itemType >= (int)Type.Medkit) {
+                        return useType.ACTIVE;
                     } else {
-                        return useType.UNDEF;
+                        if ((int)itemType >= (int)Type.UNDEF) {
+                            return useType.GENERIC;
+                        } else {
+                            return useType.UNDEF;
+                        }
                     }
                 }
             }

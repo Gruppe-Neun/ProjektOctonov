@@ -125,6 +125,11 @@ public class UIBehavior : MonoBehaviour
         openInventory();
     }
 
+    public void openConstruct(ConstructBehavior construct) {
+        inventory.openConstruct(construct);
+        openInventory();
+    }
+
     public void searchRecipeResult(int itemType) {
         recipeBuffer = Crafting.getByResult((Item.Type)itemType);
         loadRecipePage(0);
