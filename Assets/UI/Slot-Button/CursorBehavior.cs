@@ -43,11 +43,15 @@ public class CursorBehavior : SlotBehavior
                 }  
             }
         } else {
-            if(Input.GetKeyDown(KeyCode.Mouse1)&&hover != null) {
-                inventory.splitCursor(hover.gameObject.GetComponent<SlotBehavior>());
+            if(Input.GetKeyDown(KeyCode.Mouse1) && hover != null) {
+                if (hover.GetComponent<SlotBehavior>() != null) {
+                    inventory.splitCursor(hover.gameObject.GetComponent<SlotBehavior>());
+                }
             }
         }
-
+        if (hover != null && !hover.isActiveAndEnabled) {
+            hover = null;
+        }
     }
 
     public override void updateSlot() {

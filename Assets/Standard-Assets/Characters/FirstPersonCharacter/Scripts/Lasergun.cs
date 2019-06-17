@@ -6,6 +6,7 @@ public class Lasergun : MonoBehaviour {
     public AmmoBehavior ammo = null;
     public BulletBehavior laserBullet;
 
+    private InventoryBehavior inventory;
     private LineRenderer lineRenderer;
     GameObject laserSource;
     GameObject viewSource;
@@ -14,6 +15,7 @@ public class Lasergun : MonoBehaviour {
         lineRenderer = GetComponent<LineRenderer>();
         laserSource = GameObject.FindGameObjectWithTag("LaserSource");
         viewSource = GameObject.FindGameObjectWithTag("MainCamera");
+        inventory = GameObject.Find("UI").GetComponent<InventoryBehavior>();
     }
 
     public void Combat() {
@@ -27,7 +29,7 @@ public class Lasergun : MonoBehaviour {
 
     void Shoot() {
         if (ammo == null) {
-
+            inventory.scrollAmmo(1);
         } else {
             switch (ammo.type) {
                 case Item.Type.LaserBlue:

@@ -11,7 +11,15 @@ using UnityEngine.AI;
 /// </summary>
 public class World : MonoBehaviour
 {
-	public GameObject player;
+    [SerializeField] GameObject ConstructSmallPrefab;
+    [SerializeField] GameObject ConstructLargePrefab;
+
+    [SerializeField] GameObject ContainerTinyPrefab;
+    [SerializeField] GameObject ContainerMediumPrefab;
+    [SerializeField] GameObject ContainerLargePrefab;
+    [SerializeField] GameObject ContainerOlliPrefab;
+
+    public GameObject player;
 	public Material textureAtlas;
 	public Material fluidTexture;
 	public static int columnHeight = 16;
@@ -237,8 +245,39 @@ public class World : MonoBehaviour
                 string[] coordinates = filePath.Substring(filePath.LastIndexOf('/') + 1).Split('_');
                 int x = System.Convert.ToInt32(coordinates[1]), y = System.Convert.ToInt32(coordinates[2]), z = System.Convert.ToInt32(coordinates[3]);
                 BuildChunkAt((int)x / chunkSize, (int)y / chunkSize, (int)z / chunkSize);
-            } 
+            }
         }
+
+        Objects.ConstructPlace[] constructPlace = Objects.loadConstruct(name);
+        for (int i = 0; i < constructPlace.Length; i++) {
+            switch (constructPlace[i].type) {
+                case 0:
+                    Instantiate(ConstructSmallPrefab, new Vector3(constructPlace[i].pos[0], constructPlace[i].pos[1], constructPlace[i].pos[2]), new Quaternion());
+                    break;
+                case 1:
+                    Instantiate(ConstructLargePrefab, new Vector3(constructPlace[i].pos[0], constructPlace[i].pos[1], constructPlace[i].pos[2]), new Quaternion());
+                    break;
+            }
+        }
+        Objects.Container[] container = Objects.loadContainer(name);
+        for(int i = 0;i < container.Length; i++) {
+            switch (container[i].type) {
+                case 0:
+                    Instantiate(ContainerTinyPrefab, new Vector3(container[i].pos[0], container[i].pos[1], container[i].pos[2]), new Quaternion());
+                    break;
+                case 1:
+                    Instantiate(ContainerMediumPrefab, new Vector3(container[i].pos[0], container[i].pos[1], container[i].pos[2]), new Quaternion());
+                    break;
+                case 2:
+                    Instantiate(ContainerLargePrefab, new Vector3(container[i].pos[0], container[i].pos[1], container[i].pos[2]), new Quaternion());
+                    break;
+                case 3:
+                    Instantiate(ContainerOlliPrefab, new Vector3(container[i].pos[0], container[i].pos[1], container[i].pos[2]), new Quaternion());
+                    break;
+            }
+        }
+
+
     }
 
 	/// <summary>

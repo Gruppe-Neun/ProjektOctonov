@@ -383,7 +383,6 @@ public class InventoryBehavior : MonoBehaviour
     public void clickConstruct(int nothing) {
         if (activeConstruct!=null && ContainerSlot[0].viewItem() != null && activeConstruct.construct(ContainerSlot[0].viewItem().type)) {
             ContainerSlot[0].viewItem().use();
-            pickUpItem(ContainerSlot[0].forceTake());
             closeConstruct();
         }
     }
@@ -415,7 +414,10 @@ public class InventoryBehavior : MonoBehaviour
 
     public void takeCraftingResult() {
         if(CraftingSlot[0].accessible != SlotBehavior.AccesType.CLOSED) {
-            updateCraftingResult();
+            CraftingSlot[1].updateSlot();
+            CraftingSlot[2].updateSlot();
+            CraftingSlot[3].updateSlot();
+            CraftingSlot[4].updateSlot();
         }
     }
 

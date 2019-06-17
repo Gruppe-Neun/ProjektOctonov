@@ -7,6 +7,9 @@ public class ConstructBehavior : MonoBehaviour, IInteractable
     public TurretBehavior redTurret;
     public TurretBehavior blueTurret;
 
+    public Tuefteltisch tuefteltisch;
+
+    public int type = 1; //0=small, 1=large
 
     // Start is called before the first frame update
     void Start()
@@ -27,19 +30,33 @@ public class ConstructBehavior : MonoBehaviour, IInteractable
             return false;
         }
         */
-        switch ((int)item) {
-            case (int)Item.Type.CristalRed:
-                Instantiate(redTurret, new Vector3(transform.position.x, transform.position.y - transform.localScale.y / 2, transform.position.z), new Quaternion());
-                Destroy(this.gameObject);
-                return true;
+        if (type == 0) {
+            switch ((int)item) {
+                case (int)Item.Type.Tuefteltisch:
+                    Instantiate(tuefteltisch, new Vector3(transform.position.x, transform.position.y, transform.position.z), new Quaternion());
+                    Destroy(this.gameObject);
+                    return true;
 
-            case (int)Item.Type.CristalBlue:
-                Instantiate(blueTurret, new Vector3(transform.position.x, transform.position.y - transform.localScale.y / 2, transform.position.z), new Quaternion());
-                Destroy(this.gameObject);
-                return true;
+                default:
+                    return false;
+            }
+        }
 
-            default:
-                return false;
+        if (type == 1) {
+            switch ((int)item) {
+                case (int)Item.Type.CristalRed:
+                    Instantiate(redTurret, new Vector3(transform.position.x, transform.position.y - transform.localScale.y / 2, transform.position.z), new Quaternion());
+                    Destroy(this.gameObject);
+                    return true;
+
+                case (int)Item.Type.CristalBlue:
+                    Instantiate(blueTurret, new Vector3(transform.position.x, transform.position.y - transform.localScale.y / 2, transform.position.z), new Quaternion());
+                    Destroy(this.gameObject);
+                    return true;
+
+                default:
+                    return false;
+            }
         }
 
 
