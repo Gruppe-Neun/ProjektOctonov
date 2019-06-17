@@ -91,7 +91,7 @@ GameObject:
   - component: {fileID: 3495140222417011656}
   - component: {fileID: 7508432734440437877}
   - component: {fileID: 8423187763042516943}
-  - component: {fileID: 8412232498552683707}
+  - component: {fileID: 849716533173136860}
   m_Layer: 5
   m_Name: CraftingStationButton
   m_TagString: Untagged
@@ -184,7 +184,7 @@ PolygonCollider2D:
       - {x: -75.03836, y: 27.408081}
       - {x: -43.955444, y: -27.731018}
       - {x: 44.595703, y: -28.04483}
---- !u!114 &8412232498552683707
+--- !u!114 &849716533173136860
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -193,7 +193,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3995262611812985101}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3435a99897f38164b998ba20d8771a51, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d02051c44541b84288ea257dffa11a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   clickAble: 1

@@ -272,6 +272,20 @@ public static class Crafting{
         return ret;
     }
 
+    public static Recipe[] getByResult(Item.useType get) {
+        int count = 0;
+        for (int i = 0; i < recipes.Length; i++) if (Item.getUseType(recipes[i].result) == get) count++;
+        Recipe[] ret = new Recipe[count];
+        count = 0;
+        for (int i = 0; i < recipes.Length; i++) {
+            if (Item.getUseType(recipes[i].result) == get) {
+                ret[count] = recipes[i];
+                count++;
+            }
+        }
+        return ret;
+    }
+
     public static Recipe[] getByIgredient(Item.Type get) {
         int count = 0;
         bool[] wanted = new bool[recipes.Length];
@@ -291,24 +305,6 @@ public static class Crafting{
                 count++;
             }
         }
-        return ret;
-    }
-
-    public static List<Recipe> getListAll() {
-        List<Recipe> ret = new List<Recipe>();
-        for (int i = 0; i < recipes.Length; i++) ret.Add(recipes[i]);
-        return ret;
-    }
-
-    public static List<Recipe> getListByResult(Item.Type get) {
-        List<Recipe> ret = new List<Recipe>();
-        for (int i = 0; i < recipes.Length; i++) if (recipes[i].result == get) ret.Add(recipes[i]);
-        return ret;
-    }
-
-    public static List<Recipe> getListByIngedient(Item.Type get) {
-        List<Recipe> ret = new List<Recipe>();
-        for (int i = 0; i < recipes.Length; i++) if (recipes[i].ingredients[0] == get || recipes[i].ingredients[1] == get || recipes[i].ingredients[2] == get || recipes[i].ingredients[3] == get) ret.Add(recipes[i]);
         return ret;
     }
 

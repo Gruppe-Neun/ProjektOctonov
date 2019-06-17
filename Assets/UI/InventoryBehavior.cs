@@ -11,7 +11,7 @@ public class InventoryBehavior : MonoBehaviour
     public SlotBehavior usableSlotPrefab;
     public SlotBehavior craftingResultPrefab;
     public SlotBehavior craftingSlotPrefab;
-    public CraftingStationBehaviour craftingStationPrefab;
+    public ItemButtonBehavior craftingStationPrefab;
     public SlotBehavior containerSlotPrefab;
     public Texture[] ContainerImage;
 
@@ -30,7 +30,7 @@ public class InventoryBehavior : MonoBehaviour
     private SlotBehavior[] ActiveSlot = new SlotBehavior[5];
     private int activeActive = 0;
     private SlotBehavior[] CraftingSlot = new SlotBehavior[5];
-    private CraftingStationBehaviour craftingStation;
+    private ItemButtonBehavior craftingStation;
     private SlotBehavior CursorSlot;
     private SlotBehavior[] ContainerSlot = new SlotBehavior[12];
    
@@ -102,6 +102,7 @@ public class InventoryBehavior : MonoBehaviour
         CraftingSlot[4].mirror();
         craftingStation = Instantiate(craftingStationPrefab, InventoryUI.transform);
         craftingStation.transform.localPosition = new Vector3(500, 473, 0);
+        craftingStation.transform.localScale = new Vector3(1, 1, 1);
         craftingStation.clickAble = false;
 
         CraftingSlot[0].useType = Item.useType.GENERIC;
@@ -293,9 +294,19 @@ public class InventoryBehavior : MonoBehaviour
         if (CursorSlot.viewItem() != null) {
             pickUpItem(CursorSlot.takeItem());
         }
+        for(int i = 0; i < 5; i++) {
+            if(CraftingSlot[i].viewItem() != null) {
+                pickUpItem(CraftingSlot[i].takeItem());
+            }
+        }
         closeContainer();
         closeConstruct();
-        currentStation = Crafting.CraftingStationType.NONE;
+        setCraftingStation(Crafting.CraftingStationType.NONE);
+    }
+
+    public void setCraftingStation(Crafting.CraftingStationType type) {
+        currentStation = type;
+        craftingStation.setItem(Crafting.GetStationItemType(currentStation));
     }
 
     public void closeContainer() {
@@ -402,6 +413,36 @@ public class InventoryBehavior : MonoBehaviour
 
     public ItemBehavior getActiveActive() {
         return ActiveSlot[activeActive].viewItem();
+    }
+
+    public bool setUpRecipe(Crafting.Recipe recipe) {
+        for (int i = 0; i < 5; i++) {
+            if (CraftingSlot[i].viewItem() != null) {
+                pickUpItem(CraftingSlot[i].takeItem());
+            }
+        }
+
+        SlotBehavior[] ingredients = new SlotBehavior[] { null, null, null, null };
+        if (recipe.craftingstation != currentStation) return false;
+        for(int i = 0; i < 4; i++) {
+            if(recipe.ingredients[i] != Item.Type.UNDEF) {
+                bool missing = true;
+                for(int c = 0; c < InventorySlot.Length; c++) {
+                    if(InventorySlot[c].viewItem().type == recipe.ingredients[i]) {
+                        ingredients[i] = InventorySlot[c];
+                        missing = false;
+                        break;
+                    }
+                }
+                if (missing) return false;
+            }
+        }
+
+        for(int i = 0; i < ingredients.Length; i++) {
+            if(ingredients[i]!=null)
+                if (!CraftingSlot[i + 1].addItem(ingredients[i].takeItem())) return false ;
+        }
+        return true;
     }
 
     public void updateCraftingResult() {

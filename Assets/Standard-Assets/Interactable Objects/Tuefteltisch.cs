@@ -17,6 +17,6 @@ public class Tuefteltisch : MonoBehaviour, IInteractable {
 
     public void Interact() {
         ui.openInventory();
-        inventory.currentStation = Crafting.CraftingStationType.Tuefteltisch;
+        inventory.setCraftingStation(Crafting.CraftingStationType.Tuefteltisch);
     }
 }

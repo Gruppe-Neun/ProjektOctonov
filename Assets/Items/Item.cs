@@ -39,10 +39,11 @@ public static class Item
         LaserBlue,
         LaserRed,
 
-        //Core()
-
-        //Objects (Tuefteltisch muss als erstes)
+        //Core(Tuefteltisch muss als erstes)
         Tuefteltisch
+
+        //Objects ()
+
     }
 
     private static Texture2D[] sprites;
@@ -88,10 +89,10 @@ public static class Item
     }
 
     public static useType getUseType(Type itemType) {
-        if ((int)itemType >= (int)Type.Tuefteltisch) {
+        if ((int)itemType >= 1000) {
             return useType.OBJECT;
         } else {
-            if ((int)itemType >= 1000) {
+            if ((int)itemType >= (int)Type.Tuefteltisch) {
                 return useType.CORE;
             } else {
                 if ((int)itemType >= (int)Type.LaserBlue) {
