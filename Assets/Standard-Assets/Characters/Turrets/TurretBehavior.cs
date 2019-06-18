@@ -2,25 +2,61 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TurretBehavior : MonoBehaviour
-{
+public class TurretBehavior : MonoBehaviour, IInteractable {
+    public enum Type { UNDEF, BlueLaser, RedLaser }
+    public enum Upgrade { UNDEF, Damage, Firerate, Range }
+    private delegate void Shoot();
+    private struct TurretStats {
+        public TurretStats(float bDamage, float uDamage, float bFireRate, float uFirerate, float bRange, float uRange) {
+            baseDamage = bDamage;
+            baseFireRate = bFireRate;
+            baseRange = bRange;
+
+            upgradeDamage = uDamage;
+            upgradeFireRate = uFirerate;
+            upgradeRange = uRange;
+        }
+
+        public float baseDamage;
+        public float baseFireRate;
+        public float baseRange;
+
+        public float upgradeDamage;
+        public float upgradeFireRate;
+        public float upgradeRange;
+    }
+
+    private TurretStats[] turretStats = new TurretStats[]{
+        new TurretStats(0,0,0,0,0,0),
+        new TurretStats(2,1,0.1f,2,15,5),
+        new TurretStats(10,7,0.5f,2,20,10)
+        };
+
     public GameObject Bone_Barrel;
     public GameObject Bone_Upper;
     public BulletBehavior laserBullet;
+    public Type turretType = Type.UNDEF;
+
+    public float damage = 2;
+    public float fireRate = 2;
+    public float range = 10;
 
     public float horizontalSpeed = 30;
     public float verticalSpeed = 30;
 
-    public GameObject target;
-    public AmmoBehavior ammo;
-    public float range = 10;
+    private Upgrade[] LevelUps = new Upgrade[0];
 
+
+
+    private GameObject target;
+    
     private Transform origin;
     private float rotationHorizontal = 0f;
     private float rotationVertical = 0f;
     private float targetHorizontal = 0f;
     private float targetVertical = 0f;
 
+    private Shoot shootType;
     private float fireTime = 0f;
     private LineRenderer lineRenderer;
     private SphereCollider viewRange;
@@ -30,7 +66,9 @@ public class TurretBehavior : MonoBehaviour
     {
         origin = Bone_Barrel.transform;
         lineRenderer = GetComponent<LineRenderer>();
-        viewRange = GetComponent<SphereCollider>();
+        viewRange = GetComponentInChildren<SphereCollider>();
+        setTurretType(this.turretType);
+        updateStats();
     }
 
     // Update is called once per frame
@@ -43,7 +81,7 @@ public class TurretBehavior : MonoBehaviour
             Bone_Upper.transform.localRotation = Quaternion.AngleAxis(rotationHorizontal, Vector3.left);
             Bone_Barrel.transform.localRotation = Quaternion.AngleAxis(rotationVertical, Vector3.forward);
             if (Mathf.Abs(Mathf.DeltaAngle(rotationHorizontal, targetHorizontal)) < 20 && Mathf.Abs(Mathf.DeltaAngle(rotationVertical, targetVertical)) < 20) {
-                shoot();
+                shootType();
             } else {
                 lineRenderer.enabled = false;
             }
@@ -53,6 +91,50 @@ public class TurretBehavior : MonoBehaviour
         viewRange.radius = range;
     }
 
+    private void setTurretType(Type type) {
+        this.turretType = type;
+        switch ((int)type) {
+            case (int)Type.BlueLaser:
+                shootType = Shoot_LaserBlue;
+                break;
+
+            case (int)Type.RedLaser:
+                shootType = Shoot_LaserRed;
+                break;
+        }
+
+    }
+
+    private void updateStats() {
+        damage = turretStats[(int)turretType].baseDamage;
+        fireRate = turretStats[(int)turretType].baseFireRate;
+        range = turretStats[(int)turretType].baseRange;
+        for(int i = 0; i < LevelUps.Length; i++) {
+            switch (LevelUps[i]) {
+                case Upgrade.Damage:
+                    damage += turretStats[(int)turretType].upgradeDamage;
+                    break;
+                case Upgrade.Firerate:
+                    damage += turretStats[(int)turretType].upgradeFireRate;
+                    break;
+                case Upgrade.Range:
+                    range += turretStats[(int)turretType].upgradeRange;
+                    break;
+            }
+        }
+        viewRange.radius = range;
+    }
+
+    public void levelUp(Upgrade choice) {
+        Upgrade[] neu = new Upgrade[LevelUps.Length + 1];
+        for (int i = 0; i < LevelUps.Length; i++) neu[i] = LevelUps[i];
+        neu[LevelUps.Length] = choice;
+        updateStats();
+    }
+
+    public int getLevel() {
+        return LevelUps.Length;
+    }
 
     private void targetPosition(Vector3 pos) {
         targetHorizontal = Quaternion.FromToRotation(Vector3.left, new Vector3(pos.x-origin.position.x,0, pos.z - origin.position.z)).eulerAngles.y;
@@ -60,29 +142,13 @@ public class TurretBehavior : MonoBehaviour
         targetVertical = Vector2.Angle(new Vector2(distY, pos.y-origin.position.y), Vector2.up);
     }
 
-    public void shoot() {
-        if (ammo == null) {
-
-        } else {
-            switch (ammo.type) {
-                case Item.Type.LaserBlue:
-                    Shoot_LaserBlue();
-                    break;
-
-                case Item.Type.LaserRed:
-                    Shoot_LaserRed();
-                    break;
-            }
-        }
-    }
 
     private void Shoot_LaserRed() {
         if (Time.time >= fireTime) {
             BulletBehavior bullet;
             bullet = Instantiate(laserBullet, origin.position-(origin.right*0.5f), Quaternion.FromToRotation(Vector3.back, origin.right)).GetComponent<BulletBehavior>();
-            bullet.damage = ammo.damage;
-            fireTime = Time.time + ammo.fireRate;
-            ammo.use();
+            bullet.damage = damage;
+            fireTime = Time.time + fireRate;
         }
     }
 
@@ -95,31 +161,25 @@ public class TurretBehavior : MonoBehaviour
 
             IDamageable target = hit.transform.GetComponent<IDamageable>();
             if (Time.time >= fireTime) {
-                fireTime = Time.time + ammo.fireRate;
+                fireTime = Time.time + fireRate;
                 if (target != null) {
-                    target.TakeDamage(ammo.damage);
+                    target.TakeDamage(damage);
                 }
-                ammo.use();
             }
 
         } else {
             lineRenderer.SetPosition(1, origin.position + (origin.up * range));
             if (Time.time >= fireTime) {
-                fireTime = Time.time + ammo.fireRate;
-                ammo.use();
+                fireTime = Time.time + fireRate;
             }
         }
     }
 
-    public void OnTriggerExit(Collider other) {
-        if (target==null || other.gameObject == target.gameObject) {
-            target = null;
-        }
+    public void setTarget(GameObject target) {
+        this.target = target;
     }
 
-    public void OnTriggerStay(Collider other) {
-        if (target == null && other.GetComponent<IDamageableEnemy>()!=null) {
-            target = other.gameObject;
-        }
+    public void Interact() {
+        
     }
 }

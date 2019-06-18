@@ -1,5 +1,62 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7756115738991674924
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 47471279033947630}
+  - component: {fileID: 187378376792858365}
+  - component: {fileID: 6199739049840734107}
+  m_Layer: 2
+  m_Name: Range
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &47471279033947630
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7756115738991674924}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8754868882055901774}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &187378376792858365
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7756115738991674924}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 30
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6199739049840734107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7756115738991674924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bb3538e0e3319948bc9e660fef9c6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8754868882056392288
 GameObject:
   m_ObjectHideFlags: 0
@@ -378,10 +435,9 @@ GameObject:
   - component: {fileID: 8754868882063678880}
   - component: {fileID: 3618329595558593797}
   - component: {fileID: 8753794043875911966}
-  - component: {fileID: 3704676501869809957}
   - component: {fileID: 7786207669827966718}
   - component: {fileID: 905340805621216831}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: BlueTurret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -396,13 +452,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8754868882056392302}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1005, y: 64, z: 1010}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 8754868882055901760}
   - {fileID: 8754868882055901768}
   - {fileID: 8754868882055901770}
   - {fileID: 8754868882055901772}
+  - {fileID: 47471279033947630}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -435,10 +492,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1
+  m_Radius: 0.85
+  m_Height: 5
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 2.3, z: 0}
 --- !u!114 &8753794043875911966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -455,24 +512,12 @@ MonoBehaviour:
   Bone_Upper: {fileID: 8754868882056392292}
   laserBullet: {fileID: 5860776558636707515, guid: 3d1a89c78512c3443af4f676cb9e977d,
     type: 3}
+  turretType: 1
+  damage: 1
+  fireRate: 1
+  range: 20
   horizontalSpeed: 30
   verticalSpeed: 25
-  target: {fileID: 0}
-  ammo: {fileID: 8903549765302498021, guid: 0b0e7bf3a95e5434bb4c1051db97dbe0, type: 3}
-  range: 20
---- !u!135 &3704676501869809957
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8754868882056392302}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 20
-  m_Center: {x: 0, y: 4, z: 0}
 --- !u!54 &7786207669827966718
 Rigidbody:
   m_ObjectHideFlags: 0
