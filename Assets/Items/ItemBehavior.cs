@@ -8,6 +8,7 @@ public class ItemBehavior : MonoBehaviour
     public Item.useType useType = Item.useType.UNDEF;
     public int amount = 1;
     public float rotationSpeed = 20;
+    public GameObject player;
 
     public int status = 0; // 0 = undef, 1= in Inventory, 2 = dropped
 
@@ -17,6 +18,7 @@ public class ItemBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
         if (status == 2) {
             gameObject.SetActive(true);
         } else {
@@ -32,8 +34,11 @@ public class ItemBehavior : MonoBehaviour
         transform.localRotation = Quaternion.AngleAxis(rotation,Vector3.down);
     }
 
-    public void drop() {
+    public void drop(bool fromPlayer) {
         gameObject.SetActive(true);
+        if (fromPlayer) {
+            gameObject.transform.position = player.transform.position + (player.transform.forward.normalized * 3);
+        }
         status = 2;
     }
 

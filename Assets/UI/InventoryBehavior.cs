@@ -118,6 +118,10 @@ public class InventoryBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (CursorSlot.viewItem() != null && Input.GetKeyDown(KeyCode.Q)) {
+            CursorSlot.forceTake().drop(true);
+        }
+
         if (Input.GetKeyDown(KeyCode.P)) {
             giveItem(Item.Type.Battery,20);
             giveItem(Item.Type.Nut, 20);
