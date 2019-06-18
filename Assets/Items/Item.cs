@@ -188,7 +188,7 @@ public static class Item
             item.GetComponent<ItemBehavior>().take();
             item.transform.position = new Vector3(0, 0, 0);
         } else {
-            item.GetComponent<ItemBehavior>().drop();
+            item.GetComponent<ItemBehavior>().drop(false);
             item.transform.position = position;
         }
         
@@ -196,4 +196,5 @@ public static class Item
         
         return item.GetComponent<ItemBehavior>();
     }
+
 }
