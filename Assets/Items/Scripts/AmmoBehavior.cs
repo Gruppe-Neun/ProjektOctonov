@@ -14,14 +14,19 @@ public class AmmoBehavior : ItemBehavior
             case Item.Type.LaserBlue:
                 fireRate = 0.1f;
                 damage = 1f;
-                crosshairType = -1;
+                crosshairType = 0;
                 break;
 
             case Item.Type.LaserRed:
                 fireRate = 0.3f;
                 damage = 3f;
                 crosshairType = 0;
-               
+                break;
+
+            case Item.Type.GrenadeLauncher:
+                fireRate = 1;
+                damage = 50;
+                crosshairType = 1;
                 break;
         }
     }

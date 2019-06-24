@@ -38,6 +38,7 @@ public static class Item
         //Ammo (LASER_BLUE muss als erstes)
         LaserBlue,
         LaserRed,
+        GrenadeLauncher,
 
         //Core(Tuefteltisch muss als erstes)
         Tuefteltisch
@@ -58,6 +59,8 @@ public static class Item
             if (File.Exists(filePath)) {
                 sprites[i] = new Texture2D(128, 64);
                 sprites[i].LoadImage(File.ReadAllBytes(filePath));
+            } else {
+                Debug.Log("Item sprite not found: " + filePath);
             }
         }
     }
@@ -165,7 +168,7 @@ public static class Item
     public static ItemBehavior createItem(Type itemType,int amount,Vector3 position) {
         GameObject item = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 
-        if ((int)itemType >= (int)Type.LaserBlue) {
+        if (getUseType(itemType)==useType.AMMO) {
             item.AddComponent<AmmoBehavior>();
             item.GetComponent<ItemBehavior>().type = itemType;
             item.GetComponent<AmmoBehavior>().setValues();

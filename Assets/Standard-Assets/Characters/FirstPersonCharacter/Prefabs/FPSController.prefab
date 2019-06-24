@@ -200,8 +200,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2252056030370236504}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 100, y: 70, z: 100}
-  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 2252056030335303594}
   m_Father: {fileID: 0}
@@ -221,7 +221,7 @@ CharacterController:
   m_Height: 1.8
   m_Radius: 0.35
   m_SlopeLimit: 45
-  m_StepOffset: 0.3
+  m_StepOffset: 1
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0, z: 0}
@@ -1130,7 +1130,7 @@ LineRenderer:
     alignment: 0
     textureMode: 0
     shadowBias: 0.5
-    generateLightingData: 1
+    generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
 --- !u!114 &2252056031863428043
@@ -1150,6 +1150,7 @@ MonoBehaviour:
   ammo: {fileID: 0}
   laserBullet: {fileID: 912356711943405352, guid: b2e8a30ec24cbcb40bc5b1ae667a7318,
     type: 3}
+  grenade: {fileID: 2290771640979796287, guid: ffd105b4b4d71e24d8e2e112ebcd4c37, type: 3}
 --- !u!1 &2252056032052247833
 GameObject:
   m_ObjectHideFlags: 0
