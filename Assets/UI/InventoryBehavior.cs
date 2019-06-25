@@ -130,7 +130,7 @@ public class InventoryBehavior : MonoBehaviour
             giveItem(Item.Type.CristalBlue, 20);
             giveItem(Item.Type.CristalRed, 20);
             giveItem(Item.Type.Case, 20);
-
+            giveItem(Item.Type.GrenadeLauncher, 20);
         }
         if (Input.GetKeyDown(KeyCode.O)) {
             Item.createItem(Item.Type.LaserRed, 10, GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(0, 0, 1));
@@ -432,7 +432,7 @@ public class InventoryBehavior : MonoBehaviour
             if(recipe.ingredients[i] != Item.Type.UNDEF) {
                 bool missing = true;
                 for(int c = 0; c < InventorySlot.Length; c++) {
-                    if(InventorySlot[c].viewItem().type == recipe.ingredients[i]) {
+                    if(InventorySlot[c].viewItem() != null && InventorySlot[c].viewItem().type == recipe.ingredients[i]) {
                         ingredients[i] = InventorySlot[c];
                         missing = false;
                         break;

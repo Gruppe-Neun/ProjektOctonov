@@ -5,17 +5,21 @@ public class Lasergun : MonoBehaviour {
     public float range = 50f;
     public AmmoBehavior ammo = null;
     public BulletBehavior laserBullet;
+    public GrenadeBehavior grenade;
 
     private InventoryBehavior inventory;
     private LineRenderer lineRenderer;
-    GameObject laserSource;
-    GameObject viewSource;
+    private GameObject laserSource;
+    private GameObject viewSource;
+    private int raycastLayerMask;
 
     private void Start() {
         lineRenderer = GetComponent<LineRenderer>();
         laserSource = GameObject.FindGameObjectWithTag("LaserSource");
         viewSource = GameObject.FindGameObjectWithTag("MainCamera");
         inventory = GameObject.Find("UI").GetComponent<InventoryBehavior>();
+        raycastLayerMask = 1 << 8;
+        raycastLayerMask = ~raycastLayerMask;
     }
 
     public void Combat() {
@@ -40,6 +44,10 @@ public class Lasergun : MonoBehaviour {
                     Shoot_LaserRed();
                     break;
 
+                case Item.Type.GrenadeLauncher:
+                    Shoot_GrenadeLauncher();
+                    break;
+
                 default:
 
                     break;
@@ -51,10 +59,10 @@ public class Lasergun : MonoBehaviour {
         lineRenderer.enabled = true;
         lineRenderer.SetPosition(0, laserSource.transform.position);
         RaycastHit hit;
-        if (Physics.Raycast(laserSource.transform.position, laserSource.transform.up, out hit, range)) {
+        if (Physics.Raycast(viewSource.transform.position, viewSource.transform.forward, out hit, range, raycastLayerMask)) {
             lineRenderer.SetPosition(1, hit.point);
 
-            IDamageable target = hit.transform.GetComponent<IDamageable>();
+            IDamageableEnemy target = hit.transform.GetComponent<IDamageableEnemy>();
             if (Time.time >= fireTime) {
                 fireTime = Time.time + ammo.fireRate;
                 if (target != null) {
@@ -64,7 +72,7 @@ public class Lasergun : MonoBehaviour {
             }
             
         } else {
-            lineRenderer.SetPosition(1, laserSource.transform.position + (laserSource.transform.up * range));
+            lineRenderer.SetPosition(1, viewSource.transform.position + (viewSource.transform.forward * range));
             if (Time.time >= fireTime) {
                 fireTime = Time.time + ammo.fireRate;
                 ammo.use();
@@ -76,9 +84,8 @@ public class Lasergun : MonoBehaviour {
         if (Time.time >= fireTime) {
             BulletBehavior bullet;
             RaycastHit hit;
-            if(Physics.Raycast(viewSource.transform.position, viewSource.transform.forward, out hit, range)) {
-                Vector3 rotation = hit.point - viewSource.transform.position;
-                
+            if(Physics.Raycast(viewSource.transform.position, viewSource.transform.forward, out hit, range, raycastLayerMask)) {
+                Vector3 rotation = hit.point - laserSource.transform.position; 
                 bullet = Instantiate(laserBullet, laserSource.transform.position, Quaternion.FromToRotation(Vector3.forward, rotation)).GetComponent<BulletBehavior>();
             } else {
                 bullet = Instantiate(laserBullet, laserSource.transform.position, Quaternion.LookRotation(laserSource.transform.up, laserSource.transform.forward * -1)).GetComponent<BulletBehavior>();
@@ -86,6 +93,23 @@ public class Lasergun : MonoBehaviour {
 
             bullet.damage = ammo.damage;
 
+            fireTime = Time.time + ammo.fireRate;
+            ammo.use();
+        }
+    }
+
+    private void Shoot_GrenadeLauncher() {
+        if (Time.time >= fireTime) {
+            GrenadeBehavior neu;
+            RaycastHit hit;
+            if (Physics.Raycast(viewSource.transform.position, viewSource.transform.forward, out hit, range, raycastLayerMask)) {
+                Vector3 rotation = hit.point - laserSource.transform.position;
+                neu = Instantiate(grenade, laserSource.transform.position, Quaternion.FromToRotation(Vector3.forward, rotation));
+            } else {
+                neu = Instantiate(grenade, laserSource.transform.position, Quaternion.LookRotation(laserSource.transform.up, laserSource.transform.forward * -1));
+            }
+            neu.damage = ammo.damage;
+            neu.velocity = neu.transform.forward * 30;
             fireTime = Time.time + ammo.fireRate;
             ammo.use();
         }

@@ -19,6 +19,8 @@ public class World : MonoBehaviour
     [SerializeField] GameObject ContainerLargePrefab;
     [SerializeField] GameObject ContainerOlliPrefab;
 
+    [SerializeField] GameObject spawnPoint;
+
     public GameObject player;
 	public Material textureAtlas;
 	public Material fluidTexture;
@@ -276,7 +278,17 @@ public class World : MonoBehaviour
                     break;
             }
         }
-
+        Objects.LightSource[] light = Objects.loadLight(name);
+        for(int i = 0; i < light.Length; i++) {
+            Light neu = new GameObject("light_"+i, typeof(Light)).GetComponent<Light>();
+            neu.intensity = light[i].intensity;
+            neu.range = light[i].range;
+            neu.transform.position = new Vector3(light[i].pos[0], light[i].pos[1], light[i].pos[2]);
+        }
+        Objects.SpawnPoint[] spawn = Objects.loadSpawn(name);
+        for(int i = 0; i < spawn.Length; i++) {
+            Instantiate(spawnPoint, new Vector3(spawn[i].pos[0], spawn[i].pos[1], spawn[i].pos[2]), new Quaternion()).GetComponent<SpawnerBehavior>().type = spawn[i].type;
+        }
 
     }
 
