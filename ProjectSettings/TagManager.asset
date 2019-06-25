@@ -7,6 +7,11 @@ TagManager:
   - LaserSource
   - Gun
   - UI
+  - MainMenu
+  - StartGameMenu
+  - TutorialMenu
+  - OptionsMenu
+  - CreditsMenu
   layers:
   - Default
   - TransparentFX
