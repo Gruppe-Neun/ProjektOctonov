@@ -104,3 +104,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be75a1cdb97bd4b43a15fcf206ed1a33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spider: {fileID: 3459159354443437476, guid: 769a5e0a484538047a1427d78cd32ced, type: 3}
+  spider_fast: {fileID: 6892702397298749019, guid: 8cbdf3df0cbcb964195626e5ec104ae3,
+    type: 3}
+  spider_large: {fileID: 8130706793892292599, guid: 3702f7f9e139c65449e25896407e507c,
+    type: 3}
+  drone: {fileID: 68935975176422631, guid: 9448a88cfd5435d48b53168a756be6b5, type: 3}
+  type: 0

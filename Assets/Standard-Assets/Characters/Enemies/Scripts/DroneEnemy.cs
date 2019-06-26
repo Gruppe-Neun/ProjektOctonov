@@ -20,9 +20,9 @@ public class DroneEnemy : Enemy
     private int state = -1; //-1 = undef, 0 = idle, 1 = fly, 2 = attack
 
     // Start is called before the first frame update
-    public override void Start()
+    public override void Awake()
     {
-        base.Start();
+        base.Awake();
         origin = transform;
         rb = GetComponent<Rigidbody>();
         state = 2;

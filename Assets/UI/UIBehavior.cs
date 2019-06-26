@@ -26,11 +26,14 @@ public class UIBehavior : MonoBehaviour
     private RawImage UI_Cursor;
     private RawImage UI_Container;
     private RawImage UI_Menu;
+    private RawImage UI_Warning;
+    private Text UI_WarningText;
 
     private FirstPersonController player;
     private InventoryBehavior inventory;
     private float pos = 1.0f;
     private int status = 0;
+    private float warningStatus = -1f;
 
     //recipeBook
     private Crafting.Recipe[] recipeBuffer;
@@ -50,6 +53,8 @@ public class UIBehavior : MonoBehaviour
         UI_Crosshair.enabled = false;
         UI_Cursor = GameObject.Find("UI_Cursor").GetComponent<RawImage>();
         UI_Menu = GameObject.Find("UI_Menu").GetComponent<RawImage>();
+        UI_Warning = GameObject.Find("UI_Warning").GetComponent<RawImage>();
+        UI_WarningText = UI_Warning.GetComponentInChildren<Text>();
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<FirstPersonController>();
         inventory = GetComponent<InventoryBehavior>();
@@ -121,6 +126,30 @@ public class UIBehavior : MonoBehaviour
                     openInventory();
                 }
 
+            }
+        }
+        if (warningStatus != -1) {
+            if (warningStatus >= 3) {
+                warningStatus = -3;
+                UI_Warning.gameObject.SetActive(false);
+                UI_WarningText.color = new Color(0.45f, 0, 0, 0);
+                UI_Warning.color = new Color(1, 1, 1, 0);
+            } else {
+                if (warningStatus >= 2) {
+                    warningStatus += Time.deltaTime;
+                    UI_WarningText.color = new Color(0.45f, 0, 0, -warningStatus + 3);
+                    UI_Warning.color = new Color(1, 1, 1, -warningStatus + 3 / 4);
+                } else {
+                    if(warningStatus >= 1) {
+                        warningStatus += Time.deltaTime;
+                        UI_WarningText.color = new Color(0.45f, 0, 0, 1);
+                        UI_Warning.color = new Color(1, 1, 1, 0.25f);
+                    } else {
+                        warningStatus += Time.deltaTime;
+                        UI_WarningText.color = new Color(0.45f, 0, 0, warningStatus);
+                        UI_Warning.color = new Color(1, 1, 1, warningStatus / 4);
+                    }
+                }
             }
         }
     }
@@ -265,5 +294,20 @@ public class UIBehavior : MonoBehaviour
         }
     }
     
-
+    public void sendWarning(float intensity) {
+        if (warningStatus == -1) {
+            warningStatus = 0;
+            UI_Warning.gameObject.SetActive(true);
+        } else {
+            if (warningStatus > 2) {
+                warningStatus -= 3;
+                warningStatus = -warningStatus;
+            } else {
+                if (warningStatus > 1) {
+                    warningStatus = 1;
+                }
+            }
+        }
+       
+    }
 }

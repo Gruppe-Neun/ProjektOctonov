@@ -24,17 +24,17 @@ public class GrenadeBehavior : MonoBehaviour
     void FixedUpdate()
     {
         if (!impact) {
-            velocity += Vector3.down * Time.deltaTime * 9.81f;
+            velocity += Vector3.down * Time.fixedDeltaTime * 9.81f;
             //velocity -= velocity/(1*Time.deltaTime);
 
             RaycastHit hit;
-            if (Physics.Raycast(transform.position, velocity, out hit, velocity.magnitude * Time.deltaTime)){
+            if (Physics.Raycast(transform.position, velocity, out hit, velocity.magnitude * Time.fixedDeltaTime)){
                 transform.position = hit.point;
             } else {
-                transform.position += velocity * Time.deltaTime;
+                transform.position += velocity * Time.fixedDeltaTime;
             }
 
-            travelDistance += velocity.magnitude * Time.deltaTime;
+            travelDistance += velocity.magnitude * Time.fixedDeltaTime;
             if (travelDistance >= 100) Destroy(gameObject);
         }
     }

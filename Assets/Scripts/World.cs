@@ -4,6 +4,7 @@ using UnityEngine;
 using Realtime.Messaging.Internal;
 using System.IO;
 using UnityEngine.AI;
+using UnityStandardAssets.Characters.FirstPerson;
 
 /// <summary>
 /// The world MonoBehavior is in charge of creating, updating and destroying chunks based on the player's location.
@@ -17,11 +18,9 @@ public class World : MonoBehaviour
     [SerializeField] GameObject ContainerTinyPrefab;
     [SerializeField] GameObject ContainerMediumPrefab;
     [SerializeField] GameObject ContainerLargePrefab;
-    [SerializeField] GameObject ContainerOlliPrefab;
+    [SerializeField] OlliOrdnerBehavior ContainerOlliPrefab;
 
-    [SerializeField] GameObject spawnPoint;
-
-    public GameObject player;
+    public FirstPersonController player;
 	public Material textureAtlas;
 	public Material fluidTexture;
 	public static int columnHeight = 16;
@@ -37,12 +36,14 @@ public class World : MonoBehaviour
 	public Vector3 lastbuildPos;
 
     private NavMeshBaker navMeshBaker = new NavMeshBaker();
+    private LevelBehavior level;
 
     //everything need to be loaded first
     private void Awake() {
         Item.loadSprites();
         Item.loadModels();
         Crafting.loadRecipes("Assets/Recipes.txt");
+        level = GetComponent<LevelBehavior>();
     }
 
     /// <summary>
@@ -261,6 +262,7 @@ public class World : MonoBehaviour
                     break;
             }
         }
+        OlliOrdnerBehavior olli = null;
         Objects.Container[] container = Objects.loadContainer(name);
         for(int i = 0;i < container.Length; i++) {
             switch (container[i].type) {
@@ -274,7 +276,7 @@ public class World : MonoBehaviour
                     Instantiate(ContainerLargePrefab, new Vector3(container[i].pos[0], container[i].pos[1], container[i].pos[2]), new Quaternion());
                     break;
                 case 3:
-                    Instantiate(ContainerOlliPrefab, new Vector3(container[i].pos[0], container[i].pos[1], container[i].pos[2]), new Quaternion());
+                    olli = Instantiate<OlliOrdnerBehavior>(ContainerOlliPrefab, new Vector3(container[i].pos[0], container[i].pos[1], container[i].pos[2]), new Quaternion());
                     break;
             }
         }
@@ -285,10 +287,8 @@ public class World : MonoBehaviour
             neu.range = light[i].range;
             neu.transform.position = new Vector3(light[i].pos[0], light[i].pos[1], light[i].pos[2]);
         }
-        Objects.SpawnPoint[] spawn = Objects.loadSpawn(name);
-        for(int i = 0; i < spawn.Length; i++) {
-            Instantiate(spawnPoint, new Vector3(spawn[i].pos[0], spawn[i].pos[1], spawn[i].pos[2]), new Quaternion()).GetComponent<SpawnerBehavior>().type = spawn[i].type;
-        }
+        level.loadLevelData(LevelName, player, olli.gameObject);
+        level.loadTestLevel();
 
     }
 
@@ -299,13 +299,13 @@ public class World : MonoBehaviour
 	void Start ()
     {
 
-        player.SetActive(false);
+        player.gameObject.SetActive(false);
         
 
 
         
         lastbuildPos = player.transform.position;
-        player.SetActive(false);
+        player.gameObject.SetActive(false);
 		chunks = new ConcurrentDictionary<string, Chunk>();
 		this.transform.position = Vector3.zero;
 		this.transform.rotation = Quaternion.identity;	
@@ -323,8 +323,9 @@ public class World : MonoBehaviour
 
 
 
-        player.SetActive(true);
+        player.gameObject.SetActive(true);
 
+        level.startLevel();
 
         /*
         // Build starting chunk

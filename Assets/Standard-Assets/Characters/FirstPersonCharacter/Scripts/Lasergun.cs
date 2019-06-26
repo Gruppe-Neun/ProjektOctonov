@@ -11,6 +11,7 @@ public class Lasergun : MonoBehaviour {
     private LineRenderer lineRenderer;
     private GameObject laserSource;
     private GameObject viewSource;
+    private FlamethrowerBehavior flamethrower;
     private int raycastLayerMask;
 
     private void Start() {
@@ -18,6 +19,7 @@ public class Lasergun : MonoBehaviour {
         laserSource = GameObject.FindGameObjectWithTag("LaserSource");
         viewSource = GameObject.FindGameObjectWithTag("MainCamera");
         inventory = GameObject.Find("UI").GetComponent<InventoryBehavior>();
+        flamethrower = GetComponentInChildren<FlamethrowerBehavior>();
         raycastLayerMask = 1 << 8;
         raycastLayerMask = ~raycastLayerMask;
     }
@@ -25,9 +27,9 @@ public class Lasergun : MonoBehaviour {
     public void Combat() {
         if (Input.GetButton("Fire1")) {
             Shoot();
-        }
-        else {
+        } else {
             lineRenderer.enabled = false;
+            flamethrower.setActive(false);
         }
     }
 
@@ -46,6 +48,10 @@ public class Lasergun : MonoBehaviour {
 
                 case Item.Type.GrenadeLauncher:
                     Shoot_GrenadeLauncher();
+                    break;
+
+                case Item.Type.Flamethrower:
+                    flamethrower.setActive(true);
                     break;
 
                 default:
@@ -113,5 +119,9 @@ public class Lasergun : MonoBehaviour {
             fireTime = Time.time + ammo.fireRate;
             ammo.use();
         }
+    }
+
+    private void Shoot_Flamethrower() {
+
     }
 }

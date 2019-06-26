@@ -19,9 +19,9 @@ public class MeleeEnemy : Enemy
     private float attackTime = 0f;
 
     // Start is called before the first frame update
-    public override void Start()
+    public override void Awake()
     {
-        base.Start();
+        base.Awake();
         agent = GetComponent<NavMeshAgent>();
         setTarget(GameObject.FindGameObjectWithTag("Player"));
     }

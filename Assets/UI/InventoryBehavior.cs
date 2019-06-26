@@ -131,6 +131,7 @@ public class InventoryBehavior : MonoBehaviour
             giveItem(Item.Type.CristalRed, 20);
             giveItem(Item.Type.Case, 20);
             giveItem(Item.Type.GrenadeLauncher, 20);
+            giveItem(Item.Type.Flamethrower, 20);
         }
         if (Input.GetKeyDown(KeyCode.O)) {
             Item.createItem(Item.Type.LaserRed, 10, GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(0, 0, 1));

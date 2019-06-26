@@ -7,15 +7,10 @@ public class PA_WarriorBehavior : Enemy
 {
     [SerializeField] private Light weaponLight;
     [SerializeField] private Transform laserOrigin;
-    [SerializeField] private float attackRange = 2f;
-    [SerializeField] private float attackDamage = 5; //per Attack
     //[SerializeField] private float attackDelay = 1; //max attacks per second
 
 
     private new Animation animation;
-    private NavMeshAgent agent;
-    private IDamageableFriendly target;
-    private Transform targetTransform;
     private LineRenderer laser;
     
 
@@ -26,18 +21,17 @@ public class PA_WarriorBehavior : Enemy
 
 
     // Start is called before the first frame update
-    public override void Start() {
-        base.Start();
+    public override void Awake() {
+        base.Awake();
         agent = GetComponent<NavMeshAgent>();
-        setTarget(GameObject.FindGameObjectWithTag("Player"));
         animation = GetComponent<Animation>();
         laser = GetComponent<LineRenderer>();
         animation.wrapMode = WrapMode.Loop;
     }
 
     // Update is called once per frame
-    void Update() {
-
+    public override void Update() {
+        base.Update();
     }
 
     void FixedUpdate() {
@@ -54,16 +48,16 @@ public class PA_WarriorBehavior : Enemy
                 break;
 
             case 1 :
-                if (Vector3.Distance(agent.transform.position, targetTransform.position) < attackRange+agent.stoppingDistance) {
+                if (Vector3.Distance(agent.transform.position, targetTransform.position) < range+agent.stoppingDistance) {
                     float rotToTarget = Quaternion.FromToRotation(Vector3.forward, new Vector3(targetTransform.position.x - transform.position.x, 0, targetTransform.position.z - transform.position.z)).eulerAngles.y;
                     if (Mathf.DeltaAngle(transform.eulerAngles.y, rotToTarget) > 30) {
-                        transform.eulerAngles = new Vector3(transform.eulerAngles.x, Mathf.MoveTowardsAngle(transform.eulerAngles.y, rotToTarget, Time.deltaTime * agent.angularSpeed), transform.eulerAngles.z);
+                        transform.eulerAngles = new Vector3(transform.eulerAngles.x, Mathf.MoveTowardsAngle(transform.eulerAngles.y, rotToTarget, Time.fixedDeltaTime * agent.angularSpeed), transform.eulerAngles.z);
                         if (!animation.IsPlaying("PA_WarriorRight_Clip")) {
                             animation.Play("PA_WarriorRight_Clip");
                         }
                     } else {
                         if (Mathf.DeltaAngle(transform.eulerAngles.y, rotToTarget) < -30) {
-                            transform.eulerAngles = new Vector3(transform.eulerAngles.x, Mathf.MoveTowardsAngle(transform.eulerAngles.y, rotToTarget, Time.deltaTime * agent.angularSpeed), transform.eulerAngles.z);
+                            transform.eulerAngles = new Vector3(transform.eulerAngles.x, Mathf.MoveTowardsAngle(transform.eulerAngles.y, rotToTarget, Time.fixedDeltaTime * agent.angularSpeed), transform.eulerAngles.z);
                             if (!animation.IsPlaying("PA_WarriorLeft_Clip")) {
                                 animation.Play("PA_WarriorLeft_Clip");
                             }
@@ -80,30 +74,30 @@ public class PA_WarriorBehavior : Enemy
                 break;
 
             case 2:
-                attackTime += Time.deltaTime;
+                attackTime += Time.fixedDeltaTime;
                 if (attackTime < 0.84f) {
 
                 } else {
                     if (attackTime < 0.417f + 0.84f) {
                         //prepare
                         float targetHorizontal = Quaternion.FromToRotation(transform.forward, new Vector3(targetTransform.position.x - transform.position.x, 0, targetTransform.position.z - transform.position.z)).eulerAngles.y;
-                        transform.eulerAngles += new Vector3(0, Mathf.MoveTowardsAngle(0,targetHorizontal,Time.deltaTime*agent.angularSpeed/2), 0);
+                        transform.eulerAngles += new Vector3(0, Mathf.MoveTowardsAngle(0,targetHorizontal,Time.fixedDeltaTime * agent.angularSpeed/2), 0);
                         weaponLight.gameObject.SetActive(true);
                         weaponLight.intensity = attackTime * 240;
                     } else {
                         if (attackTime < 1.667f + 0.84f) {
                             //shoot laser
                             RaycastHit hit;
-                            if (Physics.Raycast(laserOrigin.position, laserOrigin.forward, out hit, attackRange)) {
+                            if (Physics.Raycast(laserOrigin.position, laserOrigin.forward, out hit, range)) {
                                 IDamageableFriendly target = hit.transform.GetComponent<IDamageableFriendly>();
                                     if (target != null) {
-                                        target.TakeDamage(attackDamage*Time.deltaTime/1.25f);
+                                        target.TakeDamage(damage*Time.fixedDeltaTime / 1.25f);
                                     }
 
                             }
                             weaponLight.intensity = 100;
                             laser.enabled = true;
-                            laser.SetPositions(new Vector3[] { laserOrigin.position, laserOrigin.position + laserOrigin.forward * attackRange });
+                            laser.SetPositions(new Vector3[] { laserOrigin.position, laserOrigin.position + laserOrigin.forward * range });
                         } else {
                             if (attackTime < 2.917 + 0.84f) {
                                 //cooldown
@@ -127,17 +121,12 @@ public class PA_WarriorBehavior : Enemy
                 break;
 
             case 4:
-                attackTime += Time.deltaTime;
+                attackTime += Time.fixedDeltaTime;
                 if (attackTime > 0.833) {
                     die();
                 }
                 break;
         }
-    }
-
-    public void setTarget(GameObject neu) {
-        targetTransform = neu.transform;
-        target = (GameObject.FindGameObjectWithTag("Player").GetComponent<IDamageableFriendly>());
     }
 
     private void attack() {
@@ -157,6 +146,9 @@ public class PA_WarriorBehavior : Enemy
 
     public override void TakeDamage(float damage) {
         health -= damage;
+        if (showHealth) {
+            healthBar.transform.localScale = new Vector3(Mathf.Clamp01(health / maxHealth), 1, 1);
+        }
         if (health <= 0f && status!=4) {
             agent.isStopped = true;
             agent.ResetPath();

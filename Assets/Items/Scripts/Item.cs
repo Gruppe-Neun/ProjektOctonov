@@ -39,6 +39,7 @@ public static class Item
         LaserBlue,
         LaserRed,
         GrenadeLauncher,
+        Flamethrower,
 
         //Core(Tuefteltisch muss als erstes)
         Tuefteltisch
@@ -80,15 +81,7 @@ public static class Item
     }
 
     public static Texture2D getSprite(Type itemType) {
-        if (sprites[(int)itemType] == null) {
-            loadSprites();
-        }
-        else{
-            return sprites[(int)itemType];
-        }
-        
-
-        return null;
+        return sprites[(int)itemType];
     }
 
     public static useType getUseType(Type itemType) {

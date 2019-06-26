@@ -26,7 +26,13 @@ public class AmmoBehavior : ItemBehavior
             case Item.Type.GrenadeLauncher:
                 fireRate = 1;
                 damage = 50;
-                crosshairType = 1;
+                crosshairType = 2;
+                break;
+
+            case Item.Type.Flamethrower:
+                fireRate = 1;
+                damage = 10;
+                crosshairType = 2;
                 break;
         }
     }
