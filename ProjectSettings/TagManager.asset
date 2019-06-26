@@ -7,6 +7,11 @@ TagManager:
   - LaserSource
   - Gun
   - UI
+  - MainMenu
+  - StartGameMenu
+  - TutorialMenu
+  - OptionsMenu
+  - CreditsMenu
   layers:
   - Default
   - TransparentFX
@@ -43,4 +48,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: UI
+    uniqueID: 1543775325
+    locked: 0
+  - name: Sprite
+    uniqueID: 1264236579
     locked: 0
