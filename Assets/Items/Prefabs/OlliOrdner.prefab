@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1671833873870661921}
   - component: {fileID: 1671833873873561857}
   - component: {fileID: 1671833873872563137}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 1671833873870661923}
   - component: {fileID: 1671833873873561859}
   - component: {fileID: 1671833873872563139}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Feet_Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,7 +166,7 @@ GameObject:
   - component: {fileID: 1671833873870661925}
   - component: {fileID: 1671833873873561861}
   - component: {fileID: 1671833873872563141}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Arm_Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -244,7 +244,7 @@ GameObject:
   - component: {fileID: 1671833873870661927}
   - component: {fileID: 1671833873873561863}
   - component: {fileID: 1671833873872563143}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Arm_Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -322,7 +322,7 @@ GameObject:
   - component: {fileID: 1671833873870661929}
   - component: {fileID: 1671833873873561865}
   - component: {fileID: 1671833873872563145}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Hand_Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -399,7 +399,7 @@ GameObject:
   - component: {fileID: 1671833873870661931}
   - component: {fileID: 1671833873873561867}
   - component: {fileID: 1671833873872563147}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -476,7 +476,7 @@ GameObject:
   - component: {fileID: 1671833873870661933}
   - component: {fileID: 1671833873873561869}
   - component: {fileID: 1671833873872563149}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Feet_Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -553,7 +553,7 @@ GameObject:
   - component: {fileID: 1671833873870661935}
   - component: {fileID: 1671833873873561871}
   - component: {fileID: 1671833873872563151}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Hand_Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -632,7 +632,7 @@ GameObject:
   - component: {fileID: 5685618035386063659}
   - component: {fileID: 8718805401145017486}
   - component: {fileID: 7781743831631531624}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: OlliOrdner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -738,7 +738,7 @@ GameObject:
   - component: {fileID: 1671833873870661941}
   - component: {fileID: 1671833873873561877}
   - component: {fileID: 1671833873872563157}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Leg_Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -816,7 +816,7 @@ GameObject:
   - component: {fileID: 1671833873870661943}
   - component: {fileID: 1671833873873561879}
   - component: {fileID: 1671833873872563159}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Leg_Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -895,7 +895,7 @@ GameObject:
   - component: {fileID: 244455422246258911}
   - component: {fileID: 6767705401607323636}
   - component: {fileID: 1682209660863034370}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -993,7 +993,7 @@ GameObject:
   - component: {fileID: 6059860972603333952}
   - component: {fileID: 3836793889161549977}
   - component: {fileID: 6074758258301012967}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1069,7 +1069,7 @@ GameObject:
   - component: {fileID: 4074893329724558697}
   - component: {fileID: 8199064871329439971}
   - component: {fileID: 487943426164403265}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1141,7 +1141,7 @@ GameObject:
   - component: {fileID: 3154636828344372438}
   - component: {fileID: 1276956677552037904}
   - component: {fileID: 3492213681177890163}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: HealthText
   m_TagString: Untagged
   m_Icon: {fileID: 0}

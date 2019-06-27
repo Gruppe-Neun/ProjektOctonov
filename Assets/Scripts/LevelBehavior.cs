@@ -28,6 +28,8 @@ public class LevelBehavior : MonoBehaviour
         public float[] cooldownTime;
     }
 
+    private UIBehavior ui;
+
     private SpawnerBehavior[] spawners;
     private SpawnerBehavior[] heavySpawners;
     private SpawnerBehavior[] flyingSpawners;
@@ -42,10 +44,11 @@ public class LevelBehavior : MonoBehaviour
 
     private float[] nextSpawn;
     private int[] toSpawn;
-    private float waveTime = 0f;
+    [SerializeField] private float waveTime = 0f;
     private List<Enemy> alive;
 
     public void Awake() {
+        ui = GameObject.Find("UI").GetComponent<UIBehavior>();
         alive = new List<Enemy>();
     }
 
@@ -144,6 +147,7 @@ public class LevelBehavior : MonoBehaviour
 
         waveEnd = false;
         running = true;
+        waveTime = -20f;
     }
 
     private void nextWave() {
@@ -158,31 +162,37 @@ public class LevelBehavior : MonoBehaviour
         }
         waveEnd = false;
         running = true;
+        waveTime = -10f;
     }
 
     void FixedUpdate() {
         if (running) {
-            if (!waveEnd) {
-                waveEnd = true;
-                for (int i = 0; i < activeWave.amount.Length; i++) {
-                    if (toSpawn[i] > 0) {
-                        waveEnd = false;
-                        if (waveTime >= nextSpawn[i]) {
-                            nextSpawn[i] += activeWave.cooldownTime[i];
-                            toSpawn[i]--;
-                            Enemy neu = spawners[UnityEngine.Random.Range(0, spawners.Length)].spawnEnemy((Enemy.Type)i, activeWave.level[i]);
-                            neu.dieCallback = this.enemyKilled;
-                            alive.Add(neu);
+            if (waveTime > 0) {
+                if (!waveEnd) {
+                    waveEnd = true;
+                    for (int i = 0; i < activeWave.amount.Length; i++) {
+                        if (toSpawn[i] > 0) {
+                            waveEnd = false;
+                            if (waveTime >= nextSpawn[i]) {
+                                nextSpawn[i] += activeWave.cooldownTime[i];
+                                toSpawn[i]--;
+                                Enemy neu = spawners[UnityEngine.Random.Range(0, spawners.Length)].spawnEnemy((Enemy.Type)i, activeWave.level[i]);
+                                neu.dieCallback = this.enemyKilled;
+                                alive.Add(neu);
+                            }
                         }
                     }
+                    waveTime += Time.fixedDeltaTime;
+                } else {
+                    if (alive.ToArray().Length == 0) {
+                        nextWave();
+                    }
                 }
-                waveTime += Time.fixedDeltaTime;
             } else {
-                if (alive.ToArray().Length == 0) {
-                    nextWave();
-                }
+                ui.setWaveCounter(true, activeWaveNum, -waveTime);
+                waveTime += Time.fixedDeltaTime;
+                if(waveTime>0) ui.setWaveCounter(false);
             }
-            
         }
     }
 

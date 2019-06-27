@@ -28,6 +28,8 @@ public class UIBehavior : MonoBehaviour
     private RawImage UI_Menu;
     private RawImage UI_Warning;
     private Text UI_WarningText;
+    private RawImage UI_WaveCounter;
+    private Text UI_WaveCounterText;
 
     private FirstPersonController player;
     private InventoryBehavior inventory;
@@ -55,6 +57,8 @@ public class UIBehavior : MonoBehaviour
         UI_Menu = GameObject.Find("UI_Menu").GetComponent<RawImage>();
         UI_Warning = GameObject.Find("UI_Warning").GetComponent<RawImage>();
         UI_WarningText = UI_Warning.GetComponentInChildren<Text>();
+        UI_WaveCounter = GameObject.Find("UI_WaveCounter").GetComponent<RawImage>();
+        UI_WaveCounterText = UI_WaveCounter.GetComponentInChildren<Text>();
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<FirstPersonController>();
         inventory = GetComponent<InventoryBehavior>();
@@ -102,6 +106,7 @@ public class UIBehavior : MonoBehaviour
 
         menuButtons[8].clickEvent = closeRecipeBook;
         UI_Menu.gameObject.SetActive(false);
+        UI_Warning.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -309,5 +314,14 @@ public class UIBehavior : MonoBehaviour
             }
         }
        
+    }
+
+    public void setWaveCounter(bool show, int wave = 0, float countdown = 0) {
+        if (show) {
+            UI_WaveCounter.gameObject.SetActive(true);
+            UI_WaveCounterText.text = "Wave " + wave + " in:\n" + (int)countdown;
+        } else {
+            UI_WaveCounter.gameObject.SetActive(false);
+        }
     }
 }

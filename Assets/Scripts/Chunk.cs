@@ -173,9 +173,9 @@ public class Chunk {
         GameObject.DestroyImmediate(chunk.GetComponent<MeshFilter>());
         GameObject.DestroyImmediate(chunk.GetComponent<MeshRenderer>());
         GameObject.DestroyImmediate(chunk.GetComponent<Collider>());
-        GameObject.DestroyImmediate(fluid.GetComponent<MeshFilter>());
-        GameObject.DestroyImmediate(fluid.GetComponent<MeshRenderer>());
-        GameObject.DestroyImmediate(fluid.GetComponent<Collider>());
+        //GameObject.DestroyImmediate(fluid.GetComponent<MeshFilter>());
+        //GameObject.DestroyImmediate(fluid.GetComponent<MeshRenderer>());
+        //GameObject.DestroyImmediate(fluid.GetComponent<Collider>());
         DrawChunk();
     }
 
@@ -196,7 +196,7 @@ public class Chunk {
         collider.sharedMesh = chunk.transform.GetComponent<MeshFilter>().mesh;
 
         // Prepare transparent chunk mesh
-        CombineQuads(fluid.gameObject, fluidMaterial);
+        //CombineQuads(fluid.gameObject, fluidMaterial);
 
         status = ChunkStatus.DONE;
     }
@@ -206,6 +206,7 @@ public class Chunk {
     /// Empty constructor.
     /// </summary>
 	public Chunk() { }
+
 
     /// <summary>
     /// Initializes a chunk by providing a position, a material for blocks and a material for partially transparent blocks.
@@ -218,8 +219,8 @@ public class Chunk {
         this.levelName = levelName;
         chunk = new GameObject(World.BuildChunkName(position));         // solid chunk mesh, e.g. dirt blocks
         chunk.transform.position = position;
-        fluid = new GameObject(World.BuildChunkName(position) + "_F");    // transparent chunk mesh, e.g. water blocks
-        fluid.transform.position = position;
+        //fluid = new GameObject(World.BuildChunkName(position) + "_F");    // transparent chunk mesh, e.g. water blocks
+        //fluid.transform.position = position;
 
         mb = chunk.AddComponent<ChunkMB>();                             // Adds the chunk's Monobehaviour
         mb.SetOwner(this);
@@ -256,4 +257,10 @@ public class Chunk {
         }
     }
 
+
+    public void destroyChunk() {
+        GameObject.Destroy(chunk);        // GameObject that holds the mesh of the solid parts of the chunk
+        //GameObject.Destroy(fluid);
+        GameObject.Destroy(mb.gameObject);
+    }
 }

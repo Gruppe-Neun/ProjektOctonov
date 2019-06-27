@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8575673277203829289}
   - component: {fileID: 4001724441726713375}
   - component: {fileID: 841766418225512708}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,4 +110,6 @@ MonoBehaviour:
   spider_large: {fileID: 8130706793892292599, guid: 3702f7f9e139c65449e25896407e507c,
     type: 3}
   drone: {fileID: 68935975176422631, guid: 9448a88cfd5435d48b53168a756be6b5, type: 3}
+  target: {fileID: 0}
+  currentLevel: {fileID: 0}
   type: 0

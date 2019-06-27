@@ -5,6 +5,8 @@ using Realtime.Messaging.Internal;
 using System.IO;
 using UnityEngine.AI;
 using UnityStandardAssets.Characters.FirstPerson;
+using Unity.Jobs;
+using Unity.Collections;
 
 /// <summary>
 /// The world MonoBehavior is in charge of creating, updating and destroying chunks based on the player's location.
@@ -12,6 +14,7 @@ using UnityStandardAssets.Characters.FirstPerson;
 /// </summary>
 public class World : MonoBehaviour
 {
+
     [SerializeField] GameObject ConstructSmallPrefab;
     [SerializeField] GameObject ConstructLargePrefab;
 
@@ -31,12 +34,12 @@ public class World : MonoBehaviour
 	public static List<string> toRemove = new List<string>();
     public string LevelName = "default";
 
+    
 	public static CoroutineQueue queue;
 
-	public Vector3 lastbuildPos;
-
-    private NavMeshBaker navMeshBaker = new NavMeshBaker();
+    private static NavMeshBaker navMeshBaker = new NavMeshBaker();
     private LevelBehavior level;
+
 
     //everything need to be loaded first
     private void Awake() {
@@ -123,22 +126,25 @@ public class World : MonoBehaviour
     /// <param name="x">y position of the chunk</param>
     /// <param name="y">y position of the chunk</param>
     /// <param name="z">z position of the chunk</param>
-	private void BuildChunkAt(int x, int y, int z)
+	public void BuildChunkAt(int x, int y, int z)
 	{
 		Vector3 chunkPosition = new Vector3(x*chunkSize, 
 											y*chunkSize, 
 											z*chunkSize);
-					
-		string n = BuildChunkName(chunkPosition);
-		Chunk c;
 
+        int layerMask = 1 << 0;
+        string n = BuildChunkName(chunkPosition);
+		Chunk c;
+        
 		if(!chunks.TryGetValue(n, out c))
 		{
 			c = new Chunk(LevelName,chunkPosition, textureAtlas, fluidTexture);
 			c.chunk.transform.parent = this.transform;
-			c.fluid.transform.parent = this.transform;
+			//c.fluid.transform.parent = this.transform;
             c.chunk.AddComponent(typeof(NavMeshSurface));
             c.chunk.GetComponent<NavMeshSurface>().agentTypeID = -1372625422;
+            c.chunk.GetComponent<NavMeshSurface>().layerMask = layerMask;
+            
             navMeshBaker.addSurface(c.chunk.GetComponent<NavMeshSurface>());
 			chunks.TryAdd(c.chunk.name, c);
 		}
@@ -243,13 +249,19 @@ public class World : MonoBehaviour
 
     private void loadLevel(string name) {
         string[] filePaths = Directory.GetFiles(Application.dataPath + "/leveldata/" + name + "/");
+        
+
         foreach (string filePath in filePaths) {
             if (Path.GetExtension(filePath).Equals(".dat")) {
                 string[] coordinates = filePath.Substring(filePath.LastIndexOf('/') + 1).Split('_');
                 int x = System.Convert.ToInt32(coordinates[1]), y = System.Convert.ToInt32(coordinates[2]), z = System.Convert.ToInt32(coordinates[3]);
                 BuildChunkAt((int)x / chunkSize, (int)y / chunkSize, (int)z / chunkSize);
+
             }
         }
+
+        
+
 
         Objects.ConstructPlace[] constructPlace = Objects.loadConstruct(name);
         for (int i = 0; i < constructPlace.Length; i++) {
@@ -289,22 +301,20 @@ public class World : MonoBehaviour
         }
         level.loadLevelData(LevelName, player, olli.gameObject);
         level.loadTestLevel();
-
+       
     }
 
-	/// <summary>
+    /// <summary>
     /// Unity lifecycle start method. Initializes the world and its first chunk and triggers the building of further chunks.
     /// Player is disabled during Start() to avoid him falling through the floor. Chunks are built using coroutines.
     /// </summary>
-	void Start ()
+    void Start ()
     {
 
         player.gameObject.SetActive(false);
-        
 
+        float time = Time.realtimeSinceStartup;
 
-        
-        lastbuildPos = player.transform.position;
         player.gameObject.SetActive(false);
 		chunks = new ConcurrentDictionary<string, Chunk>();
 		this.transform.position = Vector3.zero;
@@ -313,15 +323,15 @@ public class World : MonoBehaviour
 		queue = new CoroutineQueue(maxCoroutines, StartCoroutine);
 
         loadLevel(LevelName);
-        navMeshBaker.buildNavMesh();
 
-        foreach (KeyValuePair<string, Chunk> c in chunks) {
-            if (c.Value.status == Chunk.ChunkStatus.DRAW) {
-                c.Value.DrawChunk();
-            }
-        }
+        KeyValuePair<string, Chunk>[] c = chunks.ToArray();
+        c[0].Value.chunk.GetComponent<NavMeshSurface>().BuildNavMesh();
+        int layerMask = 1 << 0;
+        c[0].Value.chunk.GetComponent<NavMeshSurface>().layerMask = layerMask;
 
+        //navMeshBaker.buildNavMesh();
 
+        Debug.Log("level loaded in "+((int)Time.realtimeSinceStartup - time)+" seconds");
 
         player.gameObject.SetActive(true);
 
