@@ -300,7 +300,7 @@ public class World : MonoBehaviour
             neu.transform.position = new Vector3(light[i].pos[0], light[i].pos[1], light[i].pos[2]);
         }
         level.loadLevelData(LevelName, player, olli.gameObject);
-        level.loadTestLevel();
+        level.loadInfinite(0);
        
     }
 
@@ -329,13 +329,11 @@ public class World : MonoBehaviour
         int layerMask = 1 << 0;
         c[0].Value.chunk.GetComponent<NavMeshSurface>().layerMask = layerMask;
 
-        //navMeshBaker.buildNavMesh();
-
         Debug.Log("level loaded in "+((int)Time.realtimeSinceStartup - time)+" seconds");
 
         player.gameObject.SetActive(true);
 
-        level.startLevel();
+        level.startLevel(0);
 
         /*
         // Build starting chunk

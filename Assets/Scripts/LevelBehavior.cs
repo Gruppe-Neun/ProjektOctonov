@@ -28,6 +28,8 @@ public class LevelBehavior : MonoBehaviour
         public float[] cooldownTime;
     }
 
+    private int infiniteRandom = -1;  //-1 not random; 0 = random just level increase; >0 = random level and wave amount increase every X levels
+
     private UIBehavior ui;
 
     private SpawnerBehavior[] spawners;
@@ -36,16 +38,17 @@ public class LevelBehavior : MonoBehaviour
     private SpawnerBehavior[] playerTargetSpawner;
 
     private Wave[] waves;
-    private float[] between;  //> 0 : start new Wave after time; -1 wait for all Enemies to be killed
+    private float[] between; 
+
     private int activeWaveNum = 0;
-    private Wave activeWave;
+    private Wave[] activeWave;
     private bool running = false;
     private bool waveEnd = false;
-
-    private float[] nextSpawn;
-    private int[] toSpawn;
+    private float[,] nextSpawn;
+    private int[,] toSpawn;
     [SerializeField] private float waveTime = 0f;
     private List<Enemy> alive;
+
 
     public void Awake() {
         ui = GameObject.Find("UI").GetComponent<UIBehavior>();
@@ -121,48 +124,115 @@ public class LevelBehavior : MonoBehaviour
             new Wave(new int[]{ 10, 0, 0, 0 },new int[]{ 6, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 5, 5, 5 })
         };
     }
+    
+    public void loadInfinite(int difficulty) {
+        switch (difficulty) {
+            case 0:
+                waves = new Wave[] {
+                    new Wave(new int[]{ 30, 0, 0, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 10, 5, 5 }),
+                    new Wave(new int[]{ 0, 10, 0, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 12, 5, 5 }),
+                    new Wave(new int[]{ 0, 0, 40, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 10, 4, 5 }),
+                    new Wave(new int[]{ 20, 5, 0, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 15, 5, 5 }),
+                    new Wave(new int[]{ 0, 5, 30, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 15, 5, 5 }),
+                    new Wave(new int[]{ 20, 0, 30, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 10, 5, 5 }),
+                    new Wave(new int[]{ 10, 5, 20, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 15, 5, 5 })
+                };
+                break;
 
-    /*
-    public void startInfinite() {
+            case 1:
 
-    }
+                break;
 
-    public Wave getRandomWave() {
+            case 2:
 
+                break;
 
-        return null
-    }
-    */
+            default:
 
-    public void startLevel() {
-        activeWaveNum = 0;
-        activeWave = waves[activeWaveNum];
-        waveTime = 0;
-        nextSpawn = new float[activeWave.amount.Length];
-        toSpawn = new int[activeWave.amount.Length];
-        for(int i = 0; i< nextSpawn.Length; i++) {
-            nextSpawn[i] = activeWave.startTime[i];
-            toSpawn[i] = activeWave.amount[i];
+                break;
         }
+    }
 
-        waveEnd = false;
-        running = true;
-        waveTime = -20f;
+    
+
+    public void startLevel(int randomInfinite = -1) {
+        this.infiniteRandom = randomInfinite;
+        if (randomInfinite == -1) {
+            activeWave = new Wave[1];
+            activeWaveNum = 0;
+            activeWave[0] = waves[activeWaveNum];
+            waveTime = 0;
+            nextSpawn = new float[1,activeWave[0].amount.Length];
+            toSpawn = new int[1,activeWave[0].amount.Length];
+            for (int i = 0; i < nextSpawn.Length; i++) {
+                nextSpawn[0,i] = activeWave[0].startTime[i];
+                toSpawn[0,i] = activeWave[0].amount[i];
+            }
+
+            waveEnd = false;
+            running = true;
+            waveTime = -20f;
+        } else {
+            activeWaveNum = 0;
+
+            int count;
+            count = 1;
+            activeWave = new Wave[count];
+            //nextSpawn = new float[count, waves[0].amount.Length];
+            //toSpawn = new int[count, waves[0].amount.Length];
+            nextSpawn = new float[count, 4];
+            toSpawn = new int[count, 4];
+            for (int w = 0; w < count; w++) {
+                activeWave[w] = waves[UnityEngine.Random.Range(0, waves.Length)];
+                for (int i = 0; i < nextSpawn.Length; i++) {
+                    nextSpawn[w, i] = activeWave[w].startTime[i];
+                    toSpawn[w, i] = activeWave[w].amount[i];
+                }
+            }
+
+            waveEnd = false;
+            running = true;
+            waveTime = -20f;
+        }
+       
     }
 
     private void nextWave() {
-        running = false;
-        activeWaveNum++;
-        activeWave = waves[activeWaveNum];
-        waveTime = 0;
-        nextSpawn = new float[activeWave.amount.Length];
-        for (int i = 0; i < nextSpawn.Length; i++) {
-            nextSpawn[i] = activeWave.startTime[i];
-            toSpawn[i] = activeWave.amount[i];
+        if (infiniteRandom==-1) {
+            activeWave = new Wave[1];
+            running = false;
+            activeWaveNum++;
+            activeWave[0] = waves[activeWaveNum];
+            nextSpawn = new float[1, activeWave[0].amount.Length];
+            toSpawn = new int[1, activeWave[0].amount.Length];
+            for (int i = 0; i < nextSpawn.Length; i++) {
+                nextSpawn[0,i] = activeWave[0].startTime[i];
+                toSpawn[0,i] = activeWave[0].amount[i];
+            }
+            waveEnd = false;
+            waveTime = -10f;
+            running = true;
+        } else {
+            running = false;
+            activeWaveNum++;
+            int count;
+            if (infiniteRandom == 0) count = 1;
+            else count = (int)(activeWaveNum / infiniteRandom);
+            activeWave = new Wave[count];
+            
+            nextSpawn = new float[count, waves[0].amount.Length];
+            toSpawn = new int[count, waves[0].amount.Length];
+            for (int w = 0; w < count; w++) {
+                waves[w] = waves[UnityEngine.Random.Range(0, waves.Length)];
+                for (int i = 0; i < nextSpawn.Length; i++) {
+                    nextSpawn[w, i] = activeWave[w].startTime[i];
+                    toSpawn[w, i] = activeWave[w].amount[i];
+                }
+            }
+            waveEnd = false;
+            waveTime = -10f;
+            running = true;
         }
-        waveEnd = false;
-        running = true;
-        waveTime = -10f;
     }
 
     void FixedUpdate() {
@@ -170,15 +240,17 @@ public class LevelBehavior : MonoBehaviour
             if (waveTime > 0) {
                 if (!waveEnd) {
                     waveEnd = true;
-                    for (int i = 0; i < activeWave.amount.Length; i++) {
-                        if (toSpawn[i] > 0) {
-                            waveEnd = false;
-                            if (waveTime >= nextSpawn[i]) {
-                                nextSpawn[i] += activeWave.cooldownTime[i];
-                                toSpawn[i]--;
-                                Enemy neu = spawners[UnityEngine.Random.Range(0, spawners.Length)].spawnEnemy((Enemy.Type)i, activeWave.level[i]);
-                                neu.dieCallback = this.enemyKilled;
-                                alive.Add(neu);
+                    for(int w = 0; w < activeWave.Length; w++) {
+                        for (int i = 0; i < activeWave[w].amount.Length; i++) {
+                            if (toSpawn[w,i] > 0) {
+                                waveEnd = false;
+                                if (waveTime >= nextSpawn[w,i]) {
+                                    nextSpawn[w,i] += activeWave[w].cooldownTime[i];
+                                    toSpawn[w,i]--;
+                                    Enemy neu = spawners[UnityEngine.Random.Range(0, spawners.Length)].spawnEnemy((Enemy.Type)i, activeWave[w].level[i]);
+                                    neu.dieCallback = this.enemyKilled;
+                                    alive.Add(neu);
+                                }
                             }
                         }
                     }
@@ -191,7 +263,7 @@ public class LevelBehavior : MonoBehaviour
             } else {
                 ui.setWaveCounter(true, activeWaveNum, -waveTime);
                 waveTime += Time.fixedDeltaTime;
-                if(waveTime>0) ui.setWaveCounter(false);
+                if(waveTime > 0) ui.setWaveCounter(false);
             }
         }
     }
