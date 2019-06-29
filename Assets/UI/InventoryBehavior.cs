@@ -76,6 +76,7 @@ public class InventoryBehavior : MonoBehaviour
         AmmoSlot[0].addItem(Item.createItem(Item.Type.LaserBlue, -1, new Vector3(0, 0, 0)));
         AmmoSlot[0].accessible = SlotBehavior.AccesType.VIEWONLY;
         gun.ammo = (AmmoBehavior)AmmoSlot[0].viewItem();
+        ui.setCrosshairType(((AmmoBehavior)AmmoSlot[0].viewItem()).crosshairType);
         //create active slots
         for (int i = 0; i < ActiveSlot.Length; i++) {
             ActiveSlot[i] = Instantiate(usableSlotPrefab, ActiveUI.transform);
@@ -131,7 +132,7 @@ public class InventoryBehavior : MonoBehaviour
             giveItem(Item.Type.CristalRed, 20);
             giveItem(Item.Type.Case, 20);
             giveItem(Item.Type.GrenadeLauncher, 20);
-            giveItem(Item.Type.Flamethrower, 20);
+            giveItem(Item.Type.LaserGreen, 20);
         }
         if (Input.GetKeyDown(KeyCode.O)) {
             Item.createItem(Item.Type.LaserRed, 10, GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(0, 0, 1));

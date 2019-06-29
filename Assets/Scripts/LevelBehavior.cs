@@ -130,12 +130,12 @@ public class LevelBehavior : MonoBehaviour
             case 0:
                 waves = new Wave[] {
                     new Wave(new int[]{ 30, 0, 0, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 10, 5, 5 }),
-                    new Wave(new int[]{ 0, 10, 0, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 12, 5, 5 }),
-                    new Wave(new int[]{ 0, 0, 40, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 10, 4, 5 }),
-                    new Wave(new int[]{ 20, 5, 0, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 15, 5, 5 }),
-                    new Wave(new int[]{ 0, 5, 30, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 15, 5, 5 }),
-                    new Wave(new int[]{ 20, 0, 30, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 10, 5, 5 }),
-                    new Wave(new int[]{ 10, 5, 20, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 15, 5, 5 })
+                    new Wave(new int[]{ 0, 0, 10, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 5, 12, 5 }),
+                    new Wave(new int[]{ 0, 40, 0, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 4, 10, 5 }),
+                    new Wave(new int[]{ 20, 0, 5, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 5, 15, 5 }),
+                    new Wave(new int[]{ 0, 30, 5, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 5, 15, 5 }),
+                    new Wave(new int[]{ 20, 30, 0, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 5, 10, 5 }),
+                    new Wave(new int[]{ 10, 20, 5, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 5, 15, 5 })
                 };
                 break;
 
@@ -174,27 +174,23 @@ public class LevelBehavior : MonoBehaviour
             waveTime = -20f;
         } else {
             activeWaveNum = 0;
-
-            int count;
-            count = 1;
-            activeWave = new Wave[count];
+            activeWave = new Wave[1];
             //nextSpawn = new float[count, waves[0].amount.Length];
             //toSpawn = new int[count, waves[0].amount.Length];
-            nextSpawn = new float[count, 4];
-            toSpawn = new int[count, 4];
-            for (int w = 0; w < count; w++) {
-                activeWave[w] = waves[UnityEngine.Random.Range(0, waves.Length)];
-                for (int i = 0; i < nextSpawn.Length; i++) {
-                    nextSpawn[w, i] = activeWave[w].startTime[i];
-                    toSpawn[w, i] = activeWave[w].amount[i];
-                }
+            nextSpawn = new float[1, 4];
+            toSpawn = new int[1, 4];
+            activeWave[0] = waves[UnityEngine.Random.Range(0, waves.Length)];
+            for (int i = 0; i < nextSpawn.Length; i++) {
+                nextSpawn[0, i] = activeWave[0].startTime[i];
+                toSpawn[0, i] = activeWave[0].amount[i];
             }
 
             waveEnd = false;
             running = true;
             waveTime = -20f;
+            
         }
-       
+        Debug.Log("Next Wave:  Spider:" + activeWave[0].amount[0] + "  Spider_fast: " + activeWave[0].amount[1] + "Spider_large: " + activeWave[0].amount[2]);
     }
 
     private void nextWave() {
@@ -233,6 +229,7 @@ public class LevelBehavior : MonoBehaviour
             waveTime = -10f;
             running = true;
         }
+        Debug.Log("Next Wave:  Spider:" + activeWave[0].amount[0] + "  Spider_fast: " + activeWave[0].amount[1] + "Spider_large: " + activeWave[0].amount[2]);
     }
 
     void FixedUpdate() {

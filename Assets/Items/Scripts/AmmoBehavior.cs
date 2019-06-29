@@ -23,6 +23,12 @@ public class AmmoBehavior : ItemBehavior
                 crosshairType = 0;
                 break;
 
+            case Item.Type.LaserGreen:
+                fireRate = 0.1f;
+                damage = 2f;
+                crosshairType = 2;
+                break;
+
             case Item.Type.GrenadeLauncher:
                 fireRate = 1;
                 damage = 50;

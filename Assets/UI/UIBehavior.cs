@@ -43,7 +43,7 @@ public class UIBehavior : MonoBehaviour
     private ItemButtonBehavior[] recipeItemButton;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         UI_Top = GameObject.Find("UI_Top").GetComponent<RawImage>();
         UI_Right = GameObject.Find("UI_Right").GetComponent<RawImage>();
@@ -52,7 +52,6 @@ public class UIBehavior : MonoBehaviour
         UI_Armor = GameObject.Find("UI_ArmorFull").GetComponent<RawImage>();
         UI_Crosshair = GameObject.Find("UI_Crosshair").GetComponent<RawImage>();
         UI_Container = GameObject.Find("UI_Container").GetComponent<RawImage>();
-        UI_Crosshair.enabled = false;
         UI_Cursor = GameObject.Find("UI_Cursor").GetComponent<RawImage>();
         UI_Menu = GameObject.Find("UI_Menu").GetComponent<RawImage>();
         UI_Warning = GameObject.Find("UI_Warning").GetComponent<RawImage>();
@@ -110,7 +109,7 @@ public class UIBehavior : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (status != 0){
             pos += status * Time.deltaTime * 3;

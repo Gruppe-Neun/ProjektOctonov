@@ -18,6 +18,13 @@ public class TurretTargetDetection : MonoBehaviour
         }
     }
 
+    public void OnTriggerStay(Collider other) {
+        if (target == null && other.GetComponent<IDamageableEnemy>() != null) {
+            target = other.gameObject;
+            parent.setTarget(other.gameObject);
+        }
+    }
+
     public void OnTriggerExit(Collider other) {
         if (target == null || other.gameObject == target.gameObject) {
             target = null;

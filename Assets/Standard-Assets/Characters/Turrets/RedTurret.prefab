@@ -89,7 +89,7 @@ MonoBehaviour:
   Bone_Upper: {fileID: 6564869407266103210}
   laserBullet: {fileID: 5860776558636707515, guid: 3d1a89c78512c3443af4f676cb9e977d,
     type: 3}
-  turretType: 0
+  turretType: 2
   damage: 1
   fireRate: 1
   range: 20

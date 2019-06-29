@@ -38,6 +38,7 @@ public static class Item
         //Ammo (LASER_BLUE muss als erstes)
         LaserBlue,
         LaserRed,
+        LaserGreen,
         GrenadeLauncher,
         Flamethrower,
 

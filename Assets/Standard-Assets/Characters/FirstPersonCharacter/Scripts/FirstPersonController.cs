@@ -312,8 +312,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
         }
 
         private void BlockInteract() {
+            int layerMask = ~(1 << 8);
             RaycastHit hit;
-            if(Physics.Raycast(m_Camera.transform.position, m_Camera.transform.forward, out hit, interactRange)) {
+            if(Physics.Raycast(m_Camera.transform.position, m_Camera.transform.forward, out hit, interactRange, layerMask)) {
 
                 IInteractable interactable = hit.transform.GetComponent<IInteractable>();
                 if (interactable != null) {

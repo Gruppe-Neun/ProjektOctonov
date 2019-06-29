@@ -1,11 +1,15 @@
 ﻿using UnityEngine;
 
 public class Lasergun : MonoBehaviour {
-    public float fireTime = 0f;
-    public float range = 50f;
+    
+    [SerializeField] private float range = 100f;
+    [SerializeField] private BulletBehavior laserBulletRed;
+    [SerializeField] private BulletBehavior laserBulletGreen;
+    [SerializeField] private GrenadeBehavior grenade;
+
     public AmmoBehavior ammo = null;
-    public BulletBehavior laserBullet;
-    public GrenadeBehavior grenade;
+    private float fireTime = 0f;
+    private float fireTimeSincePress = 0f;
 
     private InventoryBehavior inventory;
     private LineRenderer lineRenderer;
@@ -20,20 +24,24 @@ public class Lasergun : MonoBehaviour {
         viewSource = GameObject.FindGameObjectWithTag("MainCamera");
         inventory = GameObject.Find("UI").GetComponent<InventoryBehavior>();
         flamethrower = GetComponentInChildren<FlamethrowerBehavior>();
-        raycastLayerMask = 1 << 8;
-        raycastLayerMask = ~raycastLayerMask;
+        raycastLayerMask = ~((1 << 8) + (1 << 2));
+
     }
 
     public void Combat() {
-        if (Input.GetButton("Fire1")) {
-            Shoot();
+        if (Input.GetButtonDown("Fire1")) {
+            ShootInitiate();
         } else {
-            lineRenderer.enabled = false;
-            flamethrower.setActive(false);
+            if (Input.GetButton("Fire1")) {
+                Shoot();
+            } else {
+                lineRenderer.enabled = false;
+                //flamethrower.setActive(false);
+            }
         }
     }
 
-    void Shoot() {
+    private void ShootInitiate() {
         if (ammo == null) {
             inventory.scrollAmmo(1);
         } else {
@@ -41,19 +49,45 @@ public class Lasergun : MonoBehaviour {
                 case Item.Type.LaserBlue:
                     Shoot_LaserBlue();
                     break;
-
                 case Item.Type.LaserRed:
                     Shoot_LaserRed();
                     break;
-
                 case Item.Type.GrenadeLauncher:
                     Shoot_GrenadeLauncher();
                     break;
-
                 case Item.Type.Flamethrower:
-                    flamethrower.setActive(true);
+                    Shoot_Flamethrower();
                     break;
+                case Item.Type.LaserGreen:
+                    Initiate_LaserGreen();
+                    break;
+                default:
 
+                    break;
+            }
+        }
+    }
+
+    private void Shoot() {
+        if (ammo == null) {
+            inventory.scrollAmmo(1);
+        } else {
+            switch (ammo.type) {
+                case Item.Type.LaserBlue:
+                    Shoot_LaserBlue();
+                    break;
+                case Item.Type.LaserRed:
+                    Shoot_LaserRed();
+                    break;
+                case Item.Type.GrenadeLauncher:
+                    Shoot_GrenadeLauncher();
+                    break;
+                case Item.Type.Flamethrower:
+                    Shoot_Flamethrower();
+                    break;
+                case Item.Type.LaserGreen:
+                    Shoot_LaserGreen();
+                    break;
                 default:
 
                     break;
@@ -67,7 +101,9 @@ public class Lasergun : MonoBehaviour {
         RaycastHit hit;
         if (Physics.Raycast(viewSource.transform.position, viewSource.transform.forward, out hit, range, raycastLayerMask)) {
             lineRenderer.SetPosition(1, hit.point);
-
+            float dist = Vector3.Magnitude(lineRenderer.GetPosition(0) - lineRenderer.GetPosition(1));
+            lineRenderer.material.mainTextureScale = new Vector2(dist/16,1);
+            lineRenderer.material.mainTextureOffset = new Vector2(-Time.time*4, 0);
             IDamageableEnemy target = hit.transform.GetComponent<IDamageableEnemy>();
             if (Time.time >= fireTime) {
                 fireTime = Time.time + ammo.fireRate;
@@ -79,6 +115,9 @@ public class Lasergun : MonoBehaviour {
             
         } else {
             lineRenderer.SetPosition(1, viewSource.transform.position + (viewSource.transform.forward * range));
+            float dist = Vector3.Magnitude(lineRenderer.GetPosition(0) - lineRenderer.GetPosition(1));
+            lineRenderer.material.mainTextureScale = new Vector2(dist / 16, 1);
+            lineRenderer.material.mainTextureOffset = new Vector2(-Time.time*4, 0);
             if (Time.time >= fireTime) {
                 fireTime = Time.time + ammo.fireRate;
                 ammo.use();
@@ -92,9 +131,9 @@ public class Lasergun : MonoBehaviour {
             RaycastHit hit;
             if(Physics.Raycast(viewSource.transform.position, viewSource.transform.forward, out hit, range, raycastLayerMask)) {
                 Vector3 rotation = hit.point - laserSource.transform.position; 
-                bullet = Instantiate(laserBullet, laserSource.transform.position, Quaternion.FromToRotation(Vector3.forward, rotation)).GetComponent<BulletBehavior>();
+                bullet = Instantiate(laserBulletRed, laserSource.transform.position, Quaternion.FromToRotation(Vector3.forward, rotation)).GetComponent<BulletBehavior>();
             } else {
-                bullet = Instantiate(laserBullet, laserSource.transform.position, Quaternion.LookRotation(laserSource.transform.up, laserSource.transform.forward * -1)).GetComponent<BulletBehavior>();
+                bullet = Instantiate(laserBulletRed, laserSource.transform.position, Quaternion.LookRotation(laserSource.transform.up, laserSource.transform.forward * -1)).GetComponent<BulletBehavior>();
             }
 
             bullet.damage = ammo.damage;
@@ -103,6 +142,37 @@ public class Lasergun : MonoBehaviour {
             ammo.use();
         }
     }
+
+    private void Initiate_LaserGreen() {
+        fireTimeSincePress = 0f;
+        fireTime = Time.time + 0.1f;
+    }
+
+    private void Shoot_LaserGreen() {
+        if (Time.time >= fireTime) {
+            BulletBehavior bullet;
+            RaycastHit hit;
+            if (Physics.Raycast(viewSource.transform.position, viewSource.transform.forward, out hit, range, raycastLayerMask)) {
+                float maxDeviation = 0.15f * Mathf.Clamp01(fireTimeSincePress / 10 + 0.5f);
+                Vector3 deviation = new Vector3(maxDeviation * Random.value - maxDeviation / 2, maxDeviation * Random.value - maxDeviation / 2, 0);
+                Quaternion rotation = Quaternion.FromToRotation(Vector3.forward+deviation,hit.point - laserSource.transform.position);
+                bullet = Instantiate(laserBulletGreen, laserSource.transform.position, rotation).GetComponent<BulletBehavior>();
+            } else {
+                bullet = Instantiate(laserBulletGreen, laserSource.transform.position, Quaternion.LookRotation(laserSource.transform.up, laserSource.transform.forward * -1)).GetComponent<BulletBehavior>();
+            }
+
+            bullet.damage = ammo.damage;
+
+            
+            fireTime = Time.time + ammo.fireRate/Mathf.Clamp01(fireTimeSincePress/10+0.5f);
+            Debug.Log(fireTimeSincePress);
+            
+            ammo.use();
+        }
+        fireTimeSincePress += Time.deltaTime;
+    }
+
+
 
     private void Shoot_GrenadeLauncher() {
         if (Time.time >= fireTime) {
@@ -122,6 +192,6 @@ public class Lasergun : MonoBehaviour {
     }
 
     private void Shoot_Flamethrower() {
-
+        flamethrower.setActive(true);
     }
 }
