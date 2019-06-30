@@ -14,14 +14,14 @@ public class OlliBehaviour : MonoBehaviour
         buttonPressed = false;
     }
 
-    void Update()
-    {
-        if (Time.time > time + 0.1f && buttonPressed) {
-            gameObject.SetActive(false);
-            gameObject.GetComponent<Animator>().SetBool("buttonPressed", false);
-            buttonPressed = false;
-        }
-    }
+    //void Update()
+    //{
+    //    if (Time.time > time + 0.1f && buttonPressed) {
+    //        gameObject.SetActive(false);
+    //        gameObject.GetComponent<Animator>().SetBool("buttonPressed", false);
+    //        buttonPressed = false;
+    //    }
+    //}
 
     //MAIN
 
@@ -75,6 +75,12 @@ public class OlliBehaviour : MonoBehaviour
         gameObject.transform.position = new Vector3(827, 42, 0);
     }
 
+    public void OnButtonPressed() {
+        //gameObject.GetComponent<Animator>().SetBool("buttonPressed", true);
+        //time = Time.time;
+        //buttonPressed = true;
+        gameObject.SetActive(false);
+    }
 
     public void Deactivate() {
         gameObject.SetActive(false);
