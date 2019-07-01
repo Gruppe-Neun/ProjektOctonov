@@ -175,6 +175,11 @@ public class UIBehavior : MonoBehaviour
         openInventory();
     }
 
+    public void openTurret(TurretBehavior turret) {
+        inventory.openTurret(turret);
+        openInventory();
+    }
+
     public void searchRecipeResultUseType(int itemUseType) {
         recipeBuffer = Crafting.getByResult((Item.useType)itemUseType);
         loadRecipePage(0);

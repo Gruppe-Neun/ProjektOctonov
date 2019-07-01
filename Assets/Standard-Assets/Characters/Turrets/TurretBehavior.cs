@@ -35,9 +35,9 @@ public class TurretBehavior : MonoBehaviour, IInteractable {
 
     public Item.Type[,] upgradeItems = new Item.Type[,]{
         { Item.Type.UNDEF, Item.Type.UNDEF, Item.Type.UNDEF, Item.Type.UNDEF },
-        { Item.Type.CristalBlue, Item.Type.CristalBlue, Item.Type.CristalBlue, Item.Type.CristalBlue },
-        { Item.Type.CristalRed, Item.Type.CristalRed, Item.Type.CristalRed, Item.Type.CristalRed },
-        { Item.Type.UNDEF, Item.Type.UNDEF, Item.Type.UNDEF, Item.Type.UNDEF },
+        { Item.Type.TurretBlueCoreLevel1, Item.Type.TurretBlueCoreLevel2, Item.Type.TurretBlueCoreLevel3, Item.Type.TurretBlueCoreLevel4 },
+        { Item.Type.TurretRedCoreLevel1, Item.Type.TurretRedCoreLevel2, Item.Type.TurretRedCoreLevel3, Item.Type.TurretRedCoreLevel4 },
+        { Item.Type.TurretGreenCoreLevel1, Item.Type.TurretGreenCoreLevel2, Item.Type.TurretGreenCoreLevel3, Item.Type.TurretGreenCoreLevel4 },
         };
     public int maxLevel = 4;
 
@@ -141,6 +141,7 @@ public class TurretBehavior : MonoBehaviour, IInteractable {
         Upgrade[] neu = new Upgrade[LevelUps.Length + 1];
         for (int i = 0; i < LevelUps.Length; i++) neu[i] = LevelUps[i];
         neu[LevelUps.Length] = choice;
+        LevelUps = neu;
         updateStats();
     }
 
@@ -208,6 +209,6 @@ public class TurretBehavior : MonoBehaviour, IInteractable {
     }
 
     public void Interact() {
-        
+        GameObject.Find("UI").GetComponent<UIBehavior>().openTurret(this);
     }
 }

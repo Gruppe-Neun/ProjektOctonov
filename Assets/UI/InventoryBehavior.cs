@@ -24,6 +24,7 @@ public class InventoryBehavior : MonoBehaviour
     private RawImage containerUI;
     private ButtonBehavior craftButton;
     private ButtonBehavior constructButton;
+    private ButtonBehavior[] lvlUpButton;
 
     private SlotBehavior[] InventorySlot=new SlotBehavior[40];
     private SlotBehavior[] AmmoSlot = new SlotBehavior[5];
@@ -39,6 +40,7 @@ public class InventoryBehavior : MonoBehaviour
     public Crafting.CraftingStationType currentStation;
     private ContainerBehavior activeContainer;
     private ConstructBehavior activeConstruct;
+    private TurretBehavior activeTurret;
 
     // Start is called before the first frame update
     void Start()
@@ -50,9 +52,17 @@ public class InventoryBehavior : MonoBehaviour
         craftButton.clickEvent = craft;
         constructButton = GameObject.Find("UI_ConstructButton").GetComponent<ButtonBehavior>();
         constructButton.clickEvent = clickConstruct;
-        
 
-        currentStation = Crafting.CraftingStationType.NONE;
+        lvlUpButton = new ButtonBehavior[3];
+        lvlUpButton[0] = GameObject.Find("UI_LvlUpButton1").GetComponent<ButtonBehavior>();
+        lvlUpButton[1] = GameObject.Find("UI_LvlUpButton2").GetComponent<ButtonBehavior>();
+        lvlUpButton[2] = GameObject.Find("UI_LvlUpButton3").GetComponent<ButtonBehavior>();
+        lvlUpButton[0].clickEvent = clickTurret;
+        lvlUpButton[1].clickEvent = clickTurret;
+        lvlUpButton[2].clickEvent = clickTurret;
+        lvlUpButton[0].clickEventParam = 0;
+        lvlUpButton[1].clickEventParam = 1;
+        lvlUpButton[2].clickEventParam = 2;
 
         GameObject InventoryUI = GameObject.Find("UI_Top");
         GameObject ActiveUI = GameObject.Find("UI_Left");
@@ -114,7 +124,12 @@ public class InventoryBehavior : MonoBehaviour
         CraftingSlot[0].updateEvent = takeCraftingResult;
 
         constructButton.gameObject.SetActive(false);
+        lvlUpButton[0].gameObject.SetActive(false);
+        lvlUpButton[1].gameObject.SetActive(false);
+        lvlUpButton[2].gameObject.SetActive(false);
         containerUI.gameObject.SetActive(false);
+
+        currentStation = Crafting.CraftingStationType.NONE;
     }
 
     // Update is called once per frame
@@ -310,6 +325,7 @@ public class InventoryBehavior : MonoBehaviour
         }
         closeContainer();
         closeConstruct();
+        closeTurret();
         setCraftingStation(Crafting.CraftingStationType.NONE);
     }
 
@@ -386,6 +402,49 @@ public class InventoryBehavior : MonoBehaviour
                 break;
         }
         containerUI.gameObject.SetActive(true);
+    }
+
+    public void openTurret(TurretBehavior turret) {
+        this.containerUI.texture = ContainerImage[0];
+        ContainerSlot[0].transform.localPosition = new Vector3(0, 32, 0);
+        ContainerSlot[0].gameObject.SetActive(true);
+        for (int i = 1; i < ContainerSlot.Length; i++) {
+            ContainerSlot[i].gameObject.SetActive(false);
+        }
+        lvlUpButton[0].gameObject.SetActive(true);
+        lvlUpButton[1].gameObject.SetActive(true);
+        lvlUpButton[2].gameObject.SetActive(true);
+        activeTurret = turret;
+        containerUI.gameObject.SetActive(true);
+    }
+
+    public void clickTurret(int choice) {
+        if (activeTurret.getUpgradeItem() == ContainerSlot[0].viewItem().type) {
+            switch (choice) {
+                case 0:
+                    activeTurret.levelUp(TurretBehavior.Upgrade.Damage);
+                    break;
+                case 1:
+                    activeTurret.levelUp(TurretBehavior.Upgrade.Firerate);
+                    break;
+                case 2:
+                    activeTurret.levelUp(TurretBehavior.Upgrade.Range);
+                    break;
+            }
+            ContainerSlot[0].viewItem().use();
+            closeTurret();
+        }
+    }
+
+    public void closeTurret() {
+        if (activeTurret != null) {
+            pickUpItem(ContainerSlot[0].forceTake());
+            lvlUpButton[0].gameObject.SetActive(false);
+            lvlUpButton[1].gameObject.SetActive(false);
+            lvlUpButton[2].gameObject.SetActive(false);
+            containerUI.gameObject.SetActive(false);
+            activeTurret = null;
+        }
     }
 
     public void openConstruct(ConstructBehavior construct) {
