@@ -52,6 +52,12 @@ TagManager:
   - name: UI
     uniqueID: 1543775325
     locked: 0
-  - name: Sprite
+  - name: UISprite
     uniqueID: 1264236579
+    locked: 0
+  - name: LoadingScreen
+    uniqueID: 1152896077
+    locked: 0
+  - name: LoadingSprite
+    uniqueID: 3172202883
     locked: 0

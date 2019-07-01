@@ -128,11 +128,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void Update()
         {
-            RotateView();
+            if (!PauseMenuBehaviour.gamePaused) {
+                RotateView();
 
-            if (CrossPlatformInputManager.GetButtonDown("Jump") && !m_Jump)
-            {
-                m_Jump = true;
+                if (CrossPlatformInputManager.GetButtonDown("Jump") && !m_Jump) {
+                    m_Jump = true;
+                }
             }
         }
 
