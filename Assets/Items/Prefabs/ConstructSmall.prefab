@@ -108,6 +108,8 @@ MonoBehaviour:
     type: 3}
   blueTurret: {fileID: 8753794043875911966, guid: dd948cf7e146c6443b5a2ba57d3a9ef7,
     type: 3}
+  greenTurret: {fileID: 2996157868579485684, guid: 1950652c2a7522f49a3841a36f4c0244,
+    type: 3}
   tuefteltisch: {fileID: 6903253442346507539, guid: a99c925a21dfdf34aae3cd1e247036c7,
     type: 3}
   type: 0

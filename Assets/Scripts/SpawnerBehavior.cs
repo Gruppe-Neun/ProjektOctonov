@@ -35,7 +35,7 @@ public class SpawnerBehavior : MonoBehaviour
                 break;
 
             case Enemy.Type.Drone:
-                ret = Instantiate<DroneEnemy>(drone, this.transform.position, new Quaternion());
+                ret = Instantiate<DroneEnemy>(drone, this.transform.position + new Vector3(0,5,0), new Quaternion());
                 break;
 
             default:

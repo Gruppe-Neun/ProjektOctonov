@@ -591,7 +591,7 @@ PrefabInstance:
     - target: {fileID: 4060950687007257632, guid: 5e9e851c0e142814dac026a256ba2ac0,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4060950687007257632, guid: 5e9e851c0e142814dac026a256ba2ac0,
         type: 3}
@@ -622,6 +622,21 @@ PrefabInstance:
         type: 3}
       propertyPath: CollisionModule.collidesWith.m_Bits
       value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 2252056031863428046, guid: 5e9e851c0e142814dac026a256ba2ac0,
+        type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.r
+      value: 0.495283
+      objectReference: {fileID: 0}
+    - target: {fileID: 2252056031863428046, guid: 5e9e851c0e142814dac026a256ba2ac0,
+        type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.g
+      value: 0.58510554
+      objectReference: {fileID: 0}
+    - target: {fileID: 2252056031863428046, guid: 5e9e851c0e142814dac026a256ba2ac0,
+        type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.b
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}

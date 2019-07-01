@@ -5,16 +5,7 @@ using UnityEngine.AI;
 
 public class MeleeEnemy : Enemy
 {
-    public float attackRange = 1.5f;
-    public float attackDamage = 1;
     public float attackDelay = 1;
-
-
-    private NavMeshAgent agent;
-    private IDamageableFriendly target;
-    private Transform targetTransform;
-
-
 
     private float attackTime = 0f;
 
@@ -35,26 +26,21 @@ public class MeleeEnemy : Enemy
             agent = GetComponent<NavMeshAgent>();
             agent.agentTypeID = -1372625422;
         } else {
-            if (Vector3.Distance(agent.transform.position, targetTransform.position) < attackRange) {
+            if (Vector3.Distance(agent.transform.position, targetPosition) < range) {
                 agent.isStopped=true;
                 attack();
             } else {
                 agent.isStopped = false;
-                agent.SetDestination(targetTransform.position);
+                agent.SetDestination(targetPosition);
             }
         }
 
        
     }
 
-    public void setTarget(GameObject neu) {
-        targetTransform = neu.transform;
-        target = (GameObject.FindGameObjectWithTag("Player").GetComponent<IDamageableFriendly>());
-    }
-
     private void attack() {
         if (Time.time >= attackTime) {
-            target.TakeDamage(attackDamage);
+            target.TakeDamage(damage);
             attackTime = Time.time + attackDelay;
         }
     }

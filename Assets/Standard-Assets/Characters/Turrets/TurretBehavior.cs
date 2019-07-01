@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TurretBehavior : MonoBehaviour, IInteractable {
-    public enum Type { UNDEF, BlueLaser, RedLaser }
+    public enum Type { UNDEF, BlueLaser, RedLaser, GreenLaser }
     public enum Upgrade { UNDEF, Damage, Firerate, Range }
     private delegate void Shoot();
     private struct TurretStats {
@@ -28,9 +28,18 @@ public class TurretBehavior : MonoBehaviour, IInteractable {
 
     private TurretStats[] turretStats = new TurretStats[]{
         new TurretStats(0,0,0,0,0,0),
-        new TurretStats(2,1,0.1f,2,15,5),
-        new TurretStats(10,7,0.5f,2,20,10)
+        new TurretStats(3,1,0.2f,2,15,5),
+        new TurretStats(10,7,0.5f,2,20,10),
+        new TurretStats(1,1,0.1f,2,15,7)
         };
+
+    public Item.Type[,] upgradeItems = new Item.Type[,]{
+        { Item.Type.UNDEF, Item.Type.UNDEF, Item.Type.UNDEF, Item.Type.UNDEF },
+        { Item.Type.CristalBlue, Item.Type.CristalBlue, Item.Type.CristalBlue, Item.Type.CristalBlue },
+        { Item.Type.CristalRed, Item.Type.CristalRed, Item.Type.CristalRed, Item.Type.CristalRed },
+        { Item.Type.UNDEF, Item.Type.UNDEF, Item.Type.UNDEF, Item.Type.UNDEF },
+        };
+    public int maxLevel = 4;
 
     public GameObject Bone_Barrel;
     public GameObject Bone_Upper;
@@ -49,7 +58,7 @@ public class TurretBehavior : MonoBehaviour, IInteractable {
 
 
     private GameObject target;
-    
+
     private Transform origin;
     private float rotationHorizontal = 0f;
     private float rotationVertical = 0f;
@@ -58,12 +67,12 @@ public class TurretBehavior : MonoBehaviour, IInteractable {
 
     private Shoot shootType;
     private float fireTime = 0f;
+    private float fireTimeSincePress = 0f;
     private LineRenderer lineRenderer;
     private SphereCollider viewRange;
-    
+
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         origin = Bone_Barrel.transform;
         lineRenderer = GetComponent<LineRenderer>();
         viewRange = GetComponentInChildren<SphereCollider>();
@@ -72,8 +81,7 @@ public class TurretBehavior : MonoBehaviour, IInteractable {
     }
 
     // Update is called once per frame
-    void FixedUpdate()
-    {
+    void FixedUpdate() {
         if (target != null) {
             targetPosition(target.transform.position);
             rotationHorizontal = Mathf.MoveTowardsAngle(rotationHorizontal, targetHorizontal, horizontalSpeed * Time.deltaTime);
@@ -93,13 +101,17 @@ public class TurretBehavior : MonoBehaviour, IInteractable {
 
     private void setTurretType(Type type) {
         this.turretType = type;
-        switch ((int)type) {
-            case (int)Type.BlueLaser:
+        switch (type) {
+            case Type.BlueLaser:
                 shootType = Shoot_LaserBlue;
                 break;
 
-            case (int)Type.RedLaser:
+            case Type.RedLaser:
                 shootType = Shoot_LaserRed;
+                break;
+
+            case Type.GreenLaser:
+                shootType = Shoot_LaserGreen;
                 break;
         }
 
@@ -109,7 +121,7 @@ public class TurretBehavior : MonoBehaviour, IInteractable {
         damage = turretStats[(int)turretType].baseDamage;
         fireRate = turretStats[(int)turretType].baseFireRate;
         range = turretStats[(int)turretType].baseRange;
-        for(int i = 0; i < LevelUps.Length; i++) {
+        for (int i = 0; i < LevelUps.Length; i++) {
             switch (LevelUps[i]) {
                 case Upgrade.Damage:
                     damage += turretStats[(int)turretType].upgradeDamage;
@@ -134,6 +146,11 @@ public class TurretBehavior : MonoBehaviour, IInteractable {
 
     public int getLevel() {
         return LevelUps.Length;
+    }
+
+    public Item.Type getUpgradeItem() {
+        if (LevelUps.Length < maxLevel) return upgradeItems[(int)turretType, LevelUps.Length];
+        else return Item.Type.UNDEF;
     }
 
     private void targetPosition(Vector3 pos) {
@@ -175,8 +192,19 @@ public class TurretBehavior : MonoBehaviour, IInteractable {
         }
     }
 
+    private void Shoot_LaserGreen() {
+        if (Time.time >= fireTime) {
+            BulletBehavior bullet;
+            bullet = Instantiate(laserBullet, origin.position - (origin.right * 0.5f), Quaternion.FromToRotation(Vector3.back, origin.right)).GetComponent<BulletBehavior>();
+            bullet.damage = damage;
+            fireTime = Time.time + fireRate / Mathf.Clamp01(fireTimeSincePress / 15 + 0.4f);
+        }
+        fireTimeSincePress += Time.fixedDeltaTime;
+    }
+
     public void setTarget(GameObject target) {
         this.target = target;
+        fireTimeSincePress = 0;
     }
 
     public void Interact() {

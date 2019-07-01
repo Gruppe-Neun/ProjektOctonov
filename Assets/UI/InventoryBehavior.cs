@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.Characters.FirstPerson;
 using UnityEngine.UI;
+using System;
 
 public class InventoryBehavior : MonoBehaviour
 {
@@ -124,6 +125,11 @@ public class InventoryBehavior : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.P)) {
+            int itemNum = Enum.GetNames(typeof(Item.Type)).Length;
+            for(int i = 1; i < itemNum; i++) {
+                giveItem((Item.Type) i,50);
+            }
+            /*
             giveItem(Item.Type.Battery,20);
             giveItem(Item.Type.Nut, 20);
             giveItem(Item.Type.Ironplate, 20);
@@ -132,10 +138,7 @@ public class InventoryBehavior : MonoBehaviour
             giveItem(Item.Type.CristalRed, 20);
             giveItem(Item.Type.Case, 20);
             giveItem(Item.Type.GrenadeLauncher, 20);
-            giveItem(Item.Type.LaserGreen, 20);
-        }
-        if (Input.GetKeyDown(KeyCode.O)) {
-            Item.createItem(Item.Type.LaserRed, 10, GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(0, 0, 1));
+            */
         }
 
         //switch ammo

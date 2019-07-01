@@ -43,13 +43,13 @@ public class Enemy : MonoBehaviour, IDamageableEnemy
 
     protected NavMeshAgent agent;
     protected IDamageableFriendly target;
-    protected Transform targetTransform;
+    [SerializeField] protected Vector3 targetPosition;
 
     public virtual void Awake() {
         if (lootPool == null) {
             lootPool = new Loot[] {
                 new Loot(Item.Type.Battery,0.25f),
-                new Loot(Item.Type.LaserRed, 0.1f),
+                new Loot(Item.Type.LaserRedLevel1, 0.1f, 10),
                 new Loot(Item.Type.Flashlight, 0.25f),
                 new Loot(Item.Type.Medkit, 0.05f),
                 new Loot(Item.Type.Ironplate, 0.25f),
@@ -85,7 +85,6 @@ public class Enemy : MonoBehaviour, IDamageableEnemy
         health -= damage;
         if (showHealth) {
             healthBar.transform.localScale = new Vector3(Mathf.Clamp01(health / maxHealth), 1, 1);
-            Debug.Log("test");
         }
         if(health <= 0f) {
             die();
@@ -93,7 +92,8 @@ public class Enemy : MonoBehaviour, IDamageableEnemy
     }
 
     public void setTarget(GameObject neu) {
-        targetTransform = neu.transform;
+        targetPosition = neu.GetComponent<Collider>().bounds.center;
+        //targetTransform = neu.transform;
         target = neu.GetComponent<IDamageableFriendly>();
     }
 

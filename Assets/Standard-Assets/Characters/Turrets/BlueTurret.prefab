@@ -305,7 +305,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4bdbeb9bd0b071d4984239ab03ae9152, type: 3}
+  - {fileID: 2100000, guid: bf92e2034dc5e994cb821764ff5fc1cc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -508,6 +508,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49ec8bf9e93cb004e9049737456950d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxLevel: 4
   Bone_Barrel: {fileID: 8754868882056392294}
   Bone_Upper: {fileID: 8754868882056392292}
   laserBullet: {fileID: 5860776558636707515, guid: 3d1a89c78512c3443af4f676cb9e977d,
@@ -516,7 +517,7 @@ MonoBehaviour:
   damage: 1
   fireRate: 1
   range: 20
-  horizontalSpeed: 30
+  horizontalSpeed: 35
   verticalSpeed: 25
 --- !u!54 &7786207669827966718
 Rigidbody:

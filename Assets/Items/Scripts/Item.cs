@@ -37,13 +37,27 @@ public static class Item
 
         //Ammo (LASER_BLUE muss als erstes)
         LaserBlue,
-        LaserRed,
-        LaserGreen,
+        LaserRedLevel1,
+        LaserRedLevel2,
+        LaserGreenLevel1,
+        LaserGreenLevel2,
         GrenadeLauncher,
         Flamethrower,
 
         //Core(Tuefteltisch muss als erstes)
-        Tuefteltisch
+        Tuefteltisch,
+        TurretBlueCoreLevel1,
+        TurretBlueCoreLevel2,
+        TurretBlueCoreLevel3,
+        TurretBlueCoreLevel4,
+        TurretRedCoreLevel1,
+        TurretRedCoreLevel2,
+        TurretRedCoreLevel3,
+        TurretRedCoreLevel4,
+        TurretGreenCoreLevel1,
+        TurretGreenCoreLevel2,
+        TurretGreenCoreLevel3,
+        TurretGreenCoreLevel4
 
         //Objects ()
 
@@ -56,7 +70,7 @@ public static class Item
     public static void loadSprites() {
         string[] names = Enum.GetNames(typeof(Type));
         sprites = new Texture2D[names.Length];
-        for (int i = 0;i<names.Length;i++) {
+        for (int i = 1;i<names.Length;i++) {
             string filePath = Application.dataPath + "/Items/Sprites/Item_" + names[i] + ".png";
             if (File.Exists(filePath)) {
                 sprites[i] = new Texture2D(128, 64);
@@ -180,6 +194,7 @@ public static class Item
 
         //item.GetComponent<MeshCollider>().sharedMesh = getItemMesh();
         item.GetComponent<SphereCollider>().isTrigger = true;
+        item.GetComponent<SphereCollider>().radius = 2;
 
         if (position.x==0&&position.y==0&&position.z==0) {
             item.GetComponent<ItemBehavior>().take();

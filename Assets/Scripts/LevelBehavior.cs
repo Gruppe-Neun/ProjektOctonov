@@ -135,7 +135,9 @@ public class LevelBehavior : MonoBehaviour
                     new Wave(new int[]{ 20, 0, 5, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 5, 15, 5 }),
                     new Wave(new int[]{ 0, 30, 5, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 5, 15, 5 }),
                     new Wave(new int[]{ 20, 30, 0, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 5, 10, 5 }),
-                    new Wave(new int[]{ 10, 20, 5, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 5, 15, 5 })
+                    new Wave(new int[]{ 10, 20, 5, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 5, 15, 5 }),
+                    new Wave(new int[]{ 0, 0, 0, 40 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 5, 15, 4 }),
+                    new Wave(new int[]{ 0, 0, 10, 30 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 5, 15, 5 })
                 };
                 break;
 
@@ -152,8 +154,6 @@ public class LevelBehavior : MonoBehaviour
                 break;
         }
     }
-
-    
 
     public void startLevel(int randomInfinite = -1) {
         this.infiniteRandom = randomInfinite;
@@ -190,9 +190,10 @@ public class LevelBehavior : MonoBehaviour
             waveTime = -20f;
             
         }
-        Debug.Log("Next Wave:  Spider:" + activeWave[0].amount[0] + "  Spider_fast: " + activeWave[0].amount[1] + "Spider_large: " + activeWave[0].amount[2]);
+        Debug.Log("Next Wave:  Spider: " + activeWave[0].amount[0] + "  Spider_fast: " + activeWave[0].amount[1] + "  Spider_large: " + activeWave[0].amount[2] + "  Drone: " + activeWave[0].amount[3]);
     }
 
+    
     private void nextWave() {
         if (infiniteRandom==-1) {
             activeWave = new Wave[1];
@@ -229,8 +230,9 @@ public class LevelBehavior : MonoBehaviour
             waveTime = -10f;
             running = true;
         }
-        Debug.Log("Next Wave:  Spider:" + activeWave[0].amount[0] + "  Spider_fast: " + activeWave[0].amount[1] + "Spider_large: " + activeWave[0].amount[2]);
+        Debug.Log("Next Wave:  Spider: " + activeWave[0].amount[0] + "  Spider_fast: " + activeWave[0].amount[1] + "  Spider_large: " + activeWave[0].amount[2] + "  Drone: " + activeWave[0].amount[3]);
     }
+    
 
     void FixedUpdate() {
         if (running) {
@@ -258,7 +260,7 @@ public class LevelBehavior : MonoBehaviour
                     }
                 }
             } else {
-                ui.setWaveCounter(true, activeWaveNum, -waveTime);
+                ui.setWaveCounter(true, activeWaveNum+1, -waveTime);
                 waveTime += Time.fixedDeltaTime;
                 if(waveTime > 0) ui.setWaveCounter(false);
             }

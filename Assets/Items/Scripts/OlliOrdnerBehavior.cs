@@ -11,14 +11,17 @@ public class OlliOrdnerBehavior : ContainerBehavior,IInteractable, IDamageableFr
     [SerializeField] public GameObject body;
 
     private float maxHealth = 100;
+    private float maxShield = 100;
     private bool[] partSlot = new bool[] { false, false, false, false, false };
 
     private UIBehavior ui;
 
     private Transform healthCanvas;
     private Transform playerCamera;
+    private MeshRenderer forceField;
 
     private float health;
+    private float shield;
     private RawImage healthBar;
     private Text healthText;
 
@@ -29,11 +32,13 @@ public class OlliOrdnerBehavior : ContainerBehavior,IInteractable, IDamageableFr
         this.content = new ItemBehavior[5];
         this.name = "3D Drucker";
         health = maxHealth;
+        shield = maxShield;
         //updateBody();
         healthCanvas = GetComponentInChildren<Canvas>().transform;
         playerCamera = GameObject.Find("FirstPersonCharacter").transform;
         healthBar = GetComponentInChildren<RawImage>();
         healthText = GetComponentInChildren<Text>();
+        forceField = GetComponentInChildren<SphereCollider>().GetComponent<MeshRenderer>(); ;
         ui = GameObject.Find("UI").GetComponent<UIBehavior>();
 
         healthText.text = health + "/" + maxHealth;
@@ -90,10 +95,22 @@ public class OlliOrdnerBehavior : ContainerBehavior,IInteractable, IDamageableFr
     }
 
     public void TakeDamage(float dmg) {
-        health -= dmg;
-        healthText.text = (int)health + "/" + (int)maxHealth;
-        healthBar.transform.localPosition = new Vector3(health / maxHealth * 2.5f - 2.5f, 0, 0);
-        healthBar.transform.localScale = new Vector3(health / maxHealth, 1, 1);
+        shield -= dmg;
+        if (shield < 0) {
+            health += shield;
+            shield = 0;
+            ui.updateHealth(health / maxHealth);
+            healthText.text = (int)health + "/" + (int)maxHealth;
+            healthBar.transform.localPosition = new Vector3(health / maxHealth * 2.5f - 2.5f, 0, 0);
+            healthBar.transform.localScale = new Vector3(health / maxHealth, 1, 1);
+            if (health < 0) die();
+        }
+        forceField.material.color = new Color(1, 1, 1, shield / maxShield);
+        ui.updateAmor(shield / maxShield);
         ui.sendWarning(dmg);
+    }
+
+    private void die() {
+
     }
 }

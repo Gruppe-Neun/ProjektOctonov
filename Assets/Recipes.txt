@@ -6,4 +6,4 @@ NONE:Ironplate,Nut,Battery,UNDEF;/=Olli_Body-1
 NONE:Ironplate,Nut,UNDEF,UNDEF;6,6,0,0=Tuefteltisch-1
 Tuefteltisch:Ironplate,UNDEF,UNDEF,UNDEF;/=Case-1
 Tuefteltisch:Case,CristalBlue,UNDEF,UNDEF;/=LaserBlue-1
-Tuefteltisch:Case,CristalRed,UNDEF,UNDEF;/=LaserRed-1
+Tuefteltisch:Case,CristalRed,UNDEF,UNDEF;/=LaserRedLevel1-1

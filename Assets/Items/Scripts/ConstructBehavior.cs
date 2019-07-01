@@ -6,6 +6,7 @@ public class ConstructBehavior : MonoBehaviour, IInteractable
 {
     public TurretBehavior redTurret;
     public TurretBehavior blueTurret;
+    public TurretBehavior greenTurret;
 
     public Tuefteltisch tuefteltisch;
 
@@ -43,14 +44,19 @@ public class ConstructBehavior : MonoBehaviour, IInteractable
         }
 
         if (type == 1) {
-            switch ((int)item) {
-                case (int)Item.Type.CristalRed:
+            switch (item) {
+                case Item.Type.TurretRedCoreLevel1:
                     Instantiate(redTurret, new Vector3(transform.position.x, transform.position.y - transform.localScale.y / 2, transform.position.z), new Quaternion());
                     Destroy(this.gameObject);
                     return true;
 
-                case (int)Item.Type.CristalBlue:
+                case Item.Type.TurretBlueCoreLevel1:
                     Instantiate(blueTurret, new Vector3(transform.position.x, transform.position.y - transform.localScale.y / 2, transform.position.z), new Quaternion());
+                    Destroy(this.gameObject);
+                    return true;
+
+                case Item.Type.TurretGreenCoreLevel1:
+                    Instantiate(greenTurret, new Vector3(transform.position.x, transform.position.y - transform.localScale.y / 2, transform.position.z), new Quaternion());
                     Destroy(this.gameObject);
                     return true;
 

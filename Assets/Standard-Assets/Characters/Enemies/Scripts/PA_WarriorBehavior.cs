@@ -48,8 +48,8 @@ public class PA_WarriorBehavior : Enemy
                 break;
 
             case 1 :
-                if (Vector3.Distance(agent.transform.position, targetTransform.position) < range+agent.stoppingDistance) {
-                    float rotToTarget = Quaternion.FromToRotation(Vector3.forward, new Vector3(targetTransform.position.x - transform.position.x, 0, targetTransform.position.z - transform.position.z)).eulerAngles.y;
+                if (Vector3.Distance(agent.transform.position, targetPosition) < range+agent.stoppingDistance) {
+                    float rotToTarget = Quaternion.FromToRotation(Vector3.forward, new Vector3(targetPosition.x - transform.position.x, 0, targetPosition.z - transform.position.z)).eulerAngles.y;
                     if (Mathf.DeltaAngle(transform.eulerAngles.y, rotToTarget) > 30) {
                         transform.eulerAngles = new Vector3(transform.eulerAngles.x, Mathf.MoveTowardsAngle(transform.eulerAngles.y, rotToTarget, Time.fixedDeltaTime * agent.angularSpeed), transform.eulerAngles.z);
                         if (!animation.IsPlaying("PA_WarriorRight_Clip")) {
@@ -69,7 +69,7 @@ public class PA_WarriorBehavior : Enemy
                     if (!animation.IsPlaying("PA_WarriorForward_Clip")) {
                         animation.Play("PA_WarriorForward_Clip");
                     }
-                    agent.SetDestination(targetTransform.position);
+                    agent.SetDestination(targetPosition);
                 }
                 break;
 
@@ -80,7 +80,7 @@ public class PA_WarriorBehavior : Enemy
                 } else {
                     if (attackTime < 0.417f + 0.84f) {
                         //prepare
-                        float targetHorizontal = Quaternion.FromToRotation(transform.forward, new Vector3(targetTransform.position.x - transform.position.x, 0, targetTransform.position.z - transform.position.z)).eulerAngles.y;
+                        float targetHorizontal = Quaternion.FromToRotation(transform.forward, new Vector3(targetPosition.x - transform.position.x, 0, targetPosition.z - transform.position.z)).eulerAngles.y;
                         transform.eulerAngles += new Vector3(0, Mathf.MoveTowardsAngle(0,targetHorizontal,Time.fixedDeltaTime * agent.angularSpeed/2), 0);
                         weaponLight.gameObject.SetActive(true);
                         weaponLight.intensity = attackTime * 240;

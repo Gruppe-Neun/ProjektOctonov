@@ -49,17 +49,23 @@ public class Lasergun : MonoBehaviour {
                 case Item.Type.LaserBlue:
                     Shoot_LaserBlue();
                     break;
-                case Item.Type.LaserRed:
+                case Item.Type.LaserRedLevel1:
                     Shoot_LaserRed();
+                    break;
+                case Item.Type.LaserRedLevel2:
+                    Shoot_LaserRed();
+                    break;
+                case Item.Type.LaserGreenLevel1:
+                    Initiate_LaserGreen();
+                    break;
+                case Item.Type.LaserGreenLevel2:
+                    Initiate_LaserGreen();
                     break;
                 case Item.Type.GrenadeLauncher:
                     Shoot_GrenadeLauncher();
                     break;
                 case Item.Type.Flamethrower:
                     Shoot_Flamethrower();
-                    break;
-                case Item.Type.LaserGreen:
-                    Initiate_LaserGreen();
                     break;
                 default:
 
@@ -76,8 +82,17 @@ public class Lasergun : MonoBehaviour {
                 case Item.Type.LaserBlue:
                     Shoot_LaserBlue();
                     break;
-                case Item.Type.LaserRed:
+                case Item.Type.LaserRedLevel1:
                     Shoot_LaserRed();
+                    break;
+                case Item.Type.LaserRedLevel2:
+                    Shoot_LaserRed();
+                    break;
+                case Item.Type.LaserGreenLevel1:
+                    Shoot_LaserGreen();
+                    break;
+                case Item.Type.LaserGreenLevel2:
+                    Shoot_LaserGreen();
                     break;
                 case Item.Type.GrenadeLauncher:
                     Shoot_GrenadeLauncher();
@@ -85,9 +100,7 @@ public class Lasergun : MonoBehaviour {
                 case Item.Type.Flamethrower:
                     Shoot_Flamethrower();
                     break;
-                case Item.Type.LaserGreen:
-                    Shoot_LaserGreen();
-                    break;
+                
                 default:
 
                     break;
@@ -151,22 +164,28 @@ public class Lasergun : MonoBehaviour {
     private void Shoot_LaserGreen() {
         if (Time.time >= fireTime) {
             BulletBehavior bullet;
+
             RaycastHit hit;
             if (Physics.Raycast(viewSource.transform.position, viewSource.transform.forward, out hit, range, raycastLayerMask)) {
+                if (hit.distance > 5) {
+                    float maxDeviation = 0.15f * Mathf.Clamp01(fireTimeSincePress / 10 + 0.5f);
+                    Vector3 deviation = new Vector3(maxDeviation * Random.value - maxDeviation / 2, maxDeviation * Random.value - maxDeviation / 2, 0);
+                    Quaternion rotation = Quaternion.FromToRotation(Vector3.forward + deviation, hit.point - laserSource.transform.position);
+                    bullet = Instantiate(laserBulletGreen, laserSource.transform.position, rotation).GetComponent<BulletBehavior>();
+                } else {
+                    float maxDeviation = 0.15f * Mathf.Clamp01(fireTimeSincePress / 10 + 0.5f);
+                    Vector3 deviation = new Vector3(maxDeviation * Random.value - maxDeviation / 2, maxDeviation * Random.value - maxDeviation / 2, 0);
+                    Quaternion rotation = Quaternion.FromToRotation(Vector3.forward + deviation, viewSource.transform.forward * 5);
+                    bullet = Instantiate(laserBulletGreen, laserSource.transform.position, rotation).GetComponent<BulletBehavior>();
+                }
+            } else {
                 float maxDeviation = 0.15f * Mathf.Clamp01(fireTimeSincePress / 10 + 0.5f);
                 Vector3 deviation = new Vector3(maxDeviation * Random.value - maxDeviation / 2, maxDeviation * Random.value - maxDeviation / 2, 0);
-                Quaternion rotation = Quaternion.FromToRotation(Vector3.forward+deviation,hit.point - laserSource.transform.position);
+                Quaternion rotation = Quaternion.FromToRotation(Vector3.forward + deviation, viewSource.transform.forward * range);
                 bullet = Instantiate(laserBulletGreen, laserSource.transform.position, rotation).GetComponent<BulletBehavior>();
-            } else {
-                bullet = Instantiate(laserBulletGreen, laserSource.transform.position, Quaternion.LookRotation(laserSource.transform.up, laserSource.transform.forward * -1)).GetComponent<BulletBehavior>();
             }
-
             bullet.damage = ammo.damage;
-
-            
             fireTime = Time.time + ammo.fireRate/Mathf.Clamp01(fireTimeSincePress/10+0.5f);
-            Debug.Log(fireTimeSincePress);
-            
             ammo.use();
         }
         fireTimeSincePress += Time.deltaTime;

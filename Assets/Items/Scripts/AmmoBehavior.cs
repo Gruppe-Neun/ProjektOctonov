@@ -17,15 +17,25 @@ public class AmmoBehavior : ItemBehavior
                 crosshairType = 0;
                 break;
 
-            case Item.Type.LaserRed:
+            case Item.Type.LaserRedLevel1:
                 fireRate = 0.3f;
                 damage = 3f;
                 crosshairType = 0;
                 break;
+            case Item.Type.LaserRedLevel2:
+                fireRate = 0.25f;
+                damage = 5f;
+                crosshairType = 0;
+                break;
 
-            case Item.Type.LaserGreen:
+            case Item.Type.LaserGreenLevel1:
                 fireRate = 0.1f;
                 damage = 2f;
+                crosshairType = 2;
+                break;
+            case Item.Type.LaserGreenLevel2:
+                fireRate = 0.07f;
+                damage = 3f;
                 crosshairType = 2;
                 break;
 
