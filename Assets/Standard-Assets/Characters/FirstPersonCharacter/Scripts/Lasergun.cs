@@ -146,7 +146,7 @@ public class Lasergun : MonoBehaviour {
                 Vector3 rotation = hit.point - laserSource.transform.position; 
                 bullet = Instantiate(laserBulletRed, laserSource.transform.position, Quaternion.FromToRotation(Vector3.forward, rotation)).GetComponent<BulletBehavior>();
             } else {
-                bullet = Instantiate(laserBulletRed, laserSource.transform.position, Quaternion.LookRotation(laserSource.transform.up, laserSource.transform.forward * -1)).GetComponent<BulletBehavior>();
+                bullet = Instantiate(laserBulletRed, laserSource.transform.position, Quaternion.FromToRotation(Vector3.forward, viewSource.transform.position +  viewSource.transform.forward * range - laserSource.transform.position));
             }
 
             bullet.damage = ammo.damage;
@@ -201,7 +201,7 @@ public class Lasergun : MonoBehaviour {
                 Vector3 rotation = hit.point - laserSource.transform.position;
                 neu = Instantiate(grenade, laserSource.transform.position, Quaternion.FromToRotation(Vector3.forward, rotation));
             } else {
-                neu = Instantiate(grenade, laserSource.transform.position, Quaternion.LookRotation(laserSource.transform.up, laserSource.transform.forward * -1));
+                neu = Instantiate(grenade, laserSource.transform.position, Quaternion.FromToRotation(Vector3.forward, viewSource.transform.position + viewSource.transform.forward * range-laserSource.transform.position));
             }
             neu.damage = ammo.damage;
             neu.velocity = neu.transform.forward * 30;

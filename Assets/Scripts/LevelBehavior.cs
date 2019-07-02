@@ -142,11 +142,31 @@ public class LevelBehavior : MonoBehaviour
                 break;
 
             case 1:
-
+                waves = new Wave[] {
+                    new Wave(new int[]{ 30, 0, 0, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 10, 5, 5 }),
+                    new Wave(new int[]{ 0, 0, 10, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 5, 12, 5 }),
+                    new Wave(new int[]{ 0, 40, 0, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 4, 10, 5 }),
+                    new Wave(new int[]{ 20, 0, 5, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 5, 15, 5 }),
+                    new Wave(new int[]{ 0, 30, 5, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 5, 15, 5 }),
+                    new Wave(new int[]{ 20, 30, 0, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 5, 10, 5 }),
+                    new Wave(new int[]{ 10, 20, 5, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 5, 15, 5 }),
+                    new Wave(new int[]{ 0, 0, 0, 40 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 5, 15, 4 }),
+                    new Wave(new int[]{ 0, 0, 10, 30 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 5, 15, 5 })
+                };
                 break;
 
             case 2:
-
+                waves = new Wave[] {
+                    new Wave(new int[]{ 60, 0, 0, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 4, 8, 4, 4 }),
+                    new Wave(new int[]{ 0, 0, 20, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 4, 4, 10, 4 }),
+                    new Wave(new int[]{ 0, 80, 0, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 4, 3, 8, 4 }),
+                    new Wave(new int[]{ 40, 0, 10, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 4, 4, 12, 4 }),
+                    new Wave(new int[]{ 0, 60, 10, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 4, 4, 12, 4 }),
+                    new Wave(new int[]{ 40, 60, 0, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 4, 4, 8, 4 }),
+                    new Wave(new int[]{ 20, 40, 10, 0 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 4, 4, 12, 4 }),
+                    new Wave(new int[]{ 0, 0, 0, 80 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 4, 4, 12, 3 }),
+                    new Wave(new int[]{ 0, 0, 20, 60 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 4, 4, 12, 4 })
+                };
                 break;
 
             default:

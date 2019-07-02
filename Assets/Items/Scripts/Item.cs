@@ -21,6 +21,7 @@ public static class Item
         Battery,
         Nut,
         Ironplate,
+        GoldPlate,
         Flashlight,
         CristalBlue,
         CristalRed,

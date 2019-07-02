@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class ActiveBehavior : ItemBehavior
 {
-    UnityStandardAssets.Characters.FirstPerson.FirstPersonController player;
+    UnityStandardAssets.Characters.FirstPerson.FirstPersonController playerController;
 
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindObjectOfType<UnityStandardAssets.Characters.FirstPerson.FirstPersonController>();
+        playerController = GameObject.FindObjectOfType<UnityStandardAssets.Characters.FirstPerson.FirstPersonController>();
     }
 
 
     public override void use() {
         switch (this.type) {
             case Item.Type.Wrench:
-                GameObject selection = player.getviewedObject(10);
+                GameObject selection = playerController.getviewedObject(10);
                 if (selection!=null && selection.GetComponentInParent<OlliOrdnerBehavior>()) {
                     selection.GetComponentInParent<OlliOrdnerBehavior>().healLife(100);
                 } else {

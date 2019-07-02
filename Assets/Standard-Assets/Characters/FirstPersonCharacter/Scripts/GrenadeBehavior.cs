@@ -40,6 +40,9 @@ public class GrenadeBehavior : MonoBehaviour
     }
 
     public void OnTriggerEnter(Collider other) {
+        if (other.GetComponentInParent<TurretBehavior>()) {
+            return;
+        }
         impact = true;
         Destroy(Instantiate(explosion, this.transform.position, new Quaternion()), explosion.GetComponentInChildren<ParticleSystem>().duration);
         Collider[] hit = Physics.OverlapSphere(this.transform.position, radius);
