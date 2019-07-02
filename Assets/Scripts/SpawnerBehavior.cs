@@ -13,10 +13,12 @@ public class SpawnerBehavior : MonoBehaviour
     public LevelBehavior currentLevel;
 
     public int type = 0;
+
+    private UIBehavior ui;
     // Start is called before the first frame update
     void Start()
     {
-        
+        ui = GameObject.Find("UI").GetComponent<UIBehavior>();
     }
 
     public Enemy spawnEnemy(Enemy.Type enemy, int level) {
@@ -43,6 +45,10 @@ public class SpawnerBehavior : MonoBehaviour
         }
         ret.setLevel(level);
         ret.setTarget(target);
+        if(Random.value >= 0.52) {
+            ret.setLevel(level, true);
+            ui.sendWarning("Elite Enemy has\nbeen spawned");
+        }
         ret.dieCallback = currentLevel.enemyKilled;
         return ret;
     }

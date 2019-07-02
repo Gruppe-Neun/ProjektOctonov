@@ -107,7 +107,7 @@ public class OlliOrdnerBehavior : ContainerBehavior,IInteractable, IDamageableFr
         }
         forceField.material.color = new Color(1, 1, 1, shield / maxShield);
         ui.updateAmor(shield / maxShield);
-        ui.sendWarning(dmg);
+        ui.sendWarning();
     }
 
     private void die() {

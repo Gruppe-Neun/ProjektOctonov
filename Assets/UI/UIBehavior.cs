@@ -134,7 +134,7 @@ public class UIBehavior : MonoBehaviour
         }
         if (warningStatus != -1) {
             if (warningStatus >= 3) {
-                warningStatus = -3;
+                warningStatus = -1;
                 UI_Warning.gameObject.SetActive(false);
                 UI_WarningText.color = new Color(0.45f, 0, 0, 0);
                 UI_Warning.color = new Color(1, 1, 1, 0);
@@ -303,11 +303,13 @@ public class UIBehavior : MonoBehaviour
         }
     }
     
-    public void sendWarning(float intensity) {
+    public void sendWarning(string message= "Olli Ordner is\ntaking Damage!") {
+        UI_WarningText.text = message;
         if (warningStatus == -1) {
             warningStatus = 0;
             UI_Warning.gameObject.SetActive(true);
         } else {
+            /*
             if (warningStatus > 2) {
                 warningStatus -= 3;
                 warningStatus = -warningStatus;
@@ -316,6 +318,7 @@ public class UIBehavior : MonoBehaviour
                     warningStatus = 1;
                 }
             }
+            */
         }
        
     }

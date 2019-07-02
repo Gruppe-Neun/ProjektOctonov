@@ -299,6 +299,7 @@ public class World : MonoBehaviour
             neu.range = light[i].range;
             neu.transform.position = new Vector3(light[i].pos[0], light[i].pos[1], light[i].pos[2]);
         }
+        Objects.loadConfig(name,player);
         level.loadLevelData(LevelName, player, olli.gameObject);
         level.loadInfinite(0);
        

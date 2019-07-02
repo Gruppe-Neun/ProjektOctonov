@@ -143,18 +143,19 @@ public static class Objects
         }
     }
 
-    public static void loadConfig(string levelName) {
+    public static void loadConfig(string levelName, UnityStandardAssets.Characters.FirstPerson.FirstPersonController player) {
         string path = Application.dataPath + "/leveldata/" + levelName + "/";
         string configFile = path + "_config.txt";
+        
         if (File.Exists(configFile)) {
             string[] lines = System.IO.File.ReadAllLines(configFile);
-            for (int i = 4; i < lines.Length; i++) {
+            for (int i = 0; i < lines.Length; i++) {
                 string command = lines[i].Split(';')[0];
                 switch (command) {
                     case "playerspawn":
                         string[] data = lines[i].Split(';')[1].Split(',');
-                        GameObject.Find("FPSController").transform.position = new Vector3(int.Parse(data[0]), int.Parse(data[1]), int.Parse(data[2]));
-                        if(data.Length>3) GameObject.Find("FPSController").transform.rotation = new Quaternion(int.Parse(data[3]), int.Parse(data[4]), int.Parse(data[5]), 0);
+                        player.transform.position = new Vector3(int.Parse(data[0]), int.Parse(data[1]), int.Parse(data[2]));
+                        if(data.Length>3) player.transform.rotation = new Quaternion(int.Parse(data[3]), int.Parse(data[4]), int.Parse(data[5]), 0);
                         break;
                 }
                

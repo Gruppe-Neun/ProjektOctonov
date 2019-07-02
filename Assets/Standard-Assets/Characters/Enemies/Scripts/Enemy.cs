@@ -22,9 +22,15 @@ public class Enemy : MonoBehaviour, IDamageableEnemy
         public int amount;
         public float percentage;
     }
+    public struct LootPool {
+        public Loot[] loot;
+    }
+
     [SerializeField] private float[] baseStats = new float[] { 50, 10, 3, 3 };
     [SerializeField] private float[] lvlupStats = new float[] { 10, 1, 0, 0};
+    [SerializeField] private float[] eliteAmplifier = new float[] { 5, 2, 1, 0.75f };
     [SerializeField] private int level = 0;
+    [SerializeField] private bool elite = false;
 
     [SerializeField] protected float maxHealth = 50f;
     [SerializeField] protected float damage = 10f;
@@ -32,7 +38,7 @@ public class Enemy : MonoBehaviour, IDamageableEnemy
     [SerializeField] protected float speed = 3f;
     protected float health;
 
-    [SerializeField] protected Loot[] lootPool;
+    [SerializeField] protected LootPool[] lootPool;
     [SerializeField] protected Vector3 lootOffset;
     public DieCallback dieCallback;
 
@@ -47,13 +53,38 @@ public class Enemy : MonoBehaviour, IDamageableEnemy
 
     public virtual void Awake() {
         if (lootPool == null) {
-            lootPool = new Loot[] {
+            lootPool = new LootPool[4];
+
+            lootPool[0].loot = new Loot[] {
                 new Loot(Item.Type.Battery,0.25f),
                 new Loot(Item.Type.LaserRedLevel1, 0.1f, 10),
                 new Loot(Item.Type.Flashlight, 0.25f),
-                new Loot(Item.Type.Medkit, 0.05f),
-                new Loot(Item.Type.Ironplate, 0.25f),
+                new Loot(Item.Type.Ironplate, 0.25f, 2),
                 new Loot(Item.Type.Nut, 0.25f)
+            };
+
+            lootPool[1].loot = new Loot[] {
+                new Loot(Item.Type.Battery,0.25f, 2),
+                new Loot(Item.Type.LaserGreenLevel1, 0.1f, 20),
+                new Loot(Item.Type.Flashlight, 0.25f, 2),
+                new Loot(Item.Type.Ironplate, 0.25f, 5),
+                new Loot(Item.Type.Nut, 0.25f, 2)
+            };
+
+            lootPool[2].loot = new Loot[] {
+                new Loot(Item.Type.Battery,0.25f, 3),
+                new Loot(Item.Type.LaserRedLevel2, 0.1f, 10),
+                new Loot(Item.Type.Flashlight, 0.25f, 3),
+                new Loot(Item.Type.Ironplate, 0.25f, 10),
+                new Loot(Item.Type.Nut, 0.25f, 3)
+            };
+
+            lootPool[3].loot = new Loot[] {
+                new Loot(Item.Type.Battery,0.25f, 5),
+                new Loot(Item.Type.LaserGreenLevel2, 0.1f, 30),
+                new Loot(Item.Type.Flashlight, 0.25f, 5),
+                new Loot(Item.Type.Ironplate, 0.25f, 20),
+                new Loot(Item.Type.Nut, 0.25f, 5)
             };
         }
         agent = GetComponent<NavMeshAgent>();
@@ -65,13 +96,23 @@ public class Enemy : MonoBehaviour, IDamageableEnemy
         playerCamera = GameObject.Find("FirstPersonCharacter").transform;
     }
 
-    public virtual void setLevel(int lvl) {
+    public virtual void setLevel(int lvl, bool eliteEnemy = false) {
         level = lvl;
         maxHealth = baseStats[0] + lvlupStats[0]*lvl;
         health = maxHealth;
         damage = baseStats[1] + lvlupStats[1] * lvl;
         range = baseStats[2] + lvlupStats[2] * lvl;
         speed = baseStats[3] + lvlupStats[3] * lvl;
+
+        if (eliteEnemy) {
+            elite = true;
+            maxHealth *= eliteAmplifier[0];
+            health = maxHealth;
+            damage *= eliteAmplifier[1];
+            range *= eliteAmplifier[2];
+            speed *= eliteAmplifier[3];
+            transform.localScale = transform.localScale * 1.2f;
+        }
 
         agent.speed = speed;
     }
@@ -98,10 +139,23 @@ public class Enemy : MonoBehaviour, IDamageableEnemy
     }
 
     public void die() {
-        if (lootPool != null) {
-            for(int i = 0; i < lootPool.Length; i++) {
-                if (lootPool[i].percentage > Random.value) {
-                    Item.createItem(lootPool[i].itemType,lootPool[i].amount,new Vector3(transform.position.x+Random.value*0.5f,transform.position.y, transform.position.z + Random.value * 0.5f)+lootOffset);
+        int lootTier;
+        if (level > 30) {
+            lootTier = 2;
+        } else {
+            if (level > 10) {
+                lootTier = 1;
+            } else {
+                lootTier = 0;
+            }
+        }
+        if (elite) lootTier++;
+        if (lootTier >= lootPool.Length) lootTier = lootPool.Length - 1;
+
+        if (lootPool[lootTier].loot != null) {
+            for(int i = 0; i < lootPool[lootTier].loot.Length; i++) {
+                if (lootPool[lootTier].loot[i].percentage > Random.value) {
+                    Item.createItem(lootPool[lootTier].loot[i].itemType,lootPool[lootTier].loot[i].amount,new Vector3(transform.position.x+Random.value*0.5f,transform.position.y, transform.position.z + Random.value * 0.5f)+lootOffset);
                 }
             }
         }
