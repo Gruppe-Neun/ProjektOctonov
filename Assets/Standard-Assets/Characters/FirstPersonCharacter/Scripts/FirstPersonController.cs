@@ -102,6 +102,15 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
                 lasergun.Combat();
             }
+
+            if(PauseMenuBehaviour.gamePaused) {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            else {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
         }
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------
         private void die() {
@@ -183,7 +192,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 ProgressStepCycle(speed);
                 UpdateCameraPosition(speed);
 
-                m_MouseLook.UpdateCursorLock();
+                //m_MouseLook.UpdateCursorLock();
             }
         }
 
