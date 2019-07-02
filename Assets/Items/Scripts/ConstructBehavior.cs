@@ -9,6 +9,7 @@ public class ConstructBehavior : MonoBehaviour, IInteractable
     public TurretBehavior greenTurret;
 
     public Tuefteltisch tuefteltisch;
+    public Tuefteltisch ammoTuefteltisch;
 
     public int type = 1; //0=small, 1=large
 
@@ -32,9 +33,14 @@ public class ConstructBehavior : MonoBehaviour, IInteractable
         }
         */
         if (type == 0) {
-            switch ((int)item) {
-                case (int)Item.Type.Tuefteltisch:
+            switch (item) {
+                case Item.Type.Tuefteltisch:
                     Instantiate(tuefteltisch, new Vector3(transform.position.x, transform.position.y, transform.position.z), new Quaternion());
+                    Destroy(this.gameObject);
+                    return true;
+
+                case Item.Type.AmmoTuefteltisch:
+                    Instantiate(ammoTuefteltisch, new Vector3(transform.position.x, transform.position.y, transform.position.z), new Quaternion());
                     Destroy(this.gameObject);
                     return true;
 

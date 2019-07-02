@@ -7,7 +7,8 @@ public static class Crafting{
 
     public enum CraftingStationType {
         NONE,
-        Tuefteltisch
+        Tuefteltisch,
+        AmmoTuefteltisch
     }
 
     public struct Recipe {

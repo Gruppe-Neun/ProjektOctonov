@@ -699,6 +699,7 @@ MonoBehaviour:
   leg_left: {fileID: 1671833873870304533}
   leg_right: {fileID: 1671833873870304535}
   body: {fileID: 1671833873870304513}
+  explosion: {fileID: 100010, guid: 031d08f52af1daa4f929b85221519426, type: 3}
 --- !u!65 &8718805401145017486
 BoxCollider:
   m_ObjectHideFlags: 0

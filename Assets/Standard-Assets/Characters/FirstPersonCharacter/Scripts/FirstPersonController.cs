@@ -310,6 +310,15 @@ namespace UnityStandardAssets.Characters.FirstPerson
             body.AddForceAtPosition(m_CharacterController.velocity*0.1f, hit.point, ForceMode.Impulse);
         }
 
+        public GameObject getviewedObject(float range = 100) {
+            int layerMask = ~(1 << 8);
+            RaycastHit hit;
+            if (Physics.Raycast(m_Camera.transform.position, m_Camera.transform.forward, out hit, range, layerMask)) {
+                return hit.collider.gameObject;
+            }
+            return null;
+        }
+
         private void BlockInteract() {
             int layerMask = ~(1 << 8);
             RaycastHit hit;

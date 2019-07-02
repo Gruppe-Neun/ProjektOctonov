@@ -112,4 +112,6 @@ MonoBehaviour:
     type: 3}
   tuefteltisch: {fileID: 6903253442346507539, guid: a99c925a21dfdf34aae3cd1e247036c7,
     type: 3}
+  ammoTuefteltisch: {fileID: 7231980474973325105, guid: 70e222bbe454aef499b5b7a258cbf9b7,
+    type: 3}
   type: 1

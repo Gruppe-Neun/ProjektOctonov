@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2861144338861714455
+--- !u!1 &7231980474973325111
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,47 +8,48 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5392023303722990863}
-  - component: {fileID: 7369751767612727055}
-  - component: {fileID: 8575673277203829289}
-  - component: {fileID: 4001724441726713375}
-  - component: {fileID: 841766418225512708}
-  m_Layer: 9
-  m_Name: SpawnPoint
+  - component: {fileID: 7231980474973325107}
+  - component: {fileID: 7231980474973325106}
+  - component: {fileID: 7231980474973325109}
+  - component: {fileID: 7231980474973325108}
+  - component: {fileID: 7231980474973325104}
+  - component: {fileID: 7231980474973325105}
+  m_Layer: 0
+  m_Name: AmmoTuefteltisch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5392023303722990863
+--- !u!4 &7231980474973325107
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2861144338861714455}
+  m_GameObject: {fileID: 7231980474973325111}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 2, z: 1}
+  m_LocalPosition: {x: 100, y: 66.98, z: 117.81}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &7369751767612727055
+--- !u!33 &7231980474973325106
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2861144338861714455}
+  m_GameObject: {fileID: 7231980474973325111}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &8575673277203829289
+--- !u!23 &7231980474973325109
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2861144338861714455}
+  m_GameObject: {fileID: 7231980474973325111}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -59,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 20baa32627ea7c542b3c2ed66f622228, type: 2}
+  - {fileID: 2100000, guid: bfc25ea0d27e2b1429d10b638c01e64b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -79,38 +80,45 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &4001724441726713375
+--- !u!65 &7231980474973325108
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2861144338861714455}
+  m_GameObject: {fileID: 7231980474973325111}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &841766418225512708
+--- !u!54 &7231980474973325104
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7231980474973325111}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &7231980474973325105
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2861144338861714455}
+  m_GameObject: {fileID: 7231980474973325111}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be75a1cdb97bd4b43a15fcf206ed1a33, type: 3}
+  m_Script: {fileID: 11500000, guid: ff2f8498875971540b9eb33671870d66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spider: {fileID: 3459159354443437476, guid: 769a5e0a484538047a1427d78cd32ced, type: 3}
-  spider_fast: {fileID: 6892702397298749019, guid: 8cbdf3df0cbcb964195626e5ec104ae3,
-    type: 3}
-  spider_large: {fileID: 8130706793892292599, guid: 3702f7f9e139c65449e25896407e507c,
-    type: 3}
-  drone: {fileID: 68935975176422631, guid: 9448a88cfd5435d48b53168a756be6b5, type: 3}
-  eliteChance: 0.02
-  target: {fileID: 0}
-  currentLevel: {fileID: 0}
-  type: 0
+  type: 2

@@ -8,6 +8,7 @@ public class SpawnerBehavior : MonoBehaviour
     [SerializeField] private PA_WarriorBehavior spider_fast;
     [SerializeField] private PA_WarriorBehavior spider_large;
     [SerializeField] private DroneEnemy drone;
+    [SerializeField] private float eliteChance = 0.01f;
 
     public GameObject target;
     public LevelBehavior currentLevel;
@@ -45,7 +46,7 @@ public class SpawnerBehavior : MonoBehaviour
         }
         ret.setLevel(level);
         ret.setTarget(target);
-        if(Random.value >= 0.52) {
+        if(Random.value <= eliteChance) {
             ret.setLevel(level, true);
             ui.sendWarning("Elite Enemy has\nbeen spawned");
         }

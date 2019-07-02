@@ -156,6 +156,10 @@ public class InventoryBehavior : MonoBehaviour
             */
         }
 
+        if (Input.GetKeyDown(KeyCode.F)) {
+            if(ActiveSlot[activeActive].viewItem()!=null) ActiveSlot[activeActive].viewItem().use();
+        }
+
         //switch ammo
         if (Input.GetKeyDown(KeyCode.Alpha1)) {
             switchAmmo(0);

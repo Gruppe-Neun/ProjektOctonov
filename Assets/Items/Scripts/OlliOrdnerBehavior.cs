@@ -10,6 +10,11 @@ public class OlliOrdnerBehavior : ContainerBehavior,IInteractable, IDamageableFr
     [SerializeField] public GameObject leg_right;
     [SerializeField] public GameObject body;
 
+    [SerializeField] private GameObject explosion;
+    [SerializeField] private float baseHealth = 100;
+    [SerializeField] private float baseShield = 100;
+
+    public float level = 1;
     private float maxHealth = 100;
     private float maxShield = 100;
     private bool[] partSlot = new bool[] { false, false, false, false, false };
@@ -31,6 +36,8 @@ public class OlliOrdnerBehavior : ContainerBehavior,IInteractable, IDamageableFr
         this.type = ContainerType.Olli;
         this.content = new ItemBehavior[5];
         this.name = "3D Drucker";
+        maxHealth = baseHealth;
+        maxShield = baseShield;
         health = maxHealth;
         shield = maxShield;
         //updateBody();
@@ -56,6 +63,23 @@ public class OlliOrdnerBehavior : ContainerBehavior,IInteractable, IDamageableFr
         leg_left.SetActive(partSlot[2]);
         leg_right.SetActive(partSlot[3]);
         body.SetActive(partSlot[4]);
+
+        int levelneu = 1;
+        foreach(bool i in partSlot) 
+            if (i) level++;
+        if (levelneu != level) {
+            maxHealth = baseHealth * level;
+            maxShield = baseShield * level;
+            level = levelneu;
+
+            ui.updateHealth(health / maxHealth);
+            healthText.text = (int)health + "/" + (int)maxHealth;
+            healthBar.transform.localPosition = new Vector3(health / maxHealth * 2.5f - 2.5f, 0, 0);
+            healthBar.transform.localScale = new Vector3(health / maxHealth, 1, 1);
+            ui.updateAmor(shield / maxShield);
+            forceField.material.color = new Color(1, 1, 1, shield / maxShield);
+        }
+        
     } 
 
     public void addPart(Item.Type part) {
@@ -86,10 +110,10 @@ public class OlliOrdnerBehavior : ContainerBehavior,IInteractable, IDamageableFr
 
     public override void updateContainer() {
         base.updateContainer();
-        partSlot[0] = (content[0] != null && content[0].type == Item.Type.Olli_ArmLeft);
-        partSlot[1] = (content[1] != null && content[1].type == Item.Type.Olli_ArmRight);
-        partSlot[2] = (content[2] != null && content[2].type == Item.Type.Olli_LegLeft);
-        partSlot[3] = (content[3] != null && content[3].type == Item.Type.Olli_LegRight);
+        partSlot[0] = (content[0] != null && (content[0].type == Item.Type.Olli_ArmLeft || content[1].type == Item.Type.Olli_ArmRight));
+        partSlot[1] = (content[1] != null && (content[1].type == Item.Type.Olli_ArmRight || content[1].type == Item.Type.Olli_ArmLeft));
+        partSlot[2] = (content[2] != null && (content[2].type == Item.Type.Olli_LegLeft || content[3].type == Item.Type.Olli_LegRight));
+        partSlot[3] = (content[3] != null && (content[3].type == Item.Type.Olli_LegRight || content[2].type == Item.Type.Olli_LegLeft));
         partSlot[4] = (content[4] != null && content[4].type == Item.Type.Olli_Body);
         updateBody();
     }
@@ -99,6 +123,7 @@ public class OlliOrdnerBehavior : ContainerBehavior,IInteractable, IDamageableFr
         if (shield < 0) {
             health += shield;
             shield = 0;
+            health = Mathf.Clamp(health, 0, maxHealth);
             ui.updateHealth(health / maxHealth);
             healthText.text = (int)health + "/" + (int)maxHealth;
             healthBar.transform.localPosition = new Vector3(health / maxHealth * 2.5f - 2.5f, 0, 0);
@@ -108,6 +133,32 @@ public class OlliOrdnerBehavior : ContainerBehavior,IInteractable, IDamageableFr
         forceField.material.color = new Color(1, 1, 1, shield / maxShield);
         ui.updateAmor(shield / maxShield);
         ui.sendWarning();
+    }
+
+    public void healLife(float healPoints) {
+        health += healPoints;
+        if (health > maxHealth) health = maxHealth;
+        ui.updateHealth(health / maxHealth);
+        healthText.text = (int)health + "/" + (int)maxHealth;
+        healthBar.transform.localPosition = new Vector3(health / maxHealth * 2.5f - 2.5f, 0, 0);
+        healthBar.transform.localScale = new Vector3(health / maxHealth, 1, 1);
+    }
+
+    public void healShield(float healPoints) {
+        shield += healPoints;
+        if (shield > maxShield) shield = maxShield;
+        ui.updateAmor(shield / maxShield);
+        forceField.material.color = new Color(1, 1, 1, shield / maxShield);
+    }
+
+    public void explode(float radius, float damage) {
+        Destroy(Instantiate(explosion,this.transform),5);
+        Collider[] hit = Physics.OverlapSphere(this.transform.position, radius);
+        foreach (Collider i in hit) {
+            if (i.GetComponent<IDamageableEnemy>() != null) {
+                i.GetComponent<IDamageableEnemy>().TakeDamage(damage);
+            }
+        }
     }
 
     private void die() {

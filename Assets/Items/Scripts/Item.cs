@@ -33,7 +33,8 @@ public static class Item
         Olli_Body,
 
         //Active Items (Medkit muss als erstes)
-        Medkit,
+        Wrench,
+        RedButton,
 
         //Ammo (LASER_BLUE muss als erstes)
         LaserBlue,
@@ -46,6 +47,7 @@ public static class Item
 
         //Core(Tuefteltisch muss als erstes)
         Tuefteltisch,
+        AmmoTuefteltisch,
         TurretBlueCoreLevel1,
         TurretBlueCoreLevel2,
         TurretBlueCoreLevel3,
@@ -109,7 +111,7 @@ public static class Item
                 if ((int)itemType >= (int)Type.LaserBlue) {
                     return useType.AMMO;
                 } else {
-                    if ((int)itemType >= (int)Type.Medkit) {
+                    if ((int)itemType >= (int)Type.Wrench) {
                         return useType.ACTIVE;
                     } else {
                         if ((int)itemType >= (int)Type.UNDEF) {
@@ -178,11 +180,17 @@ public static class Item
 
         if (getUseType(itemType)==useType.AMMO) {
             item.AddComponent<AmmoBehavior>();
-            item.GetComponent<ItemBehavior>().type = itemType;
+            item.GetComponent<AmmoBehavior>().type = itemType;
             item.GetComponent<AmmoBehavior>().setValues();
         } else {
-            item.AddComponent<ItemBehavior>();
-            item.GetComponent<ItemBehavior>().type = itemType;
+            if (getUseType(itemType) == useType.ACTIVE) {
+                item.AddComponent<ActiveBehavior>();
+                item.GetComponent<ActiveBehavior>().type = itemType;
+
+            } else {
+                item.AddComponent<ItemBehavior>();
+                item.GetComponent<ItemBehavior>().type = itemType;
+            }
         }
         
         item.GetComponent<ItemBehavior>().useType = getUseType(itemType);

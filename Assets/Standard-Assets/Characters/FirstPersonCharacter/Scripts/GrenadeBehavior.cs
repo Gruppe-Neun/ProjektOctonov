@@ -41,7 +41,6 @@ public class GrenadeBehavior : MonoBehaviour
 
     public void OnTriggerEnter(Collider other) {
         impact = true;
-        Debug.Log("Grenade Exlpoded");
         Destroy(Instantiate(explosion, this.transform.position, new Quaternion()), explosion.GetComponentInChildren<ParticleSystem>().duration);
         Collider[] hit = Physics.OverlapSphere(this.transform.position, radius);
         if (friendly) {

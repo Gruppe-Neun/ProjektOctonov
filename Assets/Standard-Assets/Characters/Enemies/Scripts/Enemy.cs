@@ -111,7 +111,7 @@ public class Enemy : MonoBehaviour, IDamageableEnemy
             damage *= eliteAmplifier[1];
             range *= eliteAmplifier[2];
             speed *= eliteAmplifier[3];
-            transform.localScale = transform.localScale * 1.2f;
+            transform.localScale = transform.localScale * 1.5f;
         }
 
         agent.speed = speed;

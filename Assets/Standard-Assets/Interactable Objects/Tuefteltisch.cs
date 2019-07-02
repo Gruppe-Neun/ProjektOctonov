@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Tuefteltisch : MonoBehaviour, IInteractable {
 
+    [SerializeField] Crafting.CraftingStationType type = Crafting.CraftingStationType.Tuefteltisch;
+
     GameObject uiGo;
     InventoryBehavior inventory;
     UIBehavior ui;
@@ -17,6 +19,6 @@ public class Tuefteltisch : MonoBehaviour, IInteractable {
 
     public void Interact() {
         ui.openInventory();
-        inventory.setCraftingStation(Crafting.CraftingStationType.Tuefteltisch);
+        inventory.setCraftingStation(type);
     }
 }
