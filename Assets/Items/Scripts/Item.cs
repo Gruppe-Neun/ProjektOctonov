@@ -49,6 +49,8 @@ public static class Item
         //Core(Tuefteltisch muss als erstes)
         Tuefteltisch,
         AmmoTuefteltisch,
+        MineIronplate,
+        MineGoldplate,
         TurretBlueCoreLevel1,
         TurretBlueCoreLevel2,
         TurretBlueCoreLevel3,

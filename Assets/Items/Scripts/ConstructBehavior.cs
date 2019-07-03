@@ -11,6 +11,9 @@ public class ConstructBehavior : MonoBehaviour, IInteractable
     public Tuefteltisch tuefteltisch;
     public Tuefteltisch ammoTuefteltisch;
 
+    public MineBehavior IronplateMine;
+    public MineBehavior GoldplateMine;
+
     public int type = 1; //0=small, 1=large
 
     // Start is called before the first frame update
@@ -38,9 +41,17 @@ public class ConstructBehavior : MonoBehaviour, IInteractable
                     Instantiate(tuefteltisch, new Vector3(transform.position.x, transform.position.y, transform.position.z), new Quaternion());
                     Destroy(this.gameObject);
                     return true;
-
                 case Item.Type.AmmoTuefteltisch:
                     Instantiate(ammoTuefteltisch, new Vector3(transform.position.x, transform.position.y, transform.position.z), new Quaternion());
+                    Destroy(this.gameObject);
+                    return true;
+
+                case Item.Type.MineIronplate:
+                    GameObject.Find("World").GetComponent<LevelBehavior>().mines.Add(Instantiate(IronplateMine, new Vector3(transform.position.x, transform.position.y, transform.position.z), new Quaternion()));
+                    Destroy(this.gameObject);
+                    return true;
+                case Item.Type.MineGoldplate:
+                    GameObject.Find("World").GetComponent<LevelBehavior>().mines.Add(Instantiate(GoldplateMine, new Vector3(transform.position.x, transform.position.y, transform.position.z), new Quaternion()));
                     Destroy(this.gameObject);
                     return true;
 

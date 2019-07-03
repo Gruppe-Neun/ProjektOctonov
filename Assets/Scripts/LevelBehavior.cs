@@ -28,6 +28,8 @@ public class LevelBehavior : MonoBehaviour
         public float[] cooldownTime;
     }
 
+    public List<MineBehavior> mines = new List<MineBehavior>();
+
     private int infiniteRandom = -1;  //-1 not random; 0 = random just level increase; >0 = random level and wave amount increase every X levels
 
     private UIBehavior ui;
@@ -215,6 +217,7 @@ public class LevelBehavior : MonoBehaviour
 
     
     private void nextWave() {
+        foreach (MineBehavior mine in mines) mine.waveClear();
         if (infiniteRandom==-1) {
             activeWave = new Wave[1];
             running = false;
@@ -240,7 +243,7 @@ public class LevelBehavior : MonoBehaviour
             nextSpawn = new float[count, waves[0].amount.Length];
             toSpawn = new int[count, waves[0].amount.Length];
             for (int w = 0; w < count; w++) {
-                waves[w] = waves[UnityEngine.Random.Range(0, waves.Length)];
+                activeWave[w] = waves[UnityEngine.Random.Range(0, waves.Length)];
                 for (int i = 0; i < nextSpawn.Length; i++) {
                     nextSpawn[w, i] = activeWave[w].startTime[i];
                     toSpawn[w, i] = activeWave[w].amount[i];

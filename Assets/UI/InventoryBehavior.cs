@@ -348,6 +348,7 @@ public class InventoryBehavior : MonoBehaviour
             activeContainer = null;
             containerUI.gameObject.SetActive(false);
         }
+        ContainerSlot[0].accessible = SlotBehavior.AccesType.OPEN;
     }
 
     public void openContainer(ContainerBehavior container) {
@@ -403,6 +404,17 @@ public class InventoryBehavior : MonoBehaviour
                 ContainerSlot[2].transform.localPosition = new Vector3(-48, -30, 0);
                 ContainerSlot[3].transform.localPosition = new Vector3(48, -30, 0);
                 ContainerSlot[4].transform.localPosition = new Vector3(0, 32, 0);
+                break;
+
+            case ContainerBehavior.ContainerType.Mine:
+                ContainerSlot[0].gameObject.SetActive(true);
+                ContainerSlot[0].setItem(container.content[0]);
+                for (int i = 1; i < ContainerSlot.Length; i++) {
+                    ContainerSlot[i].gameObject.SetActive(false);
+                    ContainerSlot[i].setItem(null);
+                }
+                ContainerSlot[0].transform.localPosition = new Vector3(0,0,0);
+                ContainerSlot[0].accessible = SlotBehavior.AccesType.TAKEONLY;
                 break;
         }
         containerUI.gameObject.SetActive(true);

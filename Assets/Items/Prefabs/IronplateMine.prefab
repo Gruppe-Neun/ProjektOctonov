@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &307479567835790622
+--- !u!1 &6903253442346507541
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,47 +8,48 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7576427003587030022}
-  - component: {fileID: 5023253802978840070}
-  - component: {fileID: 6121053796743856928}
-  - component: {fileID: 1475012143663050518}
-  - component: {fileID: 3457099891026489648}
-  m_Layer: 10
-  m_Name: ConstructSmall
+  - component: {fileID: 6903253442346507537}
+  - component: {fileID: 6903253442346507536}
+  - component: {fileID: 6903253442346507543}
+  - component: {fileID: 6903253442346507542}
+  - component: {fileID: 6903253442346507538}
+  - component: {fileID: 4880687685952351757}
+  m_Layer: 0
+  m_Name: IronplateMine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7576427003587030022
+--- !u!4 &6903253442346507537
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 307479567835790622}
+  m_GameObject: {fileID: 6903253442346507541}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 100, y: 66.98, z: 117.81}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &5023253802978840070
+--- !u!33 &6903253442346507536
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 307479567835790622}
+  m_GameObject: {fileID: 6903253442346507541}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &6121053796743856928
+--- !u!23 &6903253442346507543
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 307479567835790622}
+  m_GameObject: {fileID: 6903253442346507541}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -59,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e63238fab9d91654c9c1e31925a53045, type: 2}
+  - {fileID: 2100000, guid: 8a86e53fb5f1af344808a6c2fcc8502f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -79,43 +80,49 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &1475012143663050518
+--- !u!65 &6903253442346507542
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 307479567835790622}
+  m_GameObject: {fileID: 6903253442346507541}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3457099891026489648
+--- !u!54 &6903253442346507538
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6903253442346507541}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &4880687685952351757
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 307479567835790622}
+  m_GameObject: {fileID: 6903253442346507541}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a641ec5c5e34b84191499220a210021, type: 3}
+  m_Script: {fileID: 11500000, guid: 3581b00a40edef04b952d712153d551d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  redTurret: {fileID: 6566013377105893584, guid: e8669770f4279e1418b05950378b8daa,
-    type: 3}
-  blueTurret: {fileID: 8753794043875911966, guid: dd948cf7e146c6443b5a2ba57d3a9ef7,
-    type: 3}
-  greenTurret: {fileID: 2996157868579485684, guid: 1950652c2a7522f49a3841a36f4c0244,
-    type: 3}
-  tuefteltisch: {fileID: 6903253442346507539, guid: a99c925a21dfdf34aae3cd1e247036c7,
-    type: 3}
-  ammoTuefteltisch: {fileID: 7231980474973325105, guid: 70e222bbe454aef499b5b7a258cbf9b7,
-    type: 3}
-  IronplateMine: {fileID: 4880687685952351757, guid: 0f836f7715bfa2543a3c3f9f99efa3df,
-    type: 3}
-  GoldplateMine: {fileID: 7653390353844380312, guid: ba5d05ce91b008440ac4cb528e34c7c8,
-    type: 3}
   type: 0
+  containerName: Container
+  content: []
+  production: 3
+  amount: 10

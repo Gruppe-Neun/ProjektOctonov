@@ -9,7 +9,8 @@ public class ContainerBehavior : MonoBehaviour, IInteractable
         Tiny,
         Medium,
         Large,
-        Olli
+        Olli,
+        Mine
     }
 
     public ContainerType type = ContainerType.Tiny;

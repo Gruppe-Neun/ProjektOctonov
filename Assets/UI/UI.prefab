@@ -1979,6 +1979,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 13c116cc05203774cb3a02e5bf58f752, type: 3}
   - {fileID: 0}
   - {fileID: 2800000, guid: 14e7d11888f2adf4f82c48c1d164941e, type: 3}
+  - {fileID: 2800000, guid: 67cd75afcfec71e48a4fe26d254e14bf, type: 3}
   itemPrefab: {fileID: 6155435031842547893, guid: 30ccd99196a87a14f92e3f5b5122e577,
     type: 3}
   cursor: {fileID: 6205862786691167325}
