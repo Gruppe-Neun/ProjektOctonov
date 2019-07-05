@@ -40,11 +40,13 @@ public class PauseMenuBehaviour : MonoBehaviour
     }
 
     public void Restart() {
+        Time.timeScale = 1f;
         gamePaused = false;
         sceneLoader.LoadScene(SceneManager.GetActiveScene().path);
     }
 
     public void Exit() {
+        Time.timeScale = 1f;
         gamePaused = false;
         sceneLoader.LoadScene("Assets/Scenes/Main Menu.unity");
     }
