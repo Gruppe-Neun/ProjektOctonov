@@ -7,6 +7,7 @@ public class ConstructBehavior : MonoBehaviour, IInteractable
     public TurretBehavior redTurret;
     public TurretBehavior blueTurret;
     public TurretBehavior greenTurret;
+    public TurretBehavior slowTurret;
 
     public Tuefteltisch tuefteltisch;
     public Tuefteltisch ammoTuefteltisch;
@@ -74,6 +75,11 @@ public class ConstructBehavior : MonoBehaviour, IInteractable
 
                 case Item.Type.TurretGreenCoreLevel1:
                     Instantiate(greenTurret, new Vector3(transform.position.x, transform.position.y - transform.localScale.y / 2, transform.position.z), new Quaternion());
+                    Destroy(this.gameObject);
+                    return true;
+
+                case Item.Type.TurretSlowCoreLevel1:
+                    Instantiate(slowTurret, new Vector3(transform.position.x, transform.position.y - transform.localScale.y / 2, transform.position.z), new Quaternion());
                     Destroy(this.gameObject);
                     return true;
 

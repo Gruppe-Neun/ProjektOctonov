@@ -305,14 +305,18 @@ MonoBehaviour:
   maxLevel: 4
   Bone_Barrel: {fileID: 2994979669995630732}
   Bone_Upper: {fileID: 2994979669995630734}
-  laserBullet: {fileID: 5860776558636707515, guid: 3d1a89c78512c3443af4f676cb9e977d,
+  laserBulletRed: {fileID: 912356711943405352, guid: c3314d90c26ae8440baddca27b536eda,
+    type: 3}
+  laserBulletGreen: {fileID: 4544369748485367824, guid: 54aa975b3f7b4e54ea277816a3824dfa,
+    type: 3}
+  laserBulletSlow: {fileID: 6554732485943087509, guid: ff2de4080d652674b948ba687a74756e,
     type: 3}
   turretType: 3
   damage: 1
   fireRate: 1
   range: 30
-  horizontalSpeed: 40
-  verticalSpeed: 30
+  horizontalSpeed: 60
+  verticalSpeed: 50
 --- !u!54 &4387049641439922196
 Rigidbody:
   m_ObjectHideFlags: 0

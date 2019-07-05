@@ -1151,6 +1151,8 @@ MonoBehaviour:
     type: 3}
   laserBulletGreen: {fileID: 4544369748485367824, guid: 042fcc28748b4fc43b22411590eac764,
     type: 3}
+  laserBulletSlow: {fileID: 6554732485943087509, guid: 9e60fc200b06af54481c35fe3e6d70f3,
+    type: 3}
   grenade: {fileID: 2290771640979796287, guid: ffd105b4b4d71e24d8e2e112ebcd4c37, type: 3}
   ammo: {fileID: 0}
 --- !u!1 &2252056032052247833

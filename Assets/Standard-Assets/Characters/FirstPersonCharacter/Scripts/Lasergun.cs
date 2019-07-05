@@ -5,6 +5,7 @@ public class Lasergun : MonoBehaviour {
     [SerializeField] private float range = 100f;
     [SerializeField] private BulletBehavior laserBulletRed;
     [SerializeField] private BulletBehavior laserBulletGreen;
+    [SerializeField] private BulletBehavior laserBulletSlow;
     [SerializeField] private GrenadeBehavior grenade;
 
     public AmmoBehavior ammo = null;
@@ -93,6 +94,12 @@ public class Lasergun : MonoBehaviour {
                     break;
                 case Item.Type.LaserGreenLevel2:
                     Shoot_LaserGreen();
+                    break;
+                case Item.Type.LaserSlowLevel1:
+                    Shoot_LaserSlow(0.7f,1.5f);
+                    break;
+                case Item.Type.LaserSlowLevel2:
+                    Shoot_LaserSlow(0.5f, 2.5f);
                     break;
                 case Item.Type.GrenadeLauncher:
                     Shoot_GrenadeLauncher();
@@ -191,7 +198,25 @@ public class Lasergun : MonoBehaviour {
         fireTimeSincePress += Time.deltaTime;
     }
 
+    private void Shoot_LaserSlow(float slowAmount, float slowTime) {
+        if (Time.time >= fireTime) {
+            BulletBehavior bullet;
+            RaycastHit hit;
+            if (Physics.Raycast(viewSource.transform.position, viewSource.transform.forward, out hit, range, raycastLayerMask)) {
+                Vector3 rotation = hit.point - laserSource.transform.position;
+                bullet = Instantiate(laserBulletSlow, laserSource.transform.position, Quaternion.FromToRotation(Vector3.forward, rotation)).GetComponent<BulletBehavior>();
+            } else {
+                bullet = Instantiate(laserBulletSlow, laserSource.transform.position, Quaternion.FromToRotation(Vector3.forward, viewSource.transform.position + viewSource.transform.forward * range - laserSource.transform.position));
+            }
 
+            bullet.damage = ammo.damage;
+            bullet.slowAmount = slowAmount;
+            bullet.slowTime = slowTime;
+
+            fireTime = Time.time + ammo.fireRate;
+            ammo.use();
+        }
+    }
 
     private void Shoot_GrenadeLauncher() {
         if (Time.time >= fireTime) {
@@ -209,6 +234,8 @@ public class Lasergun : MonoBehaviour {
             ammo.use();
         }
     }
+
+    
 
     private void Shoot_Flamethrower() {
         flamethrower.setActive(true);

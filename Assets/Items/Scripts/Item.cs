@@ -35,6 +35,7 @@ public static class Item
 
         //Active Items (Medkit muss als erstes)
         Wrench,
+        Shield,
         RedButton,
 
         //Ammo (LASER_BLUE muss als erstes)
@@ -43,6 +44,8 @@ public static class Item
         LaserRedLevel2,
         LaserGreenLevel1,
         LaserGreenLevel2,
+        LaserSlowLevel1,
+        LaserSlowLevel2,
         GrenadeLauncher,
         Flamethrower,
 
@@ -55,14 +58,22 @@ public static class Item
         TurretBlueCoreLevel2,
         TurretBlueCoreLevel3,
         TurretBlueCoreLevel4,
+        TurretBlueCoreLevel5,
         TurretRedCoreLevel1,
         TurretRedCoreLevel2,
         TurretRedCoreLevel3,
         TurretRedCoreLevel4,
+        TurretRedCoreLevel5,
         TurretGreenCoreLevel1,
         TurretGreenCoreLevel2,
         TurretGreenCoreLevel3,
-        TurretGreenCoreLevel4
+        TurretGreenCoreLevel4,
+        TurretGreenCoreLevel5,
+        TurretSlowCoreLevel1,
+        TurretSlowCoreLevel2,
+        TurretSlowCoreLevel3,
+        TurretSlowCoreLevel4,
+        TurretSlowCoreLevel5
 
         //Objects ()
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TurretBehavior : MonoBehaviour, IInteractable {
-    public enum Type { UNDEF, BlueLaser, RedLaser, GreenLaser }
+    public enum Type { UNDEF, BlueLaser, RedLaser, GreenLaser, SlowLaser }
     public enum Upgrade { UNDEF, Damage, Firerate, Range }
     private delegate void Shoot();
     private struct TurretStats {
@@ -30,20 +30,24 @@ public class TurretBehavior : MonoBehaviour, IInteractable {
         new TurretStats(0,0,0,0,0,0),
         new TurretStats(3,1,0.2f,2,15,5),
         new TurretStats(10,7,0.5f,2,20,10),
-        new TurretStats(1,1,0.1f,2,15,7)
+        new TurretStats(1,1,0.1f,2,15,7),
+        new TurretStats(1,0.5f,1,1.5f,20,10)
         };
 
     public Item.Type[,] upgradeItems = new Item.Type[,]{
         { Item.Type.UNDEF, Item.Type.UNDEF, Item.Type.UNDEF, Item.Type.UNDEF },
-        { Item.Type.TurretBlueCoreLevel1, Item.Type.TurretBlueCoreLevel2, Item.Type.TurretBlueCoreLevel3, Item.Type.TurretBlueCoreLevel4 },
-        { Item.Type.TurretRedCoreLevel1, Item.Type.TurretRedCoreLevel2, Item.Type.TurretRedCoreLevel3, Item.Type.TurretRedCoreLevel4 },
-        { Item.Type.TurretGreenCoreLevel1, Item.Type.TurretGreenCoreLevel2, Item.Type.TurretGreenCoreLevel3, Item.Type.TurretGreenCoreLevel4 },
+        { Item.Type.TurretBlueCoreLevel2, Item.Type.TurretBlueCoreLevel3, Item.Type.TurretBlueCoreLevel4, Item.Type.TurretBlueCoreLevel5 },
+        { Item.Type.TurretRedCoreLevel2, Item.Type.TurretRedCoreLevel3, Item.Type.TurretRedCoreLevel4, Item.Type.TurretRedCoreLevel5 },
+        { Item.Type.TurretGreenCoreLevel2, Item.Type.TurretGreenCoreLevel3, Item.Type.TurretGreenCoreLevel4, Item.Type.TurretGreenCoreLevel5 },
+        { Item.Type.TurretSlowCoreLevel2, Item.Type.TurretSlowCoreLevel3, Item.Type.TurretSlowCoreLevel4, Item.Type.TurretSlowCoreLevel5 }
         };
     public int maxLevel = 4;
 
-    public GameObject Bone_Barrel;
-    public GameObject Bone_Upper;
-    public BulletBehavior laserBullet;
+    [SerializeField] protected GameObject Bone_Barrel;
+    [SerializeField] protected GameObject Bone_Upper;
+    [SerializeField] protected BulletBehavior laserBulletRed;
+    [SerializeField] protected BulletBehavior laserBulletGreen;
+    [SerializeField] protected BulletBehavior laserBulletSlow;
     public Type turretType = Type.UNDEF;
 
     public float damage = 2;
@@ -113,6 +117,10 @@ public class TurretBehavior : MonoBehaviour, IInteractable {
             case Type.GreenLaser:
                 shootType = Shoot_LaserGreen;
                 break;
+
+            case Type.SlowLaser:
+                shootType = Shoot_LaserSlow;
+                break;
         }
 
     }
@@ -164,7 +172,7 @@ public class TurretBehavior : MonoBehaviour, IInteractable {
     private void Shoot_LaserRed() {
         if (Time.time >= fireTime) {
             BulletBehavior bullet;
-            bullet = Instantiate(laserBullet, origin.position-(origin.right*0.5f), Quaternion.FromToRotation(Vector3.back, origin.right)).GetComponent<BulletBehavior>();
+            bullet = Instantiate(laserBulletRed, origin.position-(origin.right*0.5f), Quaternion.FromToRotation(Vector3.back, origin.right)).GetComponent<BulletBehavior>();
             bullet.damage = damage;
             fireTime = Time.time + fireRate;
         }
@@ -196,11 +204,22 @@ public class TurretBehavior : MonoBehaviour, IInteractable {
     private void Shoot_LaserGreen() {
         if (Time.time >= fireTime) {
             BulletBehavior bullet;
-            bullet = Instantiate(laserBullet, origin.position - (origin.right * 0.5f), Quaternion.FromToRotation(Vector3.back, origin.right)).GetComponent<BulletBehavior>();
+            bullet = Instantiate(laserBulletGreen, origin.position - (origin.right * 0.5f), Quaternion.FromToRotation(Vector3.back, origin.right)).GetComponent<BulletBehavior>();
             bullet.damage = damage;
             fireTime = Time.time + fireRate / Mathf.Clamp01(fireTimeSincePress / 15 + 0.4f);
         }
         fireTimeSincePress += Time.fixedDeltaTime;
+    }
+
+    private void Shoot_LaserSlow() {
+        if (Time.time >= fireTime) {
+            BulletBehavior bullet;
+            bullet = Instantiate(laserBulletSlow, origin.position - (origin.right * 0.5f), Quaternion.FromToRotation(Vector3.back, origin.right)).GetComponent<BulletBehavior>();
+            bullet.damage = damage;
+            bullet.slowAmount = 2/damage*fireRate;
+            bullet.slowTime = 2.5f;
+            fireTime = Time.time + fireRate;
+        }
     }
 
     public void setTarget(GameObject target) {
@@ -209,6 +228,7 @@ public class TurretBehavior : MonoBehaviour, IInteractable {
     }
 
     public void Interact() {
+        if(getUpgradeItem()!=Item.Type.UNDEF)
         GameObject.Find("UI").GetComponent<UIBehavior>().openTurret(this);
     }
 }

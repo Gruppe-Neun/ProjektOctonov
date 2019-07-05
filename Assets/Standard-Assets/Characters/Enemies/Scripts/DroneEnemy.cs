@@ -23,8 +23,8 @@ public class DroneEnemy : Enemy
     }
 
     // Update is called once per frame
-    void FixedUpdate()
-    {
+    public override void FixedUpdate() {
+        base.FixedUpdate();
         switch (status) {
             case 0:
                 if (!agent.isOnNavMesh) {

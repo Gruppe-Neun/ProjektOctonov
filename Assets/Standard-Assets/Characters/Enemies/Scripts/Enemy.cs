@@ -38,13 +38,17 @@ public class Enemy : MonoBehaviour, IDamageableEnemy
     [SerializeField] protected float speed = 3f;
     protected float health;
 
+    protected float slowTime = -1;
+    protected float slowAmount = 1;
+
     [SerializeField] protected LootPool[] lootPool;
     [SerializeField] protected Vector3 lootOffset;
     public DieCallback dieCallback;
 
     protected Transform healthCanvas;
     protected Transform playerCamera;
-    protected RawImage healthBar;
+    [SerializeField] protected RawImage healthBar;
+    [SerializeField] protected RawImage snowflake;
     protected bool showHealth = false;
 
     protected NavMeshAgent agent;
@@ -89,8 +93,8 @@ public class Enemy : MonoBehaviour, IDamageableEnemy
         }
         agent = GetComponent<NavMeshAgent>();
         setLevel(level);
-        healthBar = GetComponentInChildren<RawImage>();
         if (healthBar != null) showHealth = true;
+        if (snowflake != null) snowflake.enabled = false;
 
         healthCanvas = GetComponentInChildren<Canvas>().transform;
         playerCamera = GameObject.Find("FirstPersonCharacter").transform;
@@ -119,6 +123,30 @@ public class Enemy : MonoBehaviour, IDamageableEnemy
 
     public virtual void Update() {
         if(showHealth) healthCanvas.LookAt(playerCamera, Vector3.up);
+    }
+
+    public virtual void FixedUpdate() {
+        if (slowTime >= 0) {
+            slowTime -= Time.fixedDeltaTime;
+            if (slowTime <= 0) {
+                slowTime = -1;
+                agent.speed = speed;
+                snowflake.enabled = false;
+            }
+        }
+        
+    }
+
+    public virtual void slow(float amount, float time) {
+        if (slowTime >= 0) {
+            slowTime = Mathf.Max(slowTime, slowAmount);
+            slowAmount = Mathf.Max(slowAmount, amount);
+        } else {
+            slowTime = time;
+            slowAmount = amount;
+            snowflake.enabled = true;
+        }
+        agent.speed = speed * slowAmount;
     }
 
     public virtual void TakeDamage(float damage) {

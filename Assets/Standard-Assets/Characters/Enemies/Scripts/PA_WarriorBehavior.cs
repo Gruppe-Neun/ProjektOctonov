@@ -34,7 +34,8 @@ public class PA_WarriorBehavior : Enemy
         base.Update();
     }
 
-    void FixedUpdate() {
+    public override void FixedUpdate() {
+        base.FixedUpdate();
         switch (status) {
             case 0 :
                 if (!agent.isOnNavMesh) {

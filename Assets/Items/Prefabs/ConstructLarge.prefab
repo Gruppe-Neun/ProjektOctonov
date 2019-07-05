@@ -110,8 +110,12 @@ MonoBehaviour:
     type: 3}
   greenTurret: {fileID: 2996157868579485684, guid: 1950652c2a7522f49a3841a36f4c0244,
     type: 3}
+  slowTurret: {fileID: 7715793533102164626, guid: 5bae167a462d3a94b9fcf5d3b80d69a2,
+    type: 3}
   tuefteltisch: {fileID: 6903253442346507539, guid: a99c925a21dfdf34aae3cd1e247036c7,
     type: 3}
   ammoTuefteltisch: {fileID: 7231980474973325105, guid: 70e222bbe454aef499b5b7a258cbf9b7,
     type: 3}
+  IronplateMine: {fileID: 0}
+  GoldplateMine: {fileID: 0}
   type: 1

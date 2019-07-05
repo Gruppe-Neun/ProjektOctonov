@@ -39,6 +39,17 @@ public class AmmoBehavior : ItemBehavior
                 crosshairType = 2;
                 break;
 
+            case Item.Type.LaserSlowLevel1:
+                fireRate = 0.3f;
+                damage = 1f;
+                crosshairType = 1;
+                break;
+            case Item.Type.LaserSlowLevel2:
+                fireRate = 0.2f;
+                damage = 1.5f;
+                crosshairType = 1;
+                break;
+
             case Item.Type.GrenadeLauncher:
                 fireRate = 1;
                 damage = 50;

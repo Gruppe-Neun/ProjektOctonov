@@ -24,10 +24,15 @@ public class ActiveBehavior : ItemBehavior
                 }
                 break;
 
-            
+            case Item.Type.Shield:
+                GameObject.Find("3D Drucker").GetComponent<OlliOrdnerBehavior>().healShield(100);
+                break;
+
             case Item.Type.RedButton:
                 GameObject.Find("3D Drucker").GetComponent<OlliOrdnerBehavior>().explode(20, 100* GameObject.Find("3D Drucker").GetComponent<OlliOrdnerBehavior>().level);
                 break;
+
+                
 
         }
         if (amount == -1) {

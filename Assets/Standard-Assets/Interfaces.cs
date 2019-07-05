@@ -11,6 +11,7 @@ public interface IDamageable {
 }
 
 public interface IDamageableEnemy : IDamageable {
+    void slow(float amount, float time);
 
 }
 

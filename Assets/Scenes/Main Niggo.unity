@@ -336,6 +336,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPoint: {fileID: 841766418225512708, guid: 70eaa9ae1263a1a48beadc3d444b7b77,
     type: 3}
+  mines: []
   waveTime: 0
 --- !u!4 &988971240 stripped
 Transform:
