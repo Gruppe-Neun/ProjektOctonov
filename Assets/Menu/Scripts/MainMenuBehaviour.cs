@@ -11,6 +11,8 @@ public class MainMenuBehaviour : MonoBehaviour
     public GameObject creditsMenu;
 
     void Start() {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         OpenMainMenu();
     }
 
