@@ -40,9 +40,11 @@ public class LevelBehavior : MonoBehaviour
     private SpawnerBehavior[] playerTargetSpawner;
 
     private Wave[] waves;
-    private float[] between; 
+    private Wave[] bossWaves;
+    private float[] between;
 
     private int activeWaveNum = 0;
+    private int activeWaveType = 0;
     private Wave[] activeWave;
     private bool running = false;
     private bool waveEnd = false;
@@ -141,6 +143,9 @@ public class LevelBehavior : MonoBehaviour
                     new Wave(new int[]{ 0, 0, 0, 40 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 5, 15, 4 }),
                     new Wave(new int[]{ 0, 0, 10, 30 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 5, 15, 5 })
                 };
+                bossWaves = new Wave[]{
+                    new Wave(new int[] { 0, 0, 10, 30 }, new int[] { 0, 0, 0, 0 }, new bool[] { false, false, false, false }, new float[] { 0, 0, 0, 0 }, new float[] { 5, 5, 15, 5 })
+                    };
                 break;
 
             case 1:
@@ -217,45 +222,79 @@ public class LevelBehavior : MonoBehaviour
 
     
     private void nextWave() {
+
         foreach (MineBehavior mine in mines) mine.waveClear();
-        if (infiniteRandom==-1) {
-            activeWave = new Wave[1];
-            running = false;
-            activeWaveNum++;
-            activeWave[0] = waves[activeWaveNum];
-            nextSpawn = new float[1, activeWave[0].amount.Length];
-            toSpawn = new int[1, activeWave[0].amount.Length];
-            for (int i = 0; i < nextSpawn.Length; i++) {
-                nextSpawn[0,i] = activeWave[0].startTime[i];
-                toSpawn[0,i] = activeWave[0].amount[i];
-            }
-            waveEnd = false;
-            waveTime = -10f;
-            running = true;
-        } else {
-            running = false;
-            activeWaveNum++;
-            int count;
-            if (infiniteRandom == 0) count = 1;
-            else count = (int)(activeWaveNum / infiniteRandom);
-            activeWave = new Wave[count];
-            
-            nextSpawn = new float[count, waves[0].amount.Length];
-            toSpawn = new int[count, waves[0].amount.Length];
-            for (int w = 0; w < count; w++) {
-                activeWave[w] = waves[UnityEngine.Random.Range(0, waves.Length)];
-                for (int i = 0; i < nextSpawn.Length; i++) {
-                    nextSpawn[w, i] = activeWave[w].startTime[i];
-                    toSpawn[w, i] = activeWave[w].amount[i];
+
+        switch (activeWaveType) {
+            case 0:
+                if (infiniteRandom == -1) {
+                    activeWave = new Wave[1];
+                    running = false;
+                    activeWaveNum++;
+                    activeWave[0] = waves[activeWaveNum];
+                    nextSpawn = new float[1, activeWave[0].amount.Length];
+                    toSpawn = new int[1, activeWave[0].amount.Length];
+                    for (int i = 0; i < nextSpawn.Length; i++) {
+                        nextSpawn[0, i] = activeWave[0].startTime[i];
+                        toSpawn[0, i] = activeWave[0].amount[i];
+                    }
+                    waveEnd = false;
+                    waveTime = -10f;
+                    running = true;
+                } else {
+                    running = false;
+                    activeWaveNum++;
+                    int count;
+                    if (infiniteRandom == 0) count = 1;
+                    else count = (int)(activeWaveNum / infiniteRandom);
+                    activeWave = new Wave[count];
+
+                    nextSpawn = new float[count, waves[0].amount.Length];
+                    toSpawn = new int[count, waves[0].amount.Length];
+                    for (int w = 0; w < count; w++) {
+                        activeWave[w] = waves[UnityEngine.Random.Range(0, waves.Length)];
+                        for (int i = 0; i < nextSpawn.Length; i++) {
+                            nextSpawn[w, i] = activeWave[w].startTime[i];
+                            toSpawn[w, i] = activeWave[w].amount[i];
+                        }
+                    }
+                    waveEnd = false;
+                    waveTime = -10f;
+                    running = true;
                 }
-            }
-            waveEnd = false;
-            waveTime = -10f;
-            running = true;
+                break;
+
+            case 1:
+                activeWaveNum++;
+                activeWave = new Wave[1];
+                running = false;
+                activeWave = new Wave[1];
+                running = false;
+                activeWaveNum++;
+                activeWave[0] = bossWaves[UnityEngine.Random.Range(0, bossWaves.Length)];
+                nextSpawn = new float[1, activeWave[0].amount.Length];
+                toSpawn = new int[1, activeWave[0].amount.Length];
+                for (int i = 0; i < nextSpawn.Length; i++) {
+                    nextSpawn[0, i] = activeWave[0].startTime[i];
+                    toSpawn[0, i] = activeWave[0].amount[i];
+                }
+                waveEnd = false;
+                waveTime = -10f;
+                running = true;
+                ui.sendWarning("Last wave\nincoming!");
+                activeWaveType = 2;
+                break;
+
+            case 2:
+                //win screen einfügen
+                break;
         }
         Debug.Log("Next Wave:  Spider: " + activeWave[0].amount[0] + "  Spider_fast: " + activeWave[0].amount[1] + "  Spider_large: " + activeWave[0].amount[2] + "  Drone: " + activeWave[0].amount[3]);
     }
     
+    public void lastWave() {
+        activeWaveType = 1;
+    }
 
     void FixedUpdate() {
         if (running) {
@@ -289,6 +328,8 @@ public class LevelBehavior : MonoBehaviour
             }
         }
     }
+
+
 
     public void enemyKilled(Enemy dead) {
         alive.Remove(dead);

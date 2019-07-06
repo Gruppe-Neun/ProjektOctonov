@@ -329,7 +329,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         }
 
         private void BlockInteract() {
-            int layerMask = ~(1 << 8);
+            int layerMask = ~((1 << 8) + (1 << 2));
             RaycastHit hit;
             if(Physics.Raycast(m_Camera.transform.position, m_Camera.transform.forward, out hit, interactRange, layerMask)) {
 
