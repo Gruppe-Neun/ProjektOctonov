@@ -22,15 +22,16 @@ public static class Item
         Nut,
         Ironplate,
         GoldPlate,
-        Flashlight,
+        BaseTurret,
         CristalBlue,
         CristalRed,
+        CristalGreen,
+        Fuel,
+        Gunpowder,
         Case,
 
-        Olli_ArmRight,
-        Olli_ArmLeft,
-        Olli_LegRight,
-        Olli_LegLeft,
+        Olli_Arm,
+        Olli_Leg,
         Olli_Body,
 
         //Active Items (Medkit muss als erstes)
