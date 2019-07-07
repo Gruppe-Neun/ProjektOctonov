@@ -46,7 +46,7 @@ public class ContainerBehavior : MonoBehaviour, IInteractable
         
     }
 
-    public void Interact() {
+    public virtual void Interact() {
         GameObject.Find("UI").GetComponent<UIBehavior>().openContainer(this);
     }
 

@@ -9,6 +9,7 @@ public class OlliOrdnerBehavior : ContainerBehavior,IInteractable, IDamageableFr
     [SerializeField] public GameObject leg_left;
     [SerializeField] public GameObject leg_right;
     [SerializeField] public GameObject body;
+    [SerializeField] public GameObject window;
 
     [SerializeField] private GameObject explosion;
     [SerializeField] private float baseHealth = 100;
@@ -27,6 +28,7 @@ public class OlliOrdnerBehavior : ContainerBehavior,IInteractable, IDamageableFr
 
     private float health;
     private float shield;
+    private bool complete = false;
     private RawImage healthBar;
     private Text healthText;
 
@@ -66,7 +68,7 @@ public class OlliOrdnerBehavior : ContainerBehavior,IInteractable, IDamageableFr
 
         int levelneu = 1;
         foreach(bool i in partSlot) 
-            if (i) level++;
+            if (i) levelneu++;
         if (levelneu != level) {
             maxHealth = baseHealth * level;
             maxShield = baseShield * level;
@@ -79,7 +81,8 @@ public class OlliOrdnerBehavior : ContainerBehavior,IInteractable, IDamageableFr
             ui.updateAmor(shield / maxShield);
             forceField.material.color = new Color(1, 1, 1, shield / maxShield);
         }
-        
+        if (level >= 6) ready();
+        Debug.Log(level);
     } 
 
     public override void updateContainer() {
@@ -135,7 +138,17 @@ public class OlliOrdnerBehavior : ContainerBehavior,IInteractable, IDamageableFr
         }
     }
 
-    private void die() {
+    private void ready() {
+        complete = true;
+        window.SetActive(false);
+        GameObject.Find("World").GetComponent<LevelBehavior>().lastWave();
+    }
 
+    private void die() {
+        //gameover screen einfügen
+    }
+
+    public override void Interact() {
+        if (!complete) base.Interact();
     }
 }
