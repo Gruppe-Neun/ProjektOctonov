@@ -144,7 +144,7 @@ public class LevelBehavior : MonoBehaviour
                     new Wave(new int[]{ 0, 0, 10, 30 },new int[]{ 0, 0, 0, 0 }, new bool[]{ false, false, false, false }, new float[]{ 0, 0, 0, 0 }, new float[]{ 5, 5, 15, 5 })
                 };
                 bossWaves = new Wave[]{
-                    new Wave(new int[] { 0, 0, 10, 30 }, new int[] { 0, 0, 0, 0 }, new bool[] { false, false, false, false }, new float[] { 0, 0, 0, 0 }, new float[] { 5, 5, 15, 5 })
+                    new Wave(new int[] { 30, 40, 10, 40 }, new int[] { 0, 0, 0, 0 }, new bool[] { false, false, false, false }, new float[] { 0, 0, 0, 0 }, new float[] { 5, 5, 15, 5 })
                     };
                 break;
 
@@ -256,6 +256,7 @@ public class LevelBehavior : MonoBehaviour
                         for (int i = 0; i < nextSpawn.Length; i++) {
                             nextSpawn[w, i] = activeWave[w].startTime[i];
                             toSpawn[w, i] = activeWave[w].amount[i];
+                            activeWave[w].level[i] = activeWaveNum;
                         }
                     }
                     waveEnd = false;
@@ -277,6 +278,7 @@ public class LevelBehavior : MonoBehaviour
                 for (int i = 0; i < nextSpawn.Length; i++) {
                     nextSpawn[0, i] = activeWave[0].startTime[i];
                     toSpawn[0, i] = activeWave[0].amount[i];
+                    activeWave[0].level[i] = activeWaveNum;
                 }
                 waveEnd = false;
                 waveTime = -10f;
