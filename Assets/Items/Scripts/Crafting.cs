@@ -315,6 +315,8 @@ public static class Crafting{
                 return Item.Type.UNDEF;
             case CraftingStationType.Tuefteltisch:
                 return Item.Type.Tuefteltisch;
+            case CraftingStationType.AmmoTuefteltisch:
+                return Item.Type.AmmoTuefteltisch;
             default:
                 return Item.Type.UNDEF;
         }

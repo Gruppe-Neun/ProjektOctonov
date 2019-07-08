@@ -210,6 +210,7 @@ public class UIBehavior : MonoBehaviour
     }
 
     public void rightArrowPressed(int nothing) {
+        Debug.Log("right");
         loadRecipePage(recipeBookPage + 1);
     }
 
@@ -218,8 +219,12 @@ public class UIBehavior : MonoBehaviour
     }
 
     private void loadRecipePage(int page) {
-        if (recipeBuffer.Length > 14) recipeBookPage = page % ((int)recipeBuffer.Length / 14);
-        else recipeBookPage = 0;
+
+        if (page < 0) { recipeBookPage = (int)(recipeBuffer.Length / 14); } else {
+            if (page > (int)((recipeBuffer.Length) / 14)) recipeBookPage = 0;
+            else recipeBookPage = page;
+        }
+        Debug.Log(recipeBookPage + "  " + recipeBuffer.Length+ "  " + (int)((recipeBuffer.Length) / 14));
         int count = recipeBuffer.Length - recipeBookPage * 14;
         if (count > 14) count = 14;
         for(int i = 0;i < count; i++) {

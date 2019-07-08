@@ -687,8 +687,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseUI: {fileID: 3183174610920522166}
-  winUI: {fileID: 0}
-  lossUI: {fileID: 0}
+  winUI: {fileID: 4402287045849655637}
+  lossUI: {fileID: 648284187754392350}
   sceneLoader: {fileID: 0}
 --- !u!1 &3183174610920522166
 GameObject:
