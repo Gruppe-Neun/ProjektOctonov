@@ -6,18 +6,23 @@ using UnityStandardAssets.Characters.FirstPerson;
 
 public class PauseMenuBehaviour : MonoBehaviour
 {
+    public static bool gameOver = false;
     public static bool gamePaused = false;
     public GameObject pauseUI;
+    public GameObject winUI;
+    public GameObject lossUI;
     public SceneLoader sceneLoader;
 
     void Start()
     {
         pauseUI.SetActive(false);
+        winUI.SetActive(false);
+        lossUI.SetActive(false);
     }
     
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) {
+        if (Input.GetKeyDown(KeyCode.Escape)&&!gameOver) {
             if (gamePaused) {
                 Resume();
             }
@@ -25,6 +30,26 @@ public class PauseMenuBehaviour : MonoBehaviour
                 Pause();
             }
         }
+    }
+
+    public void win() {
+        gameOver = true;
+        if (gamePaused) {
+            pauseUI.SetActive(true);
+            gamePaused = false;
+        }
+        Time.timeScale = 0f;
+        winUI.SetActive(true);
+    }
+
+    public void loss() {
+        gameOver = true;
+        if (gamePaused) {
+            pauseUI.SetActive(true);
+            gamePaused = false;
+        }
+        Time.timeScale = 0f;
+        lossUI.SetActive(true);
     }
 
     void Pause() {
@@ -42,12 +67,14 @@ public class PauseMenuBehaviour : MonoBehaviour
     public void Restart() {
         Time.timeScale = 1f;
         gamePaused = false;
+        gameOver = false;
         sceneLoader.LoadScene(SceneManager.GetActiveScene().path);
     }
 
     public void Exit() {
         Time.timeScale = 1f;
         gamePaused = false;
+        gameOver = false;
         sceneLoader.LoadScene("Assets/Scenes/Main Menu.unity");
     }
 }

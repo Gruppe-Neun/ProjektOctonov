@@ -288,7 +288,7 @@ public class LevelBehavior : MonoBehaviour
                 break;
 
             case 2:
-                //win screen einfügen
+                GameObject.FindObjectOfType<PauseMenuBehaviour>().win();
                 break;
         }
         Debug.Log("Next Wave:  Spider: " + activeWave[0].amount[0] + "  Spider_fast: " + activeWave[0].amount[1] + "  Spider_large: " + activeWave[0].amount[2] + "  Drone: " + activeWave[0].amount[3]);

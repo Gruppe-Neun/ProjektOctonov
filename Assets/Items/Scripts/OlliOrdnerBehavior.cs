@@ -145,7 +145,7 @@ public class OlliOrdnerBehavior : ContainerBehavior,IInteractable, IDamageableFr
     }
 
     private void die() {
-        //gameover screen einfügen
+        GameObject.FindObjectOfType<PauseMenuBehaviour>().loss();
     }
 
     public override void Interact() {
