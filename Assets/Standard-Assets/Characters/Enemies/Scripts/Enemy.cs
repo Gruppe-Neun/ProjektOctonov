@@ -62,7 +62,6 @@ public class Enemy : MonoBehaviour, IDamageableEnemy
             lootPool[0].loot = new Loot[] {
                 new Loot(Item.Type.Battery,0.25f),
                 new Loot(Item.Type.LaserRedLevel1, 0.1f, 10),
-                new Loot(Item.Type.Flashlight, 0.25f),
                 new Loot(Item.Type.Ironplate, 0.25f, 2),
                 new Loot(Item.Type.Nut, 0.25f)
             };
@@ -70,7 +69,6 @@ public class Enemy : MonoBehaviour, IDamageableEnemy
             lootPool[1].loot = new Loot[] {
                 new Loot(Item.Type.Battery,0.25f, 2),
                 new Loot(Item.Type.LaserGreenLevel1, 0.1f, 20),
-                new Loot(Item.Type.Flashlight, 0.25f, 2),
                 new Loot(Item.Type.Ironplate, 0.25f, 5),
                 new Loot(Item.Type.Nut, 0.25f, 2)
             };
@@ -78,7 +76,6 @@ public class Enemy : MonoBehaviour, IDamageableEnemy
             lootPool[2].loot = new Loot[] {
                 new Loot(Item.Type.Battery,0.25f, 3),
                 new Loot(Item.Type.LaserRedLevel2, 0.1f, 10),
-                new Loot(Item.Type.Flashlight, 0.25f, 3),
                 new Loot(Item.Type.Ironplate, 0.25f, 10),
                 new Loot(Item.Type.Nut, 0.25f, 3)
             };
@@ -86,7 +83,6 @@ public class Enemy : MonoBehaviour, IDamageableEnemy
             lootPool[3].loot = new Loot[] {
                 new Loot(Item.Type.Battery,0.25f, 5),
                 new Loot(Item.Type.LaserGreenLevel2, 0.1f, 30),
-                new Loot(Item.Type.Flashlight, 0.25f, 5),
                 new Loot(Item.Type.Ironplate, 0.25f, 20),
                 new Loot(Item.Type.Nut, 0.25f, 5)
             };

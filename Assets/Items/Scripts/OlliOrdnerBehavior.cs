@@ -85,38 +85,12 @@ public class OlliOrdnerBehavior : ContainerBehavior,IInteractable, IDamageableFr
         Debug.Log(level);
     } 
 
-    public void addPart(Item.Type part) {
-        switch (part) {
-            case Item.Type.Olli_ArmLeft:
-                partSlot[0] = true;
-                break;
-
-            case Item.Type.Olli_ArmRight:
-                partSlot[1] = true;
-                break;
-
-            case Item.Type.Olli_LegLeft:
-                partSlot[2] = true;
-                break;
-
-            case Item.Type.Olli_LegRight:
-                partSlot[3] = true;
-                break;
-
-            case Item.Type.Olli_Body:
-                partSlot[4] = true;
-                break;
-
-        }
-        updateBody();
-    }
-
     public override void updateContainer() {
         base.updateContainer();
-        partSlot[0] = (content[0] != null && (content[0].type == Item.Type.Olli_ArmLeft || content[1].type == Item.Type.Olli_ArmRight));
-        partSlot[1] = (content[1] != null && (content[1].type == Item.Type.Olli_ArmRight || content[1].type == Item.Type.Olli_ArmLeft));
-        partSlot[2] = (content[2] != null && (content[2].type == Item.Type.Olli_LegLeft || content[3].type == Item.Type.Olli_LegRight));
-        partSlot[3] = (content[3] != null && (content[3].type == Item.Type.Olli_LegRight || content[2].type == Item.Type.Olli_LegLeft));
+        partSlot[0] = (content[0] != null && (content[0].type == Item.Type.Olli_Arm));
+        partSlot[1] = (content[1] != null && (content[1].type == Item.Type.Olli_Arm));
+        partSlot[2] = (content[2] != null && (content[2].type == Item.Type.Olli_Leg));
+        partSlot[3] = (content[3] != null && (content[3].type == Item.Type.Olli_Leg));
         partSlot[4] = (content[4] != null && content[4].type == Item.Type.Olli_Body);
         updateBody();
     }
