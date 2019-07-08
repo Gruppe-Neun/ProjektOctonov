@@ -61,29 +61,42 @@ public class Enemy : MonoBehaviour, IDamageableEnemy
 
             lootPool[0].loot = new Loot[] {
                 new Loot(Item.Type.Battery,0.25f),
-                new Loot(Item.Type.LaserRedLevel1, 0.1f, 10),
+                new Loot(Item.Type.CristalRed,0.1f,2),
+                new Loot(Item.Type.CristalBlue,0.1f,1),
                 new Loot(Item.Type.Ironplate, 0.25f, 2),
-                new Loot(Item.Type.Nut, 0.25f)
+                new Loot(Item.Type.GoldPlate, 0.05f, 1),
+                new Loot(Item.Type.Nut, 0.15f)
             };
 
             lootPool[1].loot = new Loot[] {
                 new Loot(Item.Type.Battery,0.25f, 2),
-                new Loot(Item.Type.LaserGreenLevel1, 0.1f, 20),
+                new Loot(Item.Type.CristalRed,0.15f,2),
+                new Loot(Item.Type.CristalGreen,0.1f,2),
+                new Loot(Item.Type.CristalBlue,0.1f,2),
+                new Loot(Item.Type.Gunpowder,0.1f,1),
                 new Loot(Item.Type.Ironplate, 0.25f, 5),
-                new Loot(Item.Type.Nut, 0.25f, 2)
+                new Loot(Item.Type.GoldPlate, 0.1f, 1),
+                new Loot(Item.Type.Nut, 0.20f, 2)
             };
 
             lootPool[2].loot = new Loot[] {
                 new Loot(Item.Type.Battery,0.25f, 3),
-                new Loot(Item.Type.LaserRedLevel2, 0.1f, 10),
+                new Loot(Item.Type.CristalRed,0.15f,4),
+                new Loot(Item.Type.CristalBlue,0.1f,3),
+                new Loot(Item.Type.CristalGreen,0.15f,3),
+                 new Loot(Item.Type.Gunpowder,0.15f,2),
                 new Loot(Item.Type.Ironplate, 0.25f, 10),
+                new Loot(Item.Type.GoldPlate, 0.20f, 1),
                 new Loot(Item.Type.Nut, 0.25f, 3)
             };
 
             lootPool[3].loot = new Loot[] {
                 new Loot(Item.Type.Battery,0.25f, 5),
-                new Loot(Item.Type.LaserGreenLevel2, 0.1f, 30),
+                new Loot(Item.Type.CristalRed,0.25f,5),
+                new Loot(Item.Type.CristalGreen,0.2f,4),
+                 new Loot(Item.Type.Gunpowder,0.2f,5),
                 new Loot(Item.Type.Ironplate, 0.25f, 20),
+                 new Loot(Item.Type.GoldPlate, 0.25f, 3),
                 new Loot(Item.Type.Nut, 0.25f, 5)
             };
         }

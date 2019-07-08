@@ -156,6 +156,9 @@ public class InventoryBehavior : MonoBehaviour
             */
         }
 
+        if (Input.GetKeyDown(KeyCode.R)) {
+            scrollActive(1);
+        }
         if (Input.GetKeyDown(KeyCode.F)) {
             if(ActiveSlot[activeActive].viewItem()!=null) ActiveSlot[activeActive].viewItem().use();
         }

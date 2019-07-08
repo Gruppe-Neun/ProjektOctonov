@@ -12,8 +12,8 @@ public class OlliOrdnerBehavior : ContainerBehavior,IInteractable, IDamageableFr
     [SerializeField] public GameObject window;
 
     [SerializeField] private GameObject explosion;
-    [SerializeField] private float baseHealth = 100;
-    [SerializeField] private float baseShield = 100;
+    [SerializeField] private float baseHealth = 1000;
+    [SerializeField] private float baseShield = 1000;
 
     public float level = 1;
     private float maxHealth = 100;
