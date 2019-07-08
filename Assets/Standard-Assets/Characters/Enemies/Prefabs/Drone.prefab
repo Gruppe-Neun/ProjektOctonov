@@ -419,12 +419,12 @@ MonoBehaviour:
   - 3
   - 5
   lvlupStats:
-  - 10
+  - 8
   - 0.2
   - 0.1
   - 0
   eliteAmplifier:
-  - 5
+  - 3
   - 2
   - 1
   - 0.75

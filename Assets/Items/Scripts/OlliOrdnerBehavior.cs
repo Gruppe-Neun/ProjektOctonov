@@ -16,8 +16,8 @@ public class OlliOrdnerBehavior : ContainerBehavior,IInteractable, IDamageableFr
     [SerializeField] private float baseShield = 1000;
 
     public float level = 1;
-    private float maxHealth = 100;
-    private float maxShield = 100;
+    private float maxHealth = 1000;
+    private float maxShield = 1000;
     private bool[] partSlot = new bool[] { false, false, false, false, false };
 
     private UIBehavior ui;
@@ -70,9 +70,9 @@ public class OlliOrdnerBehavior : ContainerBehavior,IInteractable, IDamageableFr
         foreach(bool i in partSlot) 
             if (i) levelneu++;
         if (levelneu != level) {
+            level = levelneu;
             maxHealth = baseHealth * level;
             maxShield = baseShield * level;
-            level = levelneu;
 
             ui.updateHealth(health / maxHealth);
             healthText.text = (int)health + "/" + (int)maxHealth;
@@ -82,7 +82,7 @@ public class OlliOrdnerBehavior : ContainerBehavior,IInteractable, IDamageableFr
             forceField.material.color = new Color(1, 1, 1, shield / maxShield);
         }
         if (level >= 6) ready();
-        Debug.Log(level);
+        Debug.Log(maxHealth);
     } 
 
     public override void updateContainer() {
@@ -105,7 +105,7 @@ public class OlliOrdnerBehavior : ContainerBehavior,IInteractable, IDamageableFr
             healthText.text = (int)health + "/" + (int)maxHealth;
             healthBar.transform.localPosition = new Vector3(health / maxHealth * 2.5f - 2.5f, 0, 0);
             healthBar.transform.localScale = new Vector3(health / maxHealth, 1, 1);
-            if (health < 0) die();
+            if (health <= 0) die();
         }
         forceField.material.color = new Color(1, 1, 1, shield / maxShield);
         ui.updateAmor(shield / maxShield);

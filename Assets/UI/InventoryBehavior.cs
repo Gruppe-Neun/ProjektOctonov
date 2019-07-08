@@ -130,6 +130,12 @@ public class InventoryBehavior : MonoBehaviour
         containerUI.gameObject.SetActive(false);
 
         currentStation = Crafting.CraftingStationType.NONE;
+        giveItem(Item.Type.TurretBlueCoreLevel1, 4);
+        giveItem(Item.Type.TurretGreenCoreLevel1, 4);
+        giveItem(Item.Type.TurretRedCoreLevel1, 4);
+        giveItem(Item.Type.TurretSlowCoreLevel1, 4);
+        giveItem(Item.Type.RedButton, 1);
+        giveItem(Item.Type.LaserRedLevel1, 100);
     }
 
     // Update is called once per frame

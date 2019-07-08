@@ -34,20 +34,16 @@ public class PauseMenuBehaviour : MonoBehaviour
 
     public void win() {
         gameOver = true;
-        if (gamePaused) {
-            pauseUI.SetActive(true);
-            gamePaused = false;
-        }
+        pauseUI.SetActive(false);
+        gamePaused = true;
         Time.timeScale = 0f;
         winUI.SetActive(true);
     }
 
     public void loss() {
         gameOver = true;
-        if (gamePaused) {
-            pauseUI.SetActive(true);
-            gamePaused = false;
-        }
+        pauseUI.SetActive(false);
+        gamePaused = true;
         Time.timeScale = 0f;
         lossUI.SetActive(true);
     }

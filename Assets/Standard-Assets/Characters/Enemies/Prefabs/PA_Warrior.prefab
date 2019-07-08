@@ -342,14 +342,14 @@ MonoBehaviour:
   - 50
   - 10
   - 5
-  - 2
+  - 4
   lvlupStats:
-  - 10
+  - 9
   - 1
   - 0
   - 0
   eliteAmplifier:
-  - 5
+  - 3
   - 2
   - 1
   - 0.75

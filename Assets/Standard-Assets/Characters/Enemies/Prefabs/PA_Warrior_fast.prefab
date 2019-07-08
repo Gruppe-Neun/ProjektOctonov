@@ -1315,14 +1315,14 @@ MonoBehaviour:
   - 25
   - 10
   - 5
-  - 3
+  - 5
   lvlupStats:
   - 2
   - 1
   - 0
   - 0.1
   eliteAmplifier:
-  - 5
+  - 3
   - 2
   - 1
   - 0.75
