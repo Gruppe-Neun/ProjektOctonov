@@ -146,20 +146,22 @@ public class InventoryBehavior : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.P)) {
-            int itemNum = Enum.GetNames(typeof(Item.Type)).Length;
-            for(int i = 1; i < itemNum; i++) {
-                giveItem((Item.Type) i,50);
-            }
-            /*
+            //int itemNum = Enum.GetNames(typeof(Item.Type)).Length;
+            //for(int i = 1; i < itemNum; i++) {
+            //    giveItem((Item.Type) i,50);
+            //}
+            giveItem(Item.Type.Tuefteltisch, 20);
+            giveItem(Item.Type.AmmoTuefteltisch, 20);
             giveItem(Item.Type.Battery,20);
             giveItem(Item.Type.Nut, 20);
             giveItem(Item.Type.Ironplate, 20);
-            giveItem(Item.Type.Flashlight, 20);
+            giveItem(Item.Type.GoldPlate, 20);
+            giveItem(Item.Type.BaseTurret, 20);
             giveItem(Item.Type.CristalBlue, 20);
             giveItem(Item.Type.CristalRed, 20);
-            giveItem(Item.Type.Case, 20);
-            giveItem(Item.Type.GrenadeLauncher, 20);
-            */
+            giveItem(Item.Type.CristalGreen, 20);
+            giveItem(Item.Type.Fuel, 20);
+            giveItem(Item.Type.Gunpowder, 20);
         }
 
         if (Input.GetKeyDown(KeyCode.R)) {

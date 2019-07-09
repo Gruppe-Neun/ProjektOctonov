@@ -3,8 +3,8 @@ stationType:ingredient1,ingredient2,ingredient3,ingredient4;ingAmount1,ingAmount
 ==============================================================================
 Insert recipes below:
 NONE:Ironplate,Nut,UNDEF,UNDEF;10,6,0,0=Tuefteltisch-1
-Tuefteltisch:GoldPlate,Ironplate,Nut,UNDEF;10,30,4,0=Olli_Arm-1
-Tuefteltisch:GoldPlate,Ironplate,Nut,UNDEF;8,20,4,0=Olli_Leg-1
+Tuefteltisch:GoldPlate,Nut,UNDEF,UNDEF;20,10,0,0=Olli_Arm-1
+Tuefteltisch:Ironplate,Nut,UNDEF,UNDEF;20,10,0,0=Olli_Leg-1
 Tuefteltisch:GoldPlate,Ironplate,Nut,Battery;10,50,6,2=Olli_Body-1
 Tuefteltisch:Ironplate,UNDEF,UNDEF,UNDEF;20,0,0,0=Wrench-1
 Tuefteltisch:CristalBlue,CristalRed,CristalGreen,Battery;5,2,2,2=Shield-1
